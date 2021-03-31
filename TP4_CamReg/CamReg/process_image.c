@@ -46,6 +46,8 @@ static THD_FUNCTION(ProcessImage, arg) {
 	uint8_t *img_buff_ptr;
 	uint8_t image[IMAGE_BUFFER_SIZE] = {0};
 
+	bool send_to_computer = true;
+
     while(1){
     	//waits until an image has been captured
         chBSemWait(&image_ready_sem);
@@ -56,8 +58,8 @@ static THD_FUNCTION(ProcessImage, arg) {
 		*	To complete
 		*/
 		//==========================================================================
-				//=======================   TASK 1 ============================
-				//==========================================================================
+		//=======================   TASK 1 ============================
+		//==========================================================================
 
 				//Extracts only the red pixels
 				// pour rouge on part de i = 0 et on met l'hexadécmal de 0XF8
@@ -79,7 +81,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 		    }
 			//==========================================================================
     }
-}
+
 
 float get_distance_cm(void){
 	return distance_cm;
