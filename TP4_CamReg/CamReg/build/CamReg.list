@@ -1627,10 +1627,10 @@ Disassembly of section .text:
 
 08001410 <CaptureImage>:
  8001410:	b580      	push	{r7, lr}
- 8001412:	4c23      	ldr	r4, [pc, #140]	; (80014a0 <CaptureImage+0x90>)
- 8001414:	4a23      	ldr	r2, [pc, #140]	; (80014a4 <CaptureImage+0x94>)
+ 8001412:	4c24      	ldr	r4, [pc, #144]	; (80014a4 <CaptureImage+0x94>)
+ 8001414:	4a24      	ldr	r2, [pc, #144]	; (80014a8 <CaptureImage+0x98>)
  8001416:	69a3      	ldr	r3, [r4, #24]
- 8001418:	4923      	ldr	r1, [pc, #140]	; (80014a8 <CaptureImage+0x98>)
+ 8001418:	4924      	ldr	r1, [pc, #144]	; (80014ac <CaptureImage+0x9c>)
  800141a:	6816      	ldr	r6, [r2, #0]
  800141c:	6199      	str	r1, [r3, #24]
  800141e:	b086      	sub	sp, #24
@@ -1643,15 +1643,15 @@ Disassembly of section .text:
  800142c:	f44f 7320 	mov.w	r3, #640	; 0x280
  8001430:	e9cd 5501 	strd	r5, r5, [sp, #4]
  8001434:	2030      	movs	r0, #48	; 0x30
- 8001436:	4e1d      	ldr	r6, [pc, #116]	; (80014ac <CaptureImage+0x9c>)
- 8001438:	4f1d      	ldr	r7, [pc, #116]	; (80014b0 <CaptureImage+0xa0>)
+ 8001436:	4e1e      	ldr	r6, [pc, #120]	; (80014b0 <CaptureImage+0xa0>)
+ 8001438:	4f1e      	ldr	r7, [pc, #120]	; (80014b4 <CaptureImage+0xa4>)
  800143a:	f000 fd69 	bl	8001f10 <po8030_advanced_config>
  800143e:	f000 fc6f 	bl	8001d20 <dcmi_enable_double_buffering>
  8001442:	2000      	movs	r0, #0
  8001444:	f000 fca4 	bl	8001d90 <dcmi_set_capture_mode>
  8001448:	46b0      	mov	r8, r6
  800144a:	f000 fc09 	bl	8001c60 <dcmi_prepare>
- 800144e:	e013      	b.n	8001478 <CaptureImage+0x68>
+ 800144e:	e016      	b.n	800147e <CaptureImage+0x6e>
  8001450:	f002 fa06 	bl	8003860 <chSchRescheduleS>
  8001454:	f001 fe2c 	bl	80030b0 <_dbg_check_unlock>
  8001458:	f002 fe62 	bl	8004120 <_stats_stop_measure_crit_thd>
@@ -1667,24 +1667,25 @@ Disassembly of section .text:
  800146e:	f001 fd5f 	bl	8002f30 <chSysHalt>
  8001472:	2300      	movs	r3, #0
  8001474:	f383 8811 	msr	BASEPRI, r3
- 8001478:	f000 fcca 	bl	8001e10 <dcmi_capture_start>
- 800147c:	f000 fc30 	bl	8001ce0 <wait_image_ready>
- 8001480:	f385 8811 	msr	BASEPRI, r5
- 8001484:	f002 fe34 	bl	80040f0 <_stats_start_measure_crit_thd>
- 8001488:	f001 fdf2 	bl	8003070 <_dbg_check_lock>
- 800148c:	f001 fec0 	bl	8003210 <chDbgCheckClassI>
- 8001490:	68b3      	ldr	r3, [r6, #8]
- 8001492:	2b00      	cmp	r3, #0
- 8001494:	dcdc      	bgt.n	8001450 <CaptureImage+0x40>
- 8001496:	4640      	mov	r0, r8
- 8001498:	f002 ff02 	bl	80042a0 <chSemSignalI>
- 800149c:	e7d8      	b.n	8001450 <CaptureImage+0x40>
- 800149e:	bf00      	nop
- 80014a0:	20001fe0 	.word	0x20001fe0
- 80014a4:	20000800 	.word	0x20000800
- 80014a8:	0800f180 	.word	0x0800f180
- 80014ac:	20000810 	.word	0x20000810
- 80014b0:	0800f1a0 	.word	0x0800f1a0
+ 8001478:	200c      	movs	r0, #12
+ 800147a:	f002 fb31 	bl	8003ae0 <chThdSleep>
+ 800147e:	f000 fcc7 	bl	8001e10 <dcmi_capture_start>
+ 8001482:	f000 fc2d 	bl	8001ce0 <wait_image_ready>
+ 8001486:	f385 8811 	msr	BASEPRI, r5
+ 800148a:	f002 fe31 	bl	80040f0 <_stats_start_measure_crit_thd>
+ 800148e:	f001 fdef 	bl	8003070 <_dbg_check_lock>
+ 8001492:	f001 febd 	bl	8003210 <chDbgCheckClassI>
+ 8001496:	68b3      	ldr	r3, [r6, #8]
+ 8001498:	2b00      	cmp	r3, #0
+ 800149a:	dcd9      	bgt.n	8001450 <CaptureImage+0x40>
+ 800149c:	4640      	mov	r0, r8
+ 800149e:	f002 feff 	bl	80042a0 <chSemSignalI>
+ 80014a2:	e7d5      	b.n	8001450 <CaptureImage+0x40>
+ 80014a4:	20001fe0 	.word	0x20001fe0
+ 80014a8:	20000800 	.word	0x20000800
+ 80014ac:	0800f180 	.word	0x0800f180
+ 80014b0:	20000810 	.word	0x20000810
+ 80014b4:	0800f1a0 	.word	0x0800f1a0
 	...
 
 080014c0 <process_image_start>:

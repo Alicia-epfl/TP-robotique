@@ -17,6 +17,13 @@ static BSEMAPHORE_DECL(image_ready_sem, TRUE);
 static THD_WORKING_AREA(waCaptureImage, 256);
 static THD_FUNCTION(CaptureImage, arg) {
 
+	//==================================================
+	//======== TASK 2 ==================================
+	//==================================================
+	//systime_t time;
+	//time = chVTGetSystemTime();
+	//==================================================
+
     chRegSetThreadName(__FUNCTION__);
     (void)arg;
 
@@ -33,9 +40,23 @@ static THD_FUNCTION(CaptureImage, arg) {
 		wait_image_ready();
 		//signals an image has been captured
 		chBSemSignal(&image_ready_sem);
+
+		//===================================
+		//============ TASK 3 ===============
+		//===================================
+		// chThdSleepMilliseconds(12);
+
+		// On ne voit pas de désynchronisation? Pourquoi??
+		//===================================
     }
 }
 
+//==================================================
+//======== TASK 2 ==================================
+//==================================================
+
+//chprintf((BaseSequentialStream *)&SDU1, "capture_time=%d\n", chVTGetSystemTime()-time);
+//==================================================
 
 static THD_WORKING_AREA(waProcessImage, 1024);
 static THD_FUNCTION(ProcessImage, arg) {

@@ -56,21 +56,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  17 .comment      0000007e  00000000  00000000  00021231  2**0
                   CONTENTS, READONLY
- 18 .debug_info   000dc010  00000000  00000000  000212af  2**0
+ 18 .debug_info   000dc02e  00000000  00000000  000212af  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .debug_abbrev 0000ed47  00000000  00000000  000fd2bf  2**0
+ 19 .debug_abbrev 0000ed47  00000000  00000000  000fd2dd  2**0
                   CONTENTS, READONLY, DEBUGGING
- 20 .debug_loc    0001325b  00000000  00000000  0010c006  2**0
+ 20 .debug_loc    0001325b  00000000  00000000  0010c024  2**0
                   CONTENTS, READONLY, DEBUGGING
- 21 .debug_aranges 00001930  00000000  00000000  0011f261  2**0
+ 21 .debug_aranges 00001930  00000000  00000000  0011f27f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 22 .debug_ranges 00003850  00000000  00000000  00120b91  2**0
+ 22 .debug_ranges 00003850  00000000  00000000  00120baf  2**0
                   CONTENTS, READONLY, DEBUGGING
- 23 .debug_line   00026ffc  00000000  00000000  001243e1  2**0
+ 23 .debug_line   00027003  00000000  00000000  001243ff  2**0
                   CONTENTS, READONLY, DEBUGGING
- 24 .debug_str    00007aff  00000000  00000000  0014b3dd  2**0
+ 24 .debug_str    00007aff  00000000  00000000  0014b402  2**0
                   CONTENTS, READONLY, DEBUGGING
- 25 .debug_frame  0000769c  00000000  00000000  00152edc  2**2
+ 25 .debug_frame  0000769c  00000000  00000000  00152f04  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -133,7 +133,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 0800f170 l     O .text	0000000c __func__.7153
 00000000 l    df *ABS*	00000000 process_image.c
 080013a0 l     F .text	00000070 ProcessImage
-08001410 l     F .text	000000a4 CaptureImage
+08001410 l     F .text	000000a8 CaptureImage
 20001478 l     O .bss	00000278 waCaptureImage
 200016f0 l     O .bss	00000578 waProcessImage
 20000810 l     O .data	0000000c image_ready_sem
