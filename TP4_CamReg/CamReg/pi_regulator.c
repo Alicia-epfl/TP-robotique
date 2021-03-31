@@ -29,19 +29,36 @@ int16_t pi_regulator(float distance, float goal){
 	//this avoids to always move as we cannot exactly be where we want and
 	//the camera is a bit noisy
 
-	//if(fabs(error) < ERROR_THRESHOLD){
-	//	return 0;
+	if(fabs(error) < ERROR_THRESHOLD){
+		return 0;
 
-	sum_error += error;
+	//sum_error += error;
 
-	speed = KP * error + KI * sum_error;
+	//speed = KP * error + KI * sum_error;
 
-	return (int16_t)speed;
+	//return (int16_t)speed;
 
 	}
 
 //=====================================================
+	//==================================
+	// ====== TASK 9 ======
+	//==================================
+	sum_error += error;
 
+	//we set a maximum and a minimum for the sum to avoid an uncontrolled growth
+	if(sum_error > MAX_SUM_ERROR){
+		sum_error = MAX_SUM_ERROR;
+	}else if(sum_error < -MAX_SUM_ERROR){
+		sum_error = -MAX_SUM_ERROR;
+	}
+
+	speed = KP * error + KI * sum_error;
+
+    return (int16_t)speed;
+}
+
+//==================================
 
 static THD_WORKING_AREA(waPiRegulator, 256);
 static THD_FUNCTION(PiRegulator, arg){
