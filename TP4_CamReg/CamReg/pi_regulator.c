@@ -15,6 +15,7 @@
 //=====================================================
 
 //simple PI regulator implementation
+
 int16_t pi_regulator(float distance, float goal){
 
 	float error = 0;
@@ -27,6 +28,7 @@ int16_t pi_regulator(float distance, float goal){
 	//disables the PI regulator if the error is to small
 	//this avoids to always move as we cannot exactly be where we want and
 	//the camera is a bit noisy
+
 	//if(fabs(error) < ERROR_THRESHOLD){
 	//	return 0;
 
@@ -42,7 +44,7 @@ int16_t pi_regulator(float distance, float goal){
 
 
 static THD_WORKING_AREA(waPiRegulator, 256);
-static THD_FUNCTION(PiRegulator, arg) {
+static THD_FUNCTION(PiRegulator, arg){
 
     chRegSetThreadName(__FUNCTION__);
     (void)arg;
@@ -65,7 +67,6 @@ static THD_FUNCTION(PiRegulator, arg) {
         //applies the speed from the PI regulator
 		// right_motor_set_speed(speed);
 		// left_motor_set_speed(speed);
-
 
          //computes the speed to give to the motors
          //distance_cm is modified by the image processing thread
