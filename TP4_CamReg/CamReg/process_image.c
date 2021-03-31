@@ -220,6 +220,11 @@ float get_distance_cm(void){
 	return distance_cm;
 }
 
+uint16_t get_line_position(void){
+	return line_position;
+}
+
+
 void process_image_start(void){
 	chThdCreateStatic(waProcessImage, sizeof(waProcessImage), NORMALPRIO, ProcessImage, NULL);
 	chThdCreateStatic(waCaptureImage, sizeof(waCaptureImage), NORMALPRIO, CaptureImage, NULL);
