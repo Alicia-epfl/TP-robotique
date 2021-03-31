@@ -101,7 +101,7 @@ static THD_FUNCTION(PiRegulator, arg){
         	left_motor_set_speed(speed + ROTATION_COEFF * speed_correction);
 
         //100Hz
-        chThdSleepUntilWindowed(time, time + MS2ST(10));
+        chThdSleepUntilWindowed(time, time + MS2ST(10)); //100Hz? Comment mettre à 10Hz???
 
         //====================================================================
     }
