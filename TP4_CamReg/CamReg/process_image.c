@@ -55,6 +55,29 @@ static THD_FUNCTION(ProcessImage, arg) {
 		/*
 		*	To complete
 		*/
+		//==========================================================================
+				//=======================   TASK 1 ============================
+				//==========================================================================
+
+				//Extracts only the red pixels
+				// pour rouge on part de i = 0 et on met l'hexadécmal de 0XF8
+				//pour vert on a 2x la ligne image[i/2] et on change l'hexa
+				//pour bleu on part de  et on met l'hexadécimal 0X1F
+				for(uint16_t i = 0 ; i < (2 * IMAGE_BUFFER_SIZE) ; i+=2){
+					//extracts first 5bits of the first byte
+					//takes nothing from the second byte
+					image[i/2] = (uint8_t)img_buff_ptr[i+1]&0x1F;
+					//image[i/2] = (uint8_t)img_buff_ptr[i]&0xF8 POUR ROUGE
+				 }
+
+				if(send_to_computer){
+					//sends to the computer the image
+					SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+				 }
+				 //invert the bool
+				 send_to_computer = !send_to_computer;
+		    }
+			//==========================================================================
     }
 }
 
