@@ -17,7 +17,7 @@ static uint16_t line_position = IMAGE_BUFFER_SIZE/2;	//middle
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
 //================================================
-//================ TASK 4 ========================
+//================ TASK 4 ========================  On ne sait pas où lire l'information?
 //================================================
 /*
  *  Returns the line's width extracted from the image buffer given
@@ -206,6 +206,12 @@ static THD_FUNCTION(ProcessImage, arg) {
     		//search for a line in the image and gets its width in pixels
     		lineWidth = extract_line_width(image);
     //=============================================================
+
+        	//=============================================================
+        //================== TASK 5 ===================================
+    		//=============================================================
+    		distance_cm = PXTOCM/lineWidth;
+    		//=============================================================
 
     }
 
