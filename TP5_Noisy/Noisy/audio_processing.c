@@ -16,12 +16,12 @@ static BSEMAPHORE_DECL(sendToComputer_sem, TRUE);
 
 //2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)
 static float micLeft_cmplx_input[2 * FFT_SIZE];
-static float micRight_cmplx_input[2 * FFT_SIZE];
+static float micRight_cmplx_input[2 * FFT_SIZE];		//2* car imaginaire + réel et 4 "tableau" car 4 micro
 static float micFront_cmplx_input[2 * FFT_SIZE];
 static float micBack_cmplx_input[2 * FFT_SIZE];
 //Arrays containing the computed magnitude of the complex numbers
 static float micLeft_output[FFT_SIZE];
-static float micRight_output[FFT_SIZE];
+static float micRight_output[FFT_SIZE];			//1* car on n'envoit que du réel (et on a toujours 4 micro)
 static float micFront_output[FFT_SIZE];
 static float micBack_output[FFT_SIZE];
 
