@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "ch.h"
-#include "hal.h"
+#include "hal.h"s
 #include "memory_protection.h"
 #include <usbcfg.h>
 #include <main.h>

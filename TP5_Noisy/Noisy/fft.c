@@ -21,6 +21,7 @@
 *	Processing occurs in-place
 *
 */
+
 int fft_c(int lx, complex_float* cx, float signi)
 {
 	/* Declare all local variables */

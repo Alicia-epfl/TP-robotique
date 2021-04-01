@@ -111,12 +111,13 @@ static THD_FUNCTION(CaptureImage, arg) {
 	//==================================================
 	//======== TASK 2 ==================================
 	//==================================================
-	//systime_t time;
-	//time = chVTGetSystemTime();
+
+	//
 	//==================================================
 
     chRegSetThreadName(__FUNCTION__);
     (void)arg;
+    systime_t time;
 
 	//Takes pixels 0 to IMAGE_BUFFER_SIZE of the line 10 + 11 (minimum 2 lines because reasons)
 	po8030_advanced_config(FORMAT_RGB565, 0, 10, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
@@ -125,6 +126,7 @@ static THD_FUNCTION(CaptureImage, arg) {
 	dcmi_prepare();
 
     while(1){
+    		time = chVTGetSystemTime();
         //starts a capture
 		dcmi_capture_start();
 		//waits for the capture to be done
@@ -139,6 +141,7 @@ static THD_FUNCTION(CaptureImage, arg) {
 
 		// On ne voit pas de désynchronisation? Pourquoi??
 		//===================================
+		chprintf((BaseSequentialStream *)&SDU1, "capture_time=%d\n", chVTGetSystemTime()-time);
     }
 }
 
@@ -146,7 +149,7 @@ static THD_FUNCTION(CaptureImage, arg) {
 //======== TASK 2 ==================================
 //==================================================
 
-//chprintf((BaseSequentialStream *)&SDU1, "capture_time=%d\n", chVTGetSystemTime()-time);
+
 //==================================================
 
 //---------------------------------------------------------------
