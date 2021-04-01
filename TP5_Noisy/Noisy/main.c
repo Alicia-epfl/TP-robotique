@@ -66,13 +66,13 @@ int main(void)
     //inits the motors
     motors_init();
 
-//            //====================================
-//            //====== TASK 4 ======================
-//            //====================================
-//            //temp tab used to store values in complex_float format
-//            //needed bx doFFT_c
-//            static complex_float temp_tab[FFT_SIZE];
-//            //====================================
+            //====================================
+            //====== TASK 4 ======================
+            //====================================
+            //temp tab used to store values in complex_float format
+            //needed bx doFFT_c
+            static complex_float temp_tab[FFT_SIZE];
+            //====================================
 
     //send_tab is used to save the state of the buffer to send (double buffering)
     //to avoid modifications of the buffer while sending it
@@ -98,13 +98,13 @@ int main(void)
 #endif  /* DOUBLE_BUFFERING */
 #else
 
-//        	//====================================
-//        	//====== TASK 4 ======================
-//        //====================================
-//        //time measurement variables
-//        volatile uint16_t time_fft = 0;
-//        volatile uint16_t time_mag = 0;
-//        //====================================
+        	//====================================
+        	//====== TASK 4 ======================
+        //====================================
+        //time measurement variables
+        volatile uint16_t time_fft = 0;
+        volatile uint16_t time_mag = 0;
+        //====================================
         float* bufferCmplxInput = get_audio_buffer_ptr(LEFT_CMPLX_INPUT);
         float* bufferOutput = get_audio_buffer_ptr(LEFT_OUTPUT);
 
@@ -114,36 +114,36 @@ int main(void)
         	// chSysLock();									// MESURE DU TEMPS
         	// //reset the timer counter
         	// GPTD12.tim->CNT = 0;
-            doFFT_optimized(FFT_SIZE, bufferCmplxInput);
+//            doFFT_optimized(FFT_SIZE, bufferCmplxInput);						//FFT OPTIMISEE A DECOMMENTER
          // time_fft = GPTD12.tim->CNT;			// MESURE DU TEMPS [FIN]
          // chSysUnlock();
 
-//            // Utiliser la FFT non optimisée plutôt:
-//            //====================================
-//            //====== TASK 4 ======================
-//            //====================================
-//
-//            //need to convert the float buffer into complex_float struct array
-//            for(uint16_t i = 0 ; i < (2*FFT_SIZE) ; i+=2){
-//            		temp_tab[i/2].real = bufferCmplxInput[i];
-//            		temp_tab[i/2].imag = bufferCmplxInput[i+1];
-//            }
-//            	chSysLock();
-//            //reset the timer counter				// MESURE DU TEMPS
-//            GPTD12.tim->CNT = 0;
-//
-//            //do a non optimized FFT
-//            doFFT_c(FFT_SIZE, temp_tab);
-//
-//            time_fft = GPTD12.tim->CNT;			// MESURE DU TEMPS [FIN]
-//            chSysUnlock();
-//
-//            //reconverts the result into a float buffer
-//            for(uint16_t i = 0 ; i < (2*FFT_SIZE) ; i+=2){
-//            		bufferCmplxInput[i] = temp_tab[i/2].real;
-//            		bufferCmplxInput[i+1] = temp_tab[i/2].imag;
-//            }
-//            //====================================//====================================
+            // Utiliser la FFT non optimisée plutôt:
+            //====================================
+            //====== TASK 4 ======================
+            //====================================
+
+            //need to convert the float buffer into complex_float struct array
+            for(uint16_t i = 0 ; i < (2*FFT_SIZE) ; i+=2){
+            		temp_tab[i/2].real = bufferCmplxInput[i];
+            		temp_tab[i/2].imag = bufferCmplxInput[i+1];
+            }
+            	chSysLock();
+            //reset the timer counter				// MESURE DU TEMPS
+            GPTD12.tim->CNT = 0;
+
+            //do a non optimized FFT
+            doFFT_c(FFT_SIZE, temp_tab);
+
+            time_fft = GPTD12.tim->CNT;			// MESURE DU TEMPS [FIN]
+            chSysUnlock();
+
+            //reconverts the result into a float buffer
+            for(uint16_t i = 0 ; i < (2*FFT_SIZE) ; i+=2){
+            		bufferCmplxInput[i] = temp_tab[i/2].real;
+            		bufferCmplxInput[i+1] = temp_tab[i/2].imag;
+            }
+            //====================================//====================================
 
 //            chSysLock();
 //            //reset the timer counter				// MESURE DU TEMPS
