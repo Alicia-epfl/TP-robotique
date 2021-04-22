@@ -30,6 +30,8 @@ void find_color(uint8_t *buffer){
 										//qu'il y a bien un panneau de tel couleur devant
 										//Pour le moment on a pris la moitié des pixels (à voir si on dit moins?)
 
+	 palTogglePad(GPIOD, GPIOD_LED3);
+	 palTogglePad(GPIOD, GPIOD_LED5);
 	//EST CE QU'IL SERAIT PLUS INTERSSANT DE DETECTER UNE LIGNE POUR PAS AVOIR DE PROBLEME DANS UNE SALLE BLEU/VERTE/ROUGE?
 	while(i < (IMAGE_BUFFER_SIZE))
 			{
@@ -54,6 +56,7 @@ void find_color(uint8_t *buffer){
 			    	}
 			    i++;
 		}
+
 	//si 2 sont 1 --> alors c'est un mélange des couleurs donc pas la couleur en question
 	//par exemple bleu + rouge = violet ≠rouge ≠ bleu
 	 if (red_m >size_c)
@@ -75,7 +78,6 @@ void find_color(uint8_t *buffer){
 	 case 0:
 		 break;
 	 case 1:
-		 palClearPad(GPIOD, GPIOD_LED1);
 //		 gpio_clear(LED3);
 //		 gpio_clear(LED5);
 		 palTogglePad(GPIOD, GPIOD_LED1);
@@ -93,6 +95,7 @@ void find_color(uint8_t *buffer){
 //		 gpio_clear(LED3);
 //		 gpio_clear(LED5);
 //		 gpio_toggle(LED5);
+
 		 break;
 	 default:
 		 break;
@@ -233,6 +236,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 			image[i/2] = (uint8_t)img_buff_ptr[i]&0xFF;//rouge + vert
 			//ICI ON PREND TOUT
 		}
+		send_to_computer = false;
 
 		//Checker la couleur
 		find_color(image);
