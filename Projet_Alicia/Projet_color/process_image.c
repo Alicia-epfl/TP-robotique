@@ -30,8 +30,7 @@ void find_color(uint8_t *buffer){
 										//qu'il y a bien un panneau de tel couleur devant
 										//Pour le moment on a pris la moitié des pixels (à voir si on dit moins?)
 
-	 palTogglePad(GPIOD, GPIOD_LED3);
-	 palTogglePad(GPIOD, GPIOD_LED5);
+	 palTogglePad(GPIOD, GPIOD_LED7);
 	//EST CE QU'IL SERAIT PLUS INTERSSANT DE DETECTER UNE LIGNE POUR PAS AVOIR DE PROBLEME DANS UNE SALLE BLEU/VERTE/ROUGE?
 	while(i < (IMAGE_BUFFER_SIZE))
 			{
@@ -78,24 +77,15 @@ void find_color(uint8_t *buffer){
 	 case 0:
 		 break;
 	 case 1:
-//		 gpio_clear(LED3);
-//		 gpio_clear(LED5);
 		 palTogglePad(GPIOD, GPIOD_LED1);
 		 break;
 	 case 2:
-//		 gpio_clear(LED1);
-//		 gpio_clear(LED3);
-//		 gpio_clear(LED5);
-//		 gpio_toggle(LED3);
+		 palTogglePad(GPIOD, GPIOD_LED5);
 		 break;
 	 case 3:
 		 break;
 	 case 4:
-//		 gpio_clear(LED1);
-//		 gpio_clear(LED3);
-//		 gpio_clear(LED5);
-//		 gpio_toggle(LED5);
-
+		 palTogglePad(GPIOD, GPIOD_LED3);
 		 break;
 	 default:
 		 break;
