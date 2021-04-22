@@ -14,6 +14,19 @@
 
 #include <pi_regulator.h>
 #include <process_image.h>
+#include <gpio.h>
+
+// Init function required by __libc_init_array
+void _init(void) {}
+
+// Simple delay function
+void delay(unsigned int n)
+{
+    while (n--) {
+        __asm__ volatile ("nop");
+    }
+}
+
 
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 
 {
@@ -54,6 +67,11 @@ int main(void)
 	//stars the threads for the pi regulator and the processing of the image
 	pi_regulator_start();
 	process_image_start();
+
+	 // LEDs defined in main.h
+	 gpio_config_output_opendrain(LED1);
+	 gpio_config_output_opendrain(LED3);
+	 gpio_config_output_opendrain(LED5);
 
     /* Infinite loop. */
     while (1) {
