@@ -7,7 +7,7 @@
 #include <camera/po8030.h>
 
 #include <process_image.h>
-#include <gpio.h>
+
 
 
 static float distance_cm = 0;
@@ -75,24 +75,24 @@ void find_color(uint8_t *buffer){
 	 case 0:
 		 break;
 	 case 1:
-		 gpio_clear(LED1);
-		 gpio_clear(LED3);
-		 gpio_clear(LED5);
-		 gpio_toggle(LED1);
+		 palClearPad(GPIOD, GPIOD_LED1);
+//		 gpio_clear(LED3);
+//		 gpio_clear(LED5);
+		 palTogglePad(GPIOD, GPIOD_LED1);
 		 break;
 	 case 2:
-		 gpio_clear(LED1);
-		 gpio_clear(LED3);
-		 gpio_clear(LED5);
-		 gpio_toggle(LED3);
+//		 gpio_clear(LED1);
+//		 gpio_clear(LED3);
+//		 gpio_clear(LED5);
+//		 gpio_toggle(LED3);
 		 break;
 	 case 3:
 		 break;
 	 case 4:
-		 gpio_clear(LED1);
-		 gpio_clear(LED3);
-		 gpio_clear(LED5);
-		 gpio_toggle(LED5);
+//		 gpio_clear(LED1);
+//		 gpio_clear(LED3);
+//		 gpio_clear(LED5);
+//		 gpio_toggle(LED5);
 		 break;
 	 default:
 		 break;

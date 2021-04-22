@@ -8,7 +8,7 @@ PROJECT = Projet_color
 #Define path to the e-puck2_main-processor folder
 GLOBAL_PATH = ../../lib/e-puck2_main-processor
 
-#Source files to include
+#Source files to include --> tous les .c
 CSRC += ./main.c \
 		./pi_regulator.c \
 		./process_image.c \

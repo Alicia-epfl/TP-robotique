@@ -14,7 +14,7 @@
 
 #include <pi_regulator.h>
 #include <process_image.h>
-#include <gpio.h>
+
 
 // Init function required by __libc_init_array
 void _init(void) {}
@@ -69,9 +69,12 @@ int main(void)
 	process_image_start();
 
 	 // LEDs defined in main.h
-	 gpio_config_output_opendrain(LED1);
-	 gpio_config_output_opendrain(LED3);
-	 gpio_config_output_opendrain(LED5);
+//	 gpio_config_output_opendrain(GPIOD, 5);
+	 //gpio_config_output_opendrain(LED3);
+	 //gpio_config_output_opendrain(LED5);
+
+	//Switch des LEDS
+
 
     /* Infinite loop. */
     while (1) {
