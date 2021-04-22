@@ -75,12 +75,23 @@ void find_color(uint8_t *buffer){
 	 case 0:
 		 break;
 	 case 1:
+		 gpio_clear(LED1);
+		 gpio_clear(LED3);
+		 gpio_clear(LED5);
 		 gpio_toggle(LED1);
 		 break;
 	 case 2:
+		 gpio_clear(LED1);
+		 gpio_clear(LED3);
+		 gpio_clear(LED5);
 		 gpio_toggle(LED3);
 		 break;
 	 case 3:
+		 break;
+	 case 4:
+		 gpio_clear(LED1);
+		 gpio_clear(LED3);
+		 gpio_clear(LED5);
 		 gpio_toggle(LED5);
 		 break;
 	 default:
