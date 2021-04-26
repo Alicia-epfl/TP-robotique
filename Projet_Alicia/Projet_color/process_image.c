@@ -5,6 +5,7 @@
 
 #include <main.h>
 #include <camera/po8030.h>
+#include <leds.h>
 
 #include <process_image.h>
 
@@ -23,73 +24,172 @@ static BSEMAPHORE_DECL(image_ready_sem, TRUE);
 //=========================================
 //===== FONCTION POUR DETERMINER LA COULEUR
 //=========================================
-void find_color(uint8_t *buffer){
-	uint16_t i = 0, color = 0;
-	uint16_t blue_m = 0, green_m = 0, red_m = 0;
-	uint16_t size_c = IMAGE_BUFFER_SIZE/2; // pour définir combien il faut de pixel pour qu'on considère
-										//qu'il y a bien un panneau de tel couleur devant
-										//Pour le moment on a pris la moitié des pixels (à voir si on dit moins?)
+//Idée de comparer chaque bit à bit pour déterminer la composante dominante
 
-	 palTogglePad(GPIOD, GPIOD_LED7);
-	//EST CE QU'IL SERAIT PLUS INTERSSANT DE DETECTER UNE LIGNE POUR PAS AVOIR DE PROBLEME DANS UNE SALLE BLEU/VERTE/ROUGE?
+void find_color(uint8_t *buffer){
+	uint16_t i = 0, b=0, g=0, r=0;
+	uint32_t blue_m = 0, green_m = 0, red_m = 0;
+	uint32_t blue = 0, green = 0, red = 0;
+//	uint16_t size_c = IMAGE_BUFFER_SIZE/2; // pour définir combien il faut de pixel pour qu'on considère
+											//qu'il y a bien un panneau de tel couleur devant
+											//Pour le moment on a pris la moitié des pixels (à voir si on dit moins?)
+	//static uint16_t last_width = PXTOCM/GOAL_DISTANCE;
+
+	red_m=0;
+	green_m = 0;
+	blue_m=0;
+	//déterminer quelle couleur est dominante
 	while(i < (IMAGE_BUFFER_SIZE))
 			{
-		//je considère [r4 r3 r2 r1 r0] [g5 g4 g3 g2 g1 g0] [b4 b3 b2 b1 b0]
-		//test blue
-		// j'ai choisi le mask [0 0 0 ? ?] [0 0 0 0 ? ?] [? 1 1 1 1]
-			    if((buffer[i]|0001100001110000) ==  0001100001111111)
-			    {
-			       blue_m++;
-			    }
-			    //test green
-			    	// j'ai choisi le mask [0 0 0 ? ?] [? ? 1 1 1 1] [0 0 0 ? ?]
-			    	if((buffer[i]|0001111000000011) ==  0001111111100011)
-			    	{
-			    		green_m++;
-			    	}
-			    	//test red
-			   	// j'ai choisi le mask [? 1 1 1 1] [0 0 0 0 ? ?] [0 0 0 ? ?]
-			    	if((buffer[i]|1000000001100011) ==  1111100001100011)
-			    	{
-			    		red_m++;
-			    	}
-			    i++;
-		}
+					red = (int)buffer[i]&0xF8;
+					green = (int)(buffer[i]&0x07)<<5 | (buffer[i+1]&0xE0)>>3;
+					blue = (int)(buffer[i+1]&0x1F)<<3;
 
-	//si 2 sont 1 --> alors c'est un mélange des couleurs donc pas la couleur en question
-	//par exemple bleu + rouge = violet ≠rouge ≠ bleu
-	 if (red_m >size_c)
-	{
-		 color = color|0x04; //[0000][0100]
+//					if((blue > red) && (blue > green)){blue_m++;}
+//					if((green > red) && (green > blue)){green_m++;}
+//					if((red > blue) && (red > green)){red_m++;}
+//
+//					if((blue > red) && (blue > green)){blue_m++;}
+//					if((green > red) && (green > blue)){green_m++;}
+//					if((red > blue) && (red > green)){red_m++;}
+
+							red_m += red;
+							green_m += green;
+							blue_m += blue;
+
+					i+=2;
+				}
+
+
+	if((red_m > blue_m) && (red_m > green_m)){r=1;}
+	if((green_m > red_m) && (green_m > blue_m)){g=1;}
+	if((blue_m > red_m) && (blue_m > green_m)){b=1;}
+
+
+
+//	if(blue_m > size_c){
+//		b=1;
+//	}
+//	if(green_m > size_c){
+//			g=1;
+//		}
+//	if(red_m > size_c){
+//			r=1;
+//		}
+	//Action qu'implique les couleurs
+
+	if(r==1){
+		palTogglePad(GPIOD, GPIOD_LED1);//RED --> LED1
+		palSetPad(GPIOD, GPIOD_LED3);
+		palSetPad(GPIOD, GPIOD_LED5);
 	}
-	 if (green_m >size_c)
-		 {
-		 color = color|0x02; //[0000][010]
-		 }
-	 if (blue_m >size_c)
-	 {
-		 color = color|0x01; //[0000][0001]
-	 }
+	if(g==1){
+		palTogglePad(GPIOD, GPIOD_LED3);//GREEN --> LED3
+		palSetPad(GPIOD, GPIOD_LED1);
+		palSetPad(GPIOD, GPIOD_LED5);
+//		toggle_rgb_led(LED2, GREEN_LED, 100);
+//		toggle_rgb_led(LED4, GREEN_LED, 50);
+//		toggle_rgb_led(LED6, GREEN_LED, 100);
+//		toggle_rgb_led(LED8, GREEN_LED, 50);
+		set_rgb_led(LED2, 0, 255, 0);     // __> PROBLEME DE LIBRAIRIE ENCORE!!! :(((
 
-	 //Qu'est ce que ça fait si telle couleur est détectée
-	 switch(color)
-	 {
-	 case 0:
-		 break;
-	 case 1:
-		 palTogglePad(GPIOD, GPIOD_LED1);
-		 break;
-	 case 2:
-		 palTogglePad(GPIOD, GPIOD_LED5);
-		 break;
-	 case 3:
-		 break;
-	 case 4:
-		 palTogglePad(GPIOD, GPIOD_LED3);
-		 break;
-	 default:
-		 break;
-	 }
+	}
+	if(b==1){
+		palTogglePad(GPIOD, GPIOD_LED5);//BLUE --> LED5
+		palSetPad(GPIOD, GPIOD_LED1);
+		palSetPad(GPIOD, GPIOD_LED3);
+//		toggle_rgb_led(LED2, BLUE_LED, 100);
+//		toggle_rgb_led(LED4, BLUE_LED, 50);
+//		toggle_rgb_led(LED6, BLUE_LED, 100);
+//		toggle_rgb_led(LED8, BLUE_LED, 50);
+
+		r=0;
+		g=0;
+		b=0;
+	}
+}
+
+
+/*
+ * Alternative 2 pour trouver les couleurs :'(
+ * FONCTION POUR TROUVER LES FLANC MONTANT ET DESCENDANT DES INTENSITé DE COULEUR
+ */
+//	red = (int)buffer[i]&0xF8;
+//	green = (int)(buffer[i]&0x07)<<5 | (buffer[i+1]&0xE0)>>3;
+//	blue = (int)(buffer[i+1]&0x1F)<<3;
+uint16_t extract_color(uint8_t *buffer){
+
+		uint16_t i = 0, begin = 0, end = 0; //width = 0;
+		uint8_t stop = 0, wrong_line = 0, line_not_found = 0;
+		uint32_t mean = 0;
+
+//		static uint16_t last_width = PXTOCM/GOAL_DISTANCE;
+
+		//performs an average
+		for(uint16_t i = 0 ; i < IMAGE_BUFFER_SIZE ; i++){
+			mean += buffer[i];
+		}
+		mean /= IMAGE_BUFFER_SIZE;
+
+		do{
+			wrong_line = 0;
+			//search for a begin
+			while(stop == 0 && i < (IMAGE_BUFFER_SIZE - WIDTH_SLOPE))
+			{
+				//the slope must at least be WIDTH_SLOPE wide and is compared
+			    //to the mean of the image
+			    if(buffer[i] > mean && buffer[i+WIDTH_SLOPE] < mean)
+			    {
+			        begin = i;
+			        stop = 1;
+			    }
+			    i++;
+			}
+			//if a begin was found, search for an end
+			if (i < (IMAGE_BUFFER_SIZE - WIDTH_SLOPE) && begin)
+			{
+			    stop = 0;
+
+			    while(stop == 0 && i < IMAGE_BUFFER_SIZE)
+			    {
+			        if(buffer[i] > mean && buffer[i-WIDTH_SLOPE] < mean)
+			        {
+			            end = i;
+			            stop = 1;
+			        }
+			        i++;
+			    }
+			    //if an end was not found
+			    if (i > IMAGE_BUFFER_SIZE || !end)
+			    {
+			        line_not_found = 1;
+			    }
+			}
+			else//if no begin was found
+			{
+			    line_not_found = 1;
+			}
+
+			//if a line too small has been detected, continues the search
+			if(!line_not_found && (end-begin) < MIN_LINE_WIDTH){
+				i = end;
+				begin = 0;
+				end = 0;
+				stop = 0;
+				wrong_line = 1;
+			}
+		}while(wrong_line);
+
+		if(line_not_found){
+			begin = 0;
+			end = 0;
+//			width = last_width;
+			return 0;
+		}else{
+//			last_width = width = (end - begin);
+//			line_position = (begin + end)/2; //gives the line position.
+			return 1;
+		}
 
 }
 
@@ -110,26 +210,26 @@ uint16_t extract_line_width(uint8_t *buffer){
 
 	do{
 		wrong_line = 0;
-		//search for a begin
+		//search for a :::BEGIN:::
 		while(stop == 0 && i < (IMAGE_BUFFER_SIZE - WIDTH_SLOPE))
 		{ 
 			//the slope must at least be WIDTH_SLOPE wide and is compared
 		    //to the mean of the image
-		    if(buffer[i] > mean && buffer[i+WIDTH_SLOPE] < mean)
+		    if(buffer[i] > (mean+WALL) && buffer[i+WIDTH_SLOPE] < (mean+WALL))
 		    {
 		        begin = i;
 		        stop = 1;
 		    }
 		    i++;
 		}
-		//if a begin was found, search for an end
+		//if a begin was found, search for an :::END:::
 		if (i < (IMAGE_BUFFER_SIZE - WIDTH_SLOPE) && begin)
 		{
 		    stop = 0;
 		    
 		    while(stop == 0 && i < IMAGE_BUFFER_SIZE)
 		    {
-		        if(buffer[i] > mean && buffer[i-WIDTH_SLOPE] < mean)
+		        if(buffer[i] > (mean+WALL) && buffer[i-WIDTH_SLOPE] < (mean+WALL))
 		        {
 		            end = i;
 		            stop = 1;
@@ -161,17 +261,19 @@ uint16_t extract_line_width(uint8_t *buffer){
 		begin = 0;
 		end = 0;
 		width = last_width;
+		return 0;
 	}else{
 		last_width = width = (end - begin);
 		line_position = (begin + end)/2; //gives the line position.
+		return 1;
 	}
 
 	//sets a maximum width or returns the measured width
-	if((PXTOCM/width) > MAX_DISTANCE){
-		return PXTOCM/MAX_DISTANCE;
-	}else{
-		return width;
-	}
+//	if((PXTOCM/width) > MAX_DISTANCE){
+//		return PXTOCM/MAX_DISTANCE;
+//	}else{
+//		return width;
+//	}
 }
 //FIN DU CHECK
 
@@ -205,7 +307,10 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 	uint8_t *img_buff_ptr;
 	uint8_t image[IMAGE_BUFFER_SIZE] = {0};
-	uint16_t lineWidth = 0;
+	uint8_t image_r[IMAGE_BUFFER_SIZE] = {0};
+	uint8_t image_g[IMAGE_BUFFER_SIZE] = {0};
+	uint8_t image_b[IMAGE_BUFFER_SIZE] = {0};
+	uint16_t lineWidth = 0, red=0, green = 0, blue=0;
 
 	bool send_to_computer = true;
 
@@ -222,17 +327,36 @@ static THD_FUNCTION(ProcessImage, arg) {
 		for(uint16_t i = 0 ; i < (2 * IMAGE_BUFFER_SIZE) ; i+=2){
 			//extracts first 5bits of the first byte
 			//takes nothing from the second byte
-			image[i/2+1] = (uint8_t)img_buff_ptr[i+1]&0xFF;//bleu + vert
-			image[i/2] = (uint8_t)img_buff_ptr[i]&0xFF;//rouge + vert
+//			image[i/2+1] = (uint8_t)img_buff_ptr[i+1]&0xFF;//bleu + vert     POUR FIND COLOR
+//			image[i/2] = (uint8_t)img_buff_ptr[i]&0xFF;//rouge + vert			POUR FIND COLOR
+			image_r[i/2] = (uint8_t)img_buff_ptr[i]&0xF8;//rouge				POUR EXTRACT
+			image_g[i/2] = ((uint8_t)img_buff_ptr[i]&0x07)<<5 | ((uint8_t)img_buff_ptr[i+1]&0xE0)>>3 ;//vert				POUR EXTRACT
+			image_b[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F)<<3;//blue				POUR EXTRACT
 			//ICI ON PREND TOUT
+
+
+//			red = (int)buffer[i]&0xF8;
+			//	green = (int)(buffer[i]&0x07)<<5 | (buffer[i+1]&0xE0)>>3;
+			//	blue = (int)(buffer[i+1]&0x1F)<<3;
 		}
 		send_to_computer = false;
 
 		//Checker la couleur
-		find_color(image);
+//		find_color(image);  //version RGB
+//		extract_color(image); //version flanc montant ou descendant
 
 		//search for a line in the image and gets its width in pixels
-		lineWidth = extract_line_width(image);//CHECK
+//		red = extract_line_width(image);
+		red = extract_color(image_r);
+//		green = extract_color(image_g);
+//		blue = extract_color(image_b);
+
+		if(red){
+			palTogglePad(GPIOD, GPIOD_LED1);
+//			palSetPad(GPIOD, GPIOD_LED3);
+//			palSetPad(GPIOD, GPIOD_LED5);
+		}
+
 
 		//converts the width into a distance between the robot and the camera
 		if(lineWidth){

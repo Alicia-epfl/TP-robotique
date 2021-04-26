@@ -14,8 +14,29 @@
 
 #include <pi_regulator.h>
 #include <process_image.h>
+#include <leds.h>
+/*
+ * THREADS
+ */
 
+static THD_WORKING_AREA(waBlinker, 128);
+static THD_FUNCTION(Blinker, arg) {
 
+	 chRegSetThreadName(__FUNCTION__);
+	  (void)arg;
+
+  while (!chThdShouldTerminateX()) {
+    /* Toggling BODY LED while the main thread is busy.*/
+    set_body_led(TOGGLE);
+
+    /* Delay of 250 milliseconds.*/
+    chThdSleepMilliseconds(500);
+  }
+}
+
+/*
+ * FUNCTIONS
+ */
 // Init function required by __libc_init_array
 void _init(void) {}
 
@@ -46,7 +67,9 @@ static void serial_start(void)
 
 	sdStart(&SD3, &ser_cfg); // UART3.
 }
-
+/*
+ * MAIN
+ */
 int main(void)
 {
 
@@ -68,12 +91,8 @@ int main(void)
 	pi_regulator_start();
 	process_image_start();
 
-	 // LEDs defined in main.h
-//	 gpio_config_output_opendrain(GPIOD, 5);
-	 //gpio_config_output_opendrain(LED3);
-	 //gpio_config_output_opendrain(LED5);
-
-	//Switch des LEDS
+	//Clignotement BODY LED --> appel du thread
+	 chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
 
 
     /* Infinite loop. */
