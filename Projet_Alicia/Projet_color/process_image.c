@@ -26,90 +26,6 @@ static BSEMAPHORE_DECL(image_ready_sem, TRUE);
 //=========================================
 //Idée de comparer chaque bit à bit pour déterminer la composante dominante
 
-void find_color_2(uint8_t *buffer){
-	uint16_t i = 0, b=0, g=0, r=0;
-	uint32_t blue_m = 0, green_m = 0, red_m = 0;
-	uint32_t blue = 0, green = 0, red = 0;
-//	uint16_t size_c = IMAGE_BUFFER_SIZE/2; // pour définir combien il faut de pixel pour qu'on considère
-											//qu'il y a bien un panneau de tel couleur devant
-											//Pour le moment on a pris la moitié des pixels (à voir si on dit moins?)
-	//static uint16_t last_width = PXTOCM/GOAL_DISTANCE;
-
-	red_m=0;
-	green_m = 0;
-	blue_m=0;
-	//déterminer quelle couleur est dominante
-	while(i < (IMAGE_BUFFER_SIZE))
-			{
-					red = (int)buffer[i]&0xF8;
-					green = (int)(buffer[i]&0x07)<<5 | (buffer[i+1]&0xE0)>>3;
-					blue = (int)(buffer[i+1]&0x1F)<<3;
-
-//					if((blue > red) && (blue > green)){blue_m++;}
-//					if((green > red) && (green > blue)){green_m++;}
-//					if((red > blue) && (red > green)){red_m++;}
-//
-//					if((blue > red) && (blue > green)){blue_m++;}
-//					if((green > red) && (green > blue)){green_m++;}
-//					if((red > blue) && (red > green)){red_m++;}
-
-							red_m += red;
-							green_m += green;
-							blue_m += blue;
-
-					i+=2;
-				}
-
-
-	if((red_m > blue_m) && (red_m > green_m)){r=1;}
-	if((green_m > red_m) && (green_m > blue_m)){g=1;}
-	if((blue_m > red_m) && (blue_m > green_m)){b=1;}
-
-
-
-//	if(blue_m > size_c){
-//		b=1;
-//	}
-//	if(green_m > size_c){
-//			g=1;
-//		}
-//	if(red_m > size_c){
-//			r=1;
-//		}
-	//Action qu'implique les couleurs
-
-	if(r==1){
-		palTogglePad(GPIOD, GPIOD_LED1);//RED --> LED1
-		palSetPad(GPIOD, GPIOD_LED3);
-		palSetPad(GPIOD, GPIOD_LED5);
-	}
-	if(g==1){
-		palTogglePad(GPIOD, GPIOD_LED3);//GREEN --> LED3
-		palSetPad(GPIOD, GPIOD_LED1);
-		palSetPad(GPIOD, GPIOD_LED5);
-//		toggle_rgb_led(LED2, GREEN_LED, 100);
-//		toggle_rgb_led(LED4, GREEN_LED, 50);
-//		toggle_rgb_led(LED6, GREEN_LED, 100);
-//		toggle_rgb_led(LED8, GREEN_LED, 50);
-		set_rgb_led(LED2, 0, 255, 0);     // __> PROBLEME DE LIBRAIRIE ENCORE!!! :(((
-
-	}
-	if(b==1){
-		palTogglePad(GPIOD, GPIOD_LED5);//BLUE --> LED5
-		palSetPad(GPIOD, GPIOD_LED1);
-		palSetPad(GPIOD, GPIOD_LED3);
-//		toggle_rgb_led(LED2, BLUE_LED, 100);
-//		toggle_rgb_led(LED4, BLUE_LED, 50);
-//		toggle_rgb_led(LED6, BLUE_LED, 100);
-//		toggle_rgb_led(LED8, BLUE_LED, 50);
-
-		r=0;
-		g=0;
-		b=0;
-	}
-}
-
-
 /*
  * Alternative 2 pour trouver les couleurs
  * FONCTION QUI PREND DIRECTEMENT LES BON BUFFERS
@@ -122,13 +38,15 @@ uint32_t find_color(uint8_t *buffer, uint8_t value){
 			//performs an average
 		for(uint16_t i = 0 ; i < IMAGE_BUFFER_SIZE ; i++){
 				mean += buffer[i];
-				chprintf((BaseSequentialStream *)&SDU1, "valeur=%d \n", buffer[i]);
+//				chprintf((BaseSequentialStream *)&SDU1, "valeur=%d \n", buffer[i]);
 		}
 		mean /= IMAGE_BUFFER_SIZE;
 //		mean_filter = 0.5*mean+0.5*mean_filter;
-
+		if(value == 50){
+			chprintf((BaseSequentialStream *)&SDU1, "valeur=%d \n", mean);
+		}
 //		chprintf((BaseSequentialStream *)&SDU1, "mean=%d \n", mean);
-		if(mean < value){//Pourquoi c'est mean < value et pas l'inverse?
+		if(mean > value){//Pourquoi c'est mean < value et pas l'inverse?
 			return 1;
 		}else{
 			return 0;
@@ -221,7 +139,7 @@ uint16_t extract_color(uint8_t *buffer){
 
 }
 
-//CHECKER ?
+
 uint16_t extract_line_width(uint8_t *buffer){
 
 	uint16_t i = 0, begin = 0, end = 0, width = 0;
@@ -357,8 +275,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 			//takes nothing from the second byte
 
 
-//			image[i/2+1] = (uint8_t)img_buff_ptr[i+1]&0xFF;//bleu + vert     POUR FIND COLOR 2
-//			image[i/2] = (uint8_t)img_buff_ptr[i]&0xFF;//rouge + vert			POUR FIND COLOR 2
+
 			image_r[i/2] = (uint8_t)img_buff_ptr[i]&0xF8;//rouge				POUR EXTRACT
 			image_g[i/2] = ((uint8_t)img_buff_ptr[i]&0x07)<<5 | ((uint8_t)img_buff_ptr[i+1]&0xE0)>>3 ;//vert				POUR EXTRACT
 			image_b[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F)<<3;//blue				POUR EXTRACT
@@ -371,19 +288,10 @@ static THD_FUNCTION(ProcessImage, arg) {
 		}
 		send_to_computer = false;
 
-		//Checker la couleur
-//		find_color(image);  //version RGB
-//		extract_color(image); //version flanc montant ou descendant
-
 		//search for a line in the image and gets its width in pixels
-//		red = extract_line_width(image);
-//		red = extract_color(image_r);
-//		green = extract_color(image_g);
-//		blue = extract_color(image_b);
-
 		red= find_color(image_r, RED_VALUE);
-		green= find_color(image_g, RED_VALUE);
-		blue= find_color(image_b, RED_VALUE);
+		green= find_color(image_g, GREEN_VALUE);
+		blue= find_color(image_b, BLUE_VALUE);
 
 
 		if(red && !green && !blue){// && !green && !blue
