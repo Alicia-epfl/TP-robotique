@@ -12,8 +12,9 @@ extern "C" {
 
 //constants for the differents parts of the project
 #define IMAGE_BUFFER_SIZE		640
-#define WIDTH_SLOPE				15
-#define WALL						100
+#define WIDTH_SLOPE				2
+#define WALL						30
+#define RED_VALUE				30
 #define MIN_LINE_WIDTH			40
 #define ROTATION_THRESHOLD		10
 #define ROTATION_COEFF			2 
@@ -25,6 +26,8 @@ extern "C" {
 #define KI 						3.5f	//must not be zero
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
 #define TOGGLE					2
+#define ON						1
+#define OFF						0
 //#define LED33					GPIOD, GPIOD_LED3
 //#define LED55					GPIOD, GPIOD_LED5
 //#define LED11						GPIOD, GPIOD_LED1

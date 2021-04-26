@@ -26,7 +26,7 @@ static BSEMAPHORE_DECL(image_ready_sem, TRUE);
 //=========================================
 //Idée de comparer chaque bit à bit pour déterminer la composante dominante
 
-void find_color(uint8_t *buffer){
+void find_color_2(uint8_t *buffer){
 	uint16_t i = 0, b=0, g=0, r=0;
 	uint32_t blue_m = 0, green_m = 0, red_m = 0;
 	uint32_t blue = 0, green = 0, red = 0;
@@ -111,17 +111,43 @@ void find_color(uint8_t *buffer){
 
 
 /*
- * Alternative 2 pour trouver les couleurs :'(
- * FONCTION POUR TROUVER LES FLANC MONTANT ET DESCENDANT DES INTENSITé DE COULEUR
+ * Alternative 2 pour trouver les couleurs
+ * FONCTION QUI PREND DIRECTEMENT LES BON BUFFERS
  */
+uint32_t find_color(uint8_t *buffer, uint8_t value){
+		uint32_t mean = 0;
+//		static uint32_t  mean_filter = 0;
+
+
+			//performs an average
+		for(uint16_t i = 0 ; i < IMAGE_BUFFER_SIZE ; i++){
+				mean += buffer[i];
+				chprintf((BaseSequentialStream *)&SDU1, "valeur=%d \n", buffer[i]);
+		}
+		mean /= IMAGE_BUFFER_SIZE;
+//		mean_filter = 0.5*mean+0.5*mean_filter;
+
+//		chprintf((BaseSequentialStream *)&SDU1, "mean=%d \n", mean);
+		if(mean < value){//Pourquoi c'est mean < value et pas l'inverse?
+			return 1;
+		}else{
+			return 0;
+		}
+}
 //	red = (int)buffer[i]&0xF8;
 //	green = (int)(buffer[i]&0x07)<<5 | (buffer[i+1]&0xE0)>>3;
 //	blue = (int)(buffer[i+1]&0x1F)<<3;
+/*
+ * Alternative 3 pour trouver les couleurs :'(
+ * FONCTION POUR TROUVER LES FLANC MONTANT ET DESCENDANT DES INTENSITé DE COULEUR
+ */
+
 uint16_t extract_color(uint8_t *buffer){
 
 		uint16_t i = 0, begin = 0, end = 0; //width = 0;
 		uint8_t stop = 0, wrong_line = 0, line_not_found = 0;
 		uint32_t mean = 0;
+//		static uint32_t  mean_filtered = 0;
 
 //		static uint16_t last_width = PXTOCM/GOAL_DISTANCE;
 
@@ -130,6 +156,8 @@ uint16_t extract_color(uint8_t *buffer){
 			mean += buffer[i];
 		}
 		mean /= IMAGE_BUFFER_SIZE;
+//		mean_filtered = 0.5*mean+0.5*mean_filtered;
+
 
 		do{
 			wrong_line = 0;
@@ -138,7 +166,7 @@ uint16_t extract_color(uint8_t *buffer){
 			{
 				//the slope must at least be WIDTH_SLOPE wide and is compared
 			    //to the mean of the image
-			    if(buffer[i] > mean && buffer[i+WIDTH_SLOPE] < mean)
+			    if(buffer[i] > (mean+WALL) && buffer[i+WIDTH_SLOPE] < (mean+WALL))
 			    {
 			        begin = i;
 			        stop = 1;
@@ -152,7 +180,7 @@ uint16_t extract_color(uint8_t *buffer){
 
 			    while(stop == 0 && i < IMAGE_BUFFER_SIZE)
 			    {
-			        if(buffer[i] > mean && buffer[i-WIDTH_SLOPE] < mean)
+			        if(buffer[i] > (mean+WALL) && buffer[i-WIDTH_SLOPE] < (mean+WALL))
 			        {
 			            end = i;
 			            stop = 1;
@@ -299,7 +327,7 @@ static THD_FUNCTION(CaptureImage, arg) {
     }
 }
 
-static THD_WORKING_AREA(waProcessImage, 1024);
+static THD_WORKING_AREA(waProcessImage, 4096); //Je suis montée de 1024 à 2048 car il n'y avait pas assez de place pour les 3 couleurs
 static THD_FUNCTION(ProcessImage, arg) {
 
     chRegSetThreadName(__FUNCTION__);
@@ -327,12 +355,14 @@ static THD_FUNCTION(ProcessImage, arg) {
 		for(uint16_t i = 0 ; i < (2 * IMAGE_BUFFER_SIZE) ; i+=2){
 			//extracts first 5bits of the first byte
 			//takes nothing from the second byte
-//			image[i/2+1] = (uint8_t)img_buff_ptr[i+1]&0xFF;//bleu + vert     POUR FIND COLOR
-//			image[i/2] = (uint8_t)img_buff_ptr[i]&0xFF;//rouge + vert			POUR FIND COLOR
+
+
+//			image[i/2+1] = (uint8_t)img_buff_ptr[i+1]&0xFF;//bleu + vert     POUR FIND COLOR 2
+//			image[i/2] = (uint8_t)img_buff_ptr[i]&0xFF;//rouge + vert			POUR FIND COLOR 2
 			image_r[i/2] = (uint8_t)img_buff_ptr[i]&0xF8;//rouge				POUR EXTRACT
 			image_g[i/2] = ((uint8_t)img_buff_ptr[i]&0x07)<<5 | ((uint8_t)img_buff_ptr[i+1]&0xE0)>>3 ;//vert				POUR EXTRACT
 			image_b[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F)<<3;//blue				POUR EXTRACT
-			//ICI ON PREND TOUT
+
 
 
 //			red = (int)buffer[i]&0xF8;
@@ -347,14 +377,29 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 		//search for a line in the image and gets its width in pixels
 //		red = extract_line_width(image);
-		red = extract_color(image_r);
+//		red = extract_color(image_r);
 //		green = extract_color(image_g);
 //		blue = extract_color(image_b);
 
-		if(red){
-			palTogglePad(GPIOD, GPIOD_LED1);
-//			palSetPad(GPIOD, GPIOD_LED3);
-//			palSetPad(GPIOD, GPIOD_LED5);
+		red= find_color(image_r, RED_VALUE);
+		green= find_color(image_g, RED_VALUE);
+		blue= find_color(image_b, RED_VALUE);
+
+
+		if(red && !green && !blue){// && !green && !blue
+			set_led(LED1, ON);
+		}else{
+			set_led(LED1, OFF);
+		}
+		if(green && !red && !blue){// && !green && !blue
+			set_led(LED3, ON);
+		}else{
+			set_led(LED3, OFF);
+		}
+		if(blue && !green && !red){// && !green && !blue
+			set_led(LED5, ON);
+		}else{
+			set_led(LED5, OFF);
 		}
 
 
