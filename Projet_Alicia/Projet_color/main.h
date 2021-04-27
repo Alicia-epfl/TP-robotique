@@ -14,9 +14,9 @@ extern "C" {
 #define IMAGE_BUFFER_SIZE		640
 #define WIDTH_SLOPE				2
 #define WALL						30
-#define RED_VALUE				20
-#define GREEN_VALUE				40
-#define BLUE_VALUE				20
+#define RED_VALUE				7
+#define GREEN_VALUE				7
+#define BLUE_VALUE				7
 #define MIN_LINE_WIDTH			40
 #define ROTATION_THRESHOLD		10
 #define ROTATION_COEFF			2 

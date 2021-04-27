@@ -31,9 +31,9 @@ static BSEMAPHORE_DECL(image_ready_sem, TRUE);
  * FONCTION QUI PREND DIRECTEMENT LES BON BUFFERS
  */
 void find_color(uint8_t *buffer){
-		uint8_t mean_red = 0, mean_blue=0, mean_green=0;
+		uint16_t mean_red = 0, mean_blue=0, mean_green=0;
 		uint8_t red = 0, green=0, blue=0;
-		uint8_t red_image = 0, green_image=0, blue_image=0;
+		uint16_t red_image = 0, green_image=0, blue_image=0;
 
 //		static uint32_t  mean_filter = 0;
 
@@ -43,13 +43,17 @@ void find_color(uint8_t *buffer){
 
 			//performs an average
 		for(uint16_t i = 0 ; i < IMAGE_BUFFER_SIZE ; i++){
+
 			red_image = ((uint8_t)buffer[i]&0xF8)>>3;
 			green_image = ((uint8_t)buffer[i]&0x07)<<3;
 			blue_image = ((uint8_t)buffer[i+1]&0x1F);
 
-			mean_red += red;
-			mean_green += green;
-			mean_blue += blue;
+//			chprintf((BaseSequentialStream *)&SDU1, "green=%d \n", green_image);
+//			chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", red_image, green_image, blue_image);
+
+			mean_red += red_image;
+			mean_green += green_image;
+			mean_blue += blue_image;
 //				chprintf((BaseSequentialStream *)&SDU1, "valeur=%d \n", buffer[i]);
 		}
 		mean_red /= IMAGE_BUFFER_SIZE;
@@ -60,9 +64,13 @@ void find_color(uint8_t *buffer){
 		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red, mean_green, mean_blue);
 //		chprintf((BaseSequentialStream *)&SDU1, "mean=%d \n", mean);
 
-		if(mean_red > RED_VALUE){red = 1;}
-		if(mean_green > GREEN_VALUE){green = 1;}
-		if(mean_blue > BLUE_VALUE){blue = 1;}
+//		if(mean_red > RED_VALUE){red = 1;}
+//		if(mean_green > GREEN_VALUE){green = 1;}
+//		if(mean_blue > BLUE_VALUE){blue = 1;}
+
+		if((mean_red > 12) && (mean_green <10) && (mean_blue < 13)){red = 1;}
+		if((mean_green > 12)&&(mean_red < 10)&&(mean_blue < 14)){green = 1;}
+		if((mean_blue > 13)&&(mean_red < 5)&&(mean_green < 30)){blue = 1;}
 
 		if(red && !green && !blue){// && !green && !blue
 					set_led(LED1, ON);
@@ -283,9 +291,6 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 	uint8_t *img_buff_ptr;
 	uint8_t image[IMAGE_BUFFER_SIZE] = {0};
-//	uint8_t image_r[IMAGE_BUFFER_SIZE] = {0};
-//	uint8_t image_g[IMAGE_BUFFER_SIZE] = {0};
-//	uint8_t image_b[IMAGE_BUFFER_SIZE] = {0};
 	uint16_t lineWidth = 0, red=0, green = 0, blue=0;
 
 	bool send_to_computer = true;
@@ -296,13 +301,10 @@ static THD_FUNCTION(ProcessImage, arg) {
 		//gets the pointer to the array filled with the last image in RGB565    
 		img_buff_ptr = dcmi_get_last_image_ptr();
 
-		//Extracts only the red pixels
 		// pour rouge on part de i = 0 et on met l'hexadécmal de 0XF8
 		//pour vert on a 2x la ligne image[i/2] et on change l'hexa
 		//pour bleu on part de  et on met l'hexadécimal 0X1F
 		for(uint16_t i = 0 ; i < (2 * IMAGE_BUFFER_SIZE) ; i+=2){
-			//extracts first 5bits of the first byte
-			//takes nothing from the second byte
 
 //			r4 r3 r2 r1  r0 g5 g4 g3         g2 g1 g0 b4  b3 b2 b1 b0
 
@@ -312,19 +314,11 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 			image[i/2] = (uint8_t)img_buff_ptr[i];//rouge	et vert
 			image[i/2+1] = (uint8_t)img_buff_ptr[i+1] ;//vert	et bleu
-
-
-//			red = (int)buffer[i]&0xF8;
-			//	green = (int)(buffer[i]&0x07)<<5 | (buffer[i+1]&0xE0)>>3;
-			//	blue = (int)(buffer[i+1]&0x1F)<<3;
 		}
 		send_to_computer = false;
 
 		//search for a line in the image and gets its width in pixels
 		find_color(image);
-
-
-
 
 
 		//converts the width into a distance between the robot and the camera
