@@ -274,11 +274,11 @@ static THD_FUNCTION(ProcessImage, arg) {
 			//extracts first 5bits of the first byte
 			//takes nothing from the second byte
 
+//			r4 r3 r2 r1  r0 g5 g4 g3         g2 g1 g0 b4  b3 b2 b1 b0
 
-
-			image_r[i/2] = (uint8_t)img_buff_ptr[i]&0xF8;//rouge				POUR EXTRACT
-			image_g[i/2] = ((uint8_t)img_buff_ptr[i]&0x07)<<5 | ((uint8_t)img_buff_ptr[i+1]&0xE0)>>3 ;//vert				POUR EXTRACT
-			image_b[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F)<<3;//blue				POUR EXTRACT
+			image_r[i/2] = ((uint8_t)img_buff_ptr[i]&0xF8)>>3;//rouge				POUR EXTRACT >>3
+			image_g[i/2] = ((uint8_t)img_buff_ptr[i]&0x07)<<3 | ((uint8_t)img_buff_ptr[i+1]&0xE0)>>5 ;//vert				POUR EXTRACT
+			image_b[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F);//blue				POUR EXTRACT
 
 
 
