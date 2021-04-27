@@ -86,7 +86,7 @@ int main(void)
 	po8030_start();
 	//inits the motors
 	motors_init();
-
+	//enclenche la connection SPI pour pouvoir utiliser les LEDS RGB
 	spi_comm_start();
 
 	//stars the threads for the pi regulator and the processing of the image

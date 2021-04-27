@@ -30,27 +30,57 @@ static BSEMAPHORE_DECL(image_ready_sem, TRUE);
  * Alternative 2 pour trouver les couleurs
  * FONCTION QUI PREND DIRECTEMENT LES BON BUFFERS
  */
-uint32_t find_color(uint8_t *buffer, uint8_t value){
-		uint32_t mean = 0;
+void find_color(uint8_t *buffer){
+		uint8_t mean_red = 0, mean_blue=0, mean_green=0;
+		uint8_t red = 0, green=0, blue=0;
+		uint8_t red_image = 0, green_image=0, blue_image=0;
+
 //		static uint32_t  mean_filter = 0;
 
+		//			image_r[i/2] = ((uint8_t)img_buff_ptr[i]&0xF8)>>3;//rouge				POUR EXTRACT >>3
+		//			image_g[i/2] = ((uint8_t)img_buff_ptr[i]&0x07)<<3 | ((uint8_t)img_buff_ptr[i+1]&0xE0)>>5 ;//vert				POUR EXTRACT
+		//			image_b[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F);//blue
 
 			//performs an average
 		for(uint16_t i = 0 ; i < IMAGE_BUFFER_SIZE ; i++){
-				mean += buffer[i];
+			red_image = ((uint8_t)buffer[i]&0xF8)>>3;
+			green_image = ((uint8_t)buffer[i]&0x07)<<3;
+			blue_image = ((uint8_t)buffer[i+1]&0x1F);
+
+			mean_red += red;
+			mean_green += green;
+			mean_blue += blue;
 //				chprintf((BaseSequentialStream *)&SDU1, "valeur=%d \n", buffer[i]);
 		}
-		mean /= IMAGE_BUFFER_SIZE;
+		mean_red /= IMAGE_BUFFER_SIZE;
+		mean_green /= IMAGE_BUFFER_SIZE;
+		mean_blue /= IMAGE_BUFFER_SIZE;
 //		mean_filter = 0.5*mean+0.5*mean_filter;
-		if(value == 50){
-			chprintf((BaseSequentialStream *)&SDU1, "valeur=%d \n", mean);
-		}
+
+		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red, mean_green, mean_blue);
 //		chprintf((BaseSequentialStream *)&SDU1, "mean=%d \n", mean);
-		if(mean > value){//Pourquoi c'est mean < value et pas l'inverse?
-			return 1;
-		}else{
-			return 0;
-		}
+
+		if(mean_red > RED_VALUE){red = 1;}
+		if(mean_green > GREEN_VALUE){green = 1;}
+		if(mean_blue > BLUE_VALUE){blue = 1;}
+
+		if(red && !green && !blue){// && !green && !blue
+					set_led(LED1, ON);
+				}else{
+					set_led(LED1, OFF);
+				}
+				if(green && !red && !blue){// && !green && !blue
+					set_led(LED3, ON);
+				}else{
+					set_led(LED3, OFF);
+				}
+				if(blue && !green && !red){// && !green && !blue
+					set_led(LED5, ON);
+				}else{
+					set_led(LED5, OFF);
+				}
+
+
 }
 //	red = (int)buffer[i]&0xF8;
 //	green = (int)(buffer[i]&0x07)<<5 | (buffer[i+1]&0xE0)>>3;
@@ -253,9 +283,9 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 	uint8_t *img_buff_ptr;
 	uint8_t image[IMAGE_BUFFER_SIZE] = {0};
-	uint8_t image_r[IMAGE_BUFFER_SIZE] = {0};
-	uint8_t image_g[IMAGE_BUFFER_SIZE] = {0};
-	uint8_t image_b[IMAGE_BUFFER_SIZE] = {0};
+//	uint8_t image_r[IMAGE_BUFFER_SIZE] = {0};
+//	uint8_t image_g[IMAGE_BUFFER_SIZE] = {0};
+//	uint8_t image_b[IMAGE_BUFFER_SIZE] = {0};
 	uint16_t lineWidth = 0, red=0, green = 0, blue=0;
 
 	bool send_to_computer = true;
@@ -276,10 +306,12 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 //			r4 r3 r2 r1  r0 g5 g4 g3         g2 g1 g0 b4  b3 b2 b1 b0
 
-			image_r[i/2] = ((uint8_t)img_buff_ptr[i]&0xF8)>>3;//rouge				POUR EXTRACT >>3
-			image_g[i/2] = ((uint8_t)img_buff_ptr[i]&0x07)<<3 | ((uint8_t)img_buff_ptr[i+1]&0xE0)>>5 ;//vert				POUR EXTRACT
-			image_b[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F);//blue				POUR EXTRACT
+//			image_r[i/2] = ((uint8_t)img_buff_ptr[i]&0xF8)>>3;//rouge				POUR EXTRACT >>3
+//			image_g[i/2] = ((uint8_t)img_buff_ptr[i]&0x07)<<3 | ((uint8_t)img_buff_ptr[i+1]&0xE0)>>5 ;//vert				POUR EXTRACT
+//			image_b[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F);//blue				POUR EXTRACT
 
+			image[i/2] = (uint8_t)img_buff_ptr[i];//rouge	et vert
+			image[i/2+1] = (uint8_t)img_buff_ptr[i+1] ;//vert	et bleu
 
 
 //			red = (int)buffer[i]&0xF8;
@@ -289,26 +321,10 @@ static THD_FUNCTION(ProcessImage, arg) {
 		send_to_computer = false;
 
 		//search for a line in the image and gets its width in pixels
-		red= find_color(image_r, RED_VALUE);
-		green= find_color(image_g, GREEN_VALUE);
-		blue= find_color(image_b, BLUE_VALUE);
+		find_color(image);
 
 
-		if(red && !green && !blue){// && !green && !blue
-			set_led(LED1, ON);
-		}else{
-			set_led(LED1, OFF);
-		}
-		if(green && !red && !blue){// && !green && !blue
-			set_led(LED3, ON);
-		}else{
-			set_led(LED3, OFF);
-		}
-		if(blue && !green && !red){// && !green && !blue
-			set_led(LED5, ON);
-		}else{
-			set_led(LED5, OFF);
-		}
+
 
 
 		//converts the width into a distance between the robot and the camera
