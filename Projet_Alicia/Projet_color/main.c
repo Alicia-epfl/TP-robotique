@@ -65,24 +65,6 @@ static void serial_start(void)
 	sdStart(&SD3, &ser_cfg); // UART3.
 }
 
-// FROM TP5 AUDIO
-
-static void timer12_start(void){
-    //General Purpose Timer configuration
-    //timer 12 is a 16 bit timer so we can measure time
-    //to about 65ms with a 1Mhz counter
-    static const GPTConfig gpt12cfg = {
-        1000000,        /* 1MHz timer clock in order to measure uS.*/
-        NULL,           /* Timer callback.*/
-        0,
-        0
-    };
-
-    gptStart(&GPTD11, &gpt12cfg);
-    //let the timer count to max value
-    gptStartContinuous(&GPTD12, 0xFFFF);
-}
-//========================================================================//
 
 // Simple delay function
 void delay(unsigned int n)
@@ -115,8 +97,6 @@ int main(void)
     serial_start();
     //start the USB communication
     usb_start();
-    //starts timer 12
-    timer12_start();
     //starts the camera
     dcmi_start();
 	po8030_start();
@@ -142,6 +122,10 @@ int main(void)
 	     //to avoid modifications of the buffer while sending it
 	     static float send_tab[FFT_SIZE];
 
+//NOTE==========IMPORTANT===================
+//==========Comme on définit SEND_FROM_MIC à priori, on peut juste mettre la ligne mic_start!!!
+	     //pareil pour en bas
+//===============================================================================================
 	 #ifdef SEND_FROM_MIC
 	     //starts the microphones processing thread.
 	     //it calls the callback given in parameter when samples are ready
@@ -176,12 +160,11 @@ int main(void)
 	             */
 
 	             chSysLock();
-	             //reset the timer counter
-	             GPTD12.tim->CNT = 0;
+
 
 	             doFFT_optimized(FFT_SIZE, bufferCmplxInput);
 
-	             time_fft = GPTD12.tim->CNT;
+
 	             chSysUnlock();
 
 	             /*
@@ -191,12 +174,11 @@ int main(void)
 
 
 	             chSysLock();
-	             //reset the timer counter
-	             GPTD12.tim->CNT = 0;
+
 
 	             arm_cmplx_mag_f32(bufferCmplxInput, bufferOutput, FFT_SIZE);
 
-	             time_mag = GPTD12.tim->CNT;
+
 	             chSysUnlock();
 
 	             SendFloatToComputer((BaseSequentialStream *) &SD3, bufferOutput, FFT_SIZE);

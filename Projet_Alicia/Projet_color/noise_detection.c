@@ -159,7 +159,7 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		//sends to UART3
 		if(mustSend > 8){
 			//signals to send the result to the computer
-			chBSemSignal(&sendToComputer_sem);
+//			chBSemSignal(&sendToComputer_sem);
 			mustSend = 0;
 		}
 		nb_samples = 0;
