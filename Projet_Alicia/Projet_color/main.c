@@ -22,10 +22,17 @@
 #include <leds.h>
 
 
-/*defines pour noise detection*/
+/*defines pour NOISE detection
+ * !!!!!!!!!!IMPORTANT!!!!!!!!!
+ * SEND_FROM_MIC permet d'utiliser les micro de e-puck alors que
+ * DOUBLE_BUFFERING prends les infos de l'ordinateur!
+ * ==================================================================
+ * Visiblement il faut garder DOUBLE_BUFFERING quand même? --> Je comprends pas pourquoi, askip on a vu en TP*/
 #define SEND_FROM_MIC
 #define DOUBLE_BUFFERING
 /*end of defines pour noise detection*/
+
+
 /*
  * THREADS
  */
@@ -53,6 +60,7 @@ static THD_FUNCTION(Blinker, arg) {
 // Init function required by __libc_init_array
 void _init(void) {}
 
+/*Permet la communication USB et Bluetooth*/
 static void serial_start(void)
 {
 	static SerialConfig ser_cfg = {
@@ -74,7 +82,7 @@ void delay(unsigned int n)
     }
 }
 
-
+/*Permet les "printf" via le terminal [A CONFIRMER!]*/
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 
 {
 	chSequentialStreamWrite((BaseSequentialStream *)&SD3, (uint8_t*)"START", 5);
@@ -122,10 +130,7 @@ int main(void)
 	     //to avoid modifications of the buffer while sending it
 	     static float send_tab[FFT_SIZE];
 
-//NOTE==========IMPORTANT===================
-//==========Comme on définit SEND_FROM_MIC à priori, on peut juste mettre la ligne mic_start!!!
-	     //pareil pour en bas
-//===============================================================================================
+
 	 #ifdef SEND_FROM_MIC
 	     //starts the microphones processing thread.
 	     //it calls the callback given in parameter when samples are ready
@@ -145,10 +150,6 @@ int main(void)
 	         SendFloatToComputer((BaseSequentialStream *) &SD3, get_audio_buffer_ptr(LEFT_OUTPUT), FFT_SIZE);
 	 #endif  /* DOUBLE_BUFFERING */
 	 #else
-	         //time measurement variables
-	         volatile uint16_t time_fft = 0;
-	         volatile uint16_t time_mag  = 0;
-
 	         float* bufferCmplxInput = get_audio_buffer_ptr(LEFT_CMPLX_INPUT);
 	         float* bufferOutput = get_audio_buffer_ptr(LEFT_OUTPUT);
 
@@ -159,30 +160,15 @@ int main(void)
 	             *   Optimized FFT
 	             */
 
-	             chSysLock();
-
-
 	             doFFT_optimized(FFT_SIZE, bufferCmplxInput);
-
-
-	             chSysUnlock();
 
 	             /*
 	             *   End of optimized FFT
 	             */
 
-
-
-	             chSysLock();
-
-
 	             arm_cmplx_mag_f32(bufferCmplxInput, bufferOutput, FFT_SIZE);
 
-
-	             chSysUnlock();
-
 	             SendFloatToComputer((BaseSequentialStream *) &SD3, bufferOutput, FFT_SIZE);
-	             //chprintf((BaseSequentialStream *) &SDU1, "time fft = %d us, time magnitude = %d us\n",time_fft, time_mag);
 
 	         }
 	 #endif  /* SEND_FROM_MIC */
@@ -198,8 +184,7 @@ int main(void)
 }
 
 
-
-
+//Pas encore trop compris sa fonction? A noter si tu sais?
 #define STACK_CHK_GUARD 0xe2dee396
 uintptr_t __stack_chk_guard = STACK_CHK_GUARD;
 
