@@ -51,7 +51,6 @@ static THD_FUNCTION(Blinker, arg) {
 // Init function required by __libc_init_array
 void _init(void) {}
 
-// FROM TP5 AUDIO
 static void serial_start(void)
 {
 	static SerialConfig ser_cfg = {
@@ -64,6 +63,7 @@ static void serial_start(void)
 	sdStart(&SD3, &ser_cfg); // UART3.
 }
 
+// FROM TP5 AUDIO
 
 static void timer12_start(void){
     //General Purpose Timer configuration
@@ -76,7 +76,7 @@ static void timer12_start(void){
         0
     };
 
-    gptStart(&GPTD12, &gpt12cfg);
+    gptStart(&GPTD11, &gpt12cfg);
     //let the timer count to max value
     gptStartContinuous(&GPTD12, 0xFFFF);
 }
@@ -98,17 +98,7 @@ void SendUint8ToComputer(uint8_t* data, uint16_t size)
 	chSequentialStreamWrite((BaseSequentialStream *)&SD3, (uint8_t*)data, size);
 }
 
-static void serial_start(void)
-{
-	static SerialConfig ser_cfg = {
-	    115200,
-	    0,
-	    0,
-	    0,
-	};
 
-	sdStart(&SD3, &ser_cfg); // UART3.
-}
 /*
  * MAIN
  */
