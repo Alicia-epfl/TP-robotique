@@ -78,3 +78,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 void pi_regulator_start(void){
 	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO, PiRegulator, NULL);
 }
+//J'arrive pas à implémenter cette fonction :'(
+//void pi_regulator_stop(void){
+//	chThdTerminate(waPiRegulator);
+//}

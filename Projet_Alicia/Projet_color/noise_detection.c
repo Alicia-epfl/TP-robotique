@@ -11,6 +11,8 @@
 #include <fft.h>
 #include <arm_math.h>
 
+#include <pi_regulator.h>
+
 //semaphore
 //static BSEMAPHORE_DECL(sendToComputer_sem, TRUE);// 								IL SERT A QUOI?
 
@@ -50,6 +52,7 @@ static float micBack_output[FFT_SIZE];
 void sound_remote(float* data){
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
+	static uint8_t RUN = 0;
 
 	//search for the highest peak
 	for(uint16_t i = MIN_FREQ ; i <= MAX_FREQ ; i++){
@@ -62,28 +65,44 @@ void sound_remote(float* data){
 	//go forward --> du coup nous on veut plutôt un toggle à chaque fois qu'il entend la fréquence right? En mode on a un static RUN qu'on met à 1 ou 0
 	// et en fonction de sa valeur on dit go forward ou stop right? Et le gauche et droite de ici on l'utilise dans les couleurs
 	if(max_norm_index >= FREQ_FORWARD_L && max_norm_index <= FREQ_FORWARD_H){
-		left_motor_set_speed(600);
-		right_motor_set_speed(600);
+//		left_motor_set_speed(600);
+//		right_motor_set_speed(600);
+
+		//Pour tester le GO and STOP, ça fonctionne avec le "mmmmmh" mais pas avec Go et Stop mdr
+		if(RUN){
+			RUN = false;
+		}else{
+			RUN = true;
+		}
 	}
-	//turn left
-	else if(max_norm_index >= FREQ_LEFT_L && max_norm_index <= FREQ_LEFT_H){
-		left_motor_set_speed(-600);
-		right_motor_set_speed(600);
-	}
-	//turn right
-	else if(max_norm_index >= FREQ_RIGHT_L && max_norm_index <= FREQ_RIGHT_H){
-		left_motor_set_speed(600);
-		right_motor_set_speed(-600);
-	}
-	//go backward
-	else if(max_norm_index >= FREQ_BACKWARD_L && max_norm_index <= FREQ_BACKWARD_H){
-		left_motor_set_speed(-600);
-		right_motor_set_speed(-600);
-	}
-	else{
-		left_motor_set_speed(0);
-		right_motor_set_speed(0);
-	}
+//	//turn left
+//	else if(max_norm_index >= FREQ_LEFT_L && max_norm_index <= FREQ_LEFT_H){
+//		left_motor_set_speed(-600);
+//		right_motor_set_speed(600);
+//	}
+//	//turn right
+//	else if(max_norm_index >= FREQ_RIGHT_L && max_norm_index <= FREQ_RIGHT_H){
+//		left_motor_set_speed(600);
+//		right_motor_set_speed(-600);
+//	}
+//	//go backward
+//	else if(max_norm_index >= FREQ_BACKWARD_L && max_norm_index <= FREQ_BACKWARD_H){
+//		left_motor_set_speed(-600);
+//		right_motor_set_speed(-600);
+//	}
+//	else{
+//		left_motor_set_speed(0);
+//		right_motor_set_speed(0);
+//	}
+	if(RUN){
+				//pi_regulator_start();
+				left_motor_set_speed(600);
+				right_motor_set_speed(600);
+			}else{
+				//pi_regulator_stop();//malheureusement je n'arrive pas encore cette fonction :'(
+				left_motor_set_speed(0);
+				right_motor_set_speed(0);
+			}
 
 }
 
