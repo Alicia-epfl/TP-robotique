@@ -121,13 +121,10 @@ int main(void)
 
 	//inits the motors
 	motors_init();
-<<<<<<< HEAD
 
-//	spi_comm_start();//RGB LED
-=======
 	//enclenche la connection SPI pour pouvoir utiliser les LEDS RGB
-	spi_comm_start();
->>>>>>> color
+//	spi_comm_start();
+
 
 	//stars the threads for the pi regulator and the processing of the image
 //	pi_regulator_start();
