@@ -20,6 +20,7 @@
 #include <pi_regulator.h>
 #include <process_image.h>
 #include <leds.h>
+
 /*defines pour noise detection*/
 #define SEND_FROM_MIC
 #define DOUBLE_BUFFERING
@@ -27,7 +28,7 @@
 /*
  * THREADS
  */
-
+/*Thread pour le clignotement de BODY LED*/
 static THD_WORKING_AREA(waBlinker, 128);
 static THD_FUNCTION(Blinker, arg) {
 
@@ -42,7 +43,7 @@ static THD_FUNCTION(Blinker, arg) {
     chThdSleepMilliseconds(500);
   }
 }
-
+/*Fin du thread de BODY LED*/
 
 
 /*
