@@ -21,8 +21,9 @@
 #include <process_image.h>
 #include <leds.h>
 
+
 /*defines pour noise detection*/
-#define SEND_FROM_MIC
+//#define SEND_FROM_MIC
 #define DOUBLE_BUFFERING
 /*end of defines pour noise detection*/
 /*
@@ -114,13 +115,16 @@ int main(void)
     serial_start();
     //start the USB communication
     usb_start();
+    //starts timer 12
+    timer12_start();
     //starts the camera
     dcmi_start();
 	po8030_start();
+
 	//inits the motors
 	motors_init();
 
-	spi_comm_start();
+//	spi_comm_start();//RGB LED
 
 	//stars the threads for the pi regulator and the processing of the image
 //	pi_regulator_start();
