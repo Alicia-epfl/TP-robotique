@@ -82,14 +82,24 @@ void delay(unsigned int n)
     }
 }
 
-/*Permet les "printf" via le terminal [A CONFIRMER!]*/
+/*Permet les "printf" via le terminal [A CONFIRMER!]
+ * Version pour uint8_t:*/
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 
 {
 	chSequentialStreamWrite((BaseSequentialStream *)&SD3, (uint8_t*)"START", 5);
 	chSequentialStreamWrite((BaseSequentialStream *)&SD3, (uint8_t*)&size, sizeof(uint16_t));
 	chSequentialStreamWrite((BaseSequentialStream *)&SD3, (uint8_t*)data, size);
 }
-
+/*Version pour les floats:*/
+/*
+*	Sends floats numbers to the computer
+*/
+void SendFloatToComputer(BaseSequentialStream* out, float* data, uint16_t size)
+{
+	chSequentialStreamWrite(out, (uint8_t*)"START", 5);
+	chSequentialStreamWrite(out, (uint8_t*)&size, sizeof(uint16_t));
+	chSequentialStreamWrite(out, (uint8_t*)data, sizeof(float) * size);
+}
 
 /*
  * MAIN
@@ -123,9 +133,6 @@ int main(void)
 
 
 	 /*===============================================FROM TP5 AUDIO PROCESSING =============================================*/
-	 //temp tab used to store values in complex_float format
-	     //needed bx doFFT_c
-	     static complex_float temp_tab[FFT_SIZE];
 	     //send_tab is used to save the state of the buffer to send (double buffering)
 	     //to avoid modifications of the buffer while sending it
 	     static float send_tab[FFT_SIZE];
@@ -145,7 +152,7 @@ int main(void)
 	 #ifdef DOUBLE_BUFFERING
 	         //we copy the buffer to avoid conflicts
 	         arm_copy_f32(get_audio_buffer_ptr(LEFT_OUTPUT), send_tab, FFT_SIZE);
-	         SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
+
 	 #else
 	         SendFloatToComputer((BaseSequentialStream *) &SD3, get_audio_buffer_ptr(LEFT_OUTPUT), FFT_SIZE);
 	 #endif  /* DOUBLE_BUFFERING */

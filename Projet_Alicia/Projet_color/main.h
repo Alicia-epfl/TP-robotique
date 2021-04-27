@@ -39,7 +39,9 @@ extern messagebus_t bus;
 
 extern parameter_namespace_t parameter_root;
 
+/*Ces fonctions permettent la communication avec le terminal via screen pour des uint8_t ou des floats*/
 void SendUint8ToComputer(uint8_t* data, uint16_t size);
+void SendFloatToComputer(BaseSequentialStream* out, float* data, uint16_t size);
 
 #ifdef __cplusplus
 }

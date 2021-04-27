@@ -12,7 +12,7 @@
 #include <arm_math.h>
 
 //semaphore
-//static BSEMAPHORE_DECL(sendToComputer_sem, TRUE);
+//static BSEMAPHORE_DECL(sendToComputer_sem, TRUE);// 								IL SERT A QUOI?
 
 //2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)
 static float micLeft_cmplx_input[2 * FFT_SIZE];
@@ -59,7 +59,8 @@ void sound_remote(float* data){
 		}
 	}
 
-	//go forward
+	//go forward --> du coup nous on veut plutôt un toggle à chaque fois qu'il entend la fréquence right? En mode on a un static RUN qu'on met à 1 ou 0
+	// et en fonction de sa valeur on dit go forward ou stop right? Et le gauche et droite de ici on l'utilise dans les couleurs
 	if(max_norm_index >= FREQ_FORWARD_L && max_norm_index <= FREQ_FORWARD_H){
 		left_motor_set_speed(600);
 		right_motor_set_speed(600);
