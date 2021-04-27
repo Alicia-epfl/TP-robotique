@@ -23,7 +23,7 @@
 
 
 /*defines pour noise detection*/
-//#define SEND_FROM_MIC
+#define SEND_FROM_MIC
 #define DOUBLE_BUFFERING
 /*end of defines pour noise detection*/
 /*
@@ -136,7 +136,7 @@ int main(void)
 	     while (1) {
 	 #ifdef SEND_FROM_MIC
 	         //waits until a result must be sent to the computer
-	         wait_send_to_computer();
+//	         wait_send_to_computer();
 	 #ifdef DOUBLE_BUFFERING
 	         //we copy the buffer to avoid conflicts
 	         arm_copy_f32(get_audio_buffer_ptr(LEFT_OUTPUT), send_tab, FFT_SIZE);
