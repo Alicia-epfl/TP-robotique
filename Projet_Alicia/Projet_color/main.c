@@ -1,3 +1,4 @@
+//Rappel: "" --> fichiers dans notre projets; <> --> fichiers dans le dossier (librairies par exemple)
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -3,7 +3,7 @@
 #include <chprintf.h>
 #include <usbcfg.h>
 
-#include <main.h>
+#include "main.h"
 #include <camera/po8030.h>
 #include <leds.h>
 
@@ -120,6 +120,7 @@ static THD_FUNCTION(CaptureImage, arg) {
 	dcmi_enable_double_buffering();
 	dcmi_set_capture_mode(CAPTURE_ONE_SHOT);
 	dcmi_prepare();
+//	po8030_set_brightness(10);//TEST de gérer la brithness
 
     while(1){
         //starts a capture
@@ -141,9 +142,9 @@ static THD_FUNCTION(ProcessImage, arg) {
 //	uint8_t image[IMAGE_BUFFER_SIZE] = {0};//BOMBE
 //	uint8_t image_r[IMAGE_BUFFER_SIZE] = {0}, image_g[IMAGE_BUFFER_SIZE] = {0}, image_b[IMAGE_BUFFER_SIZE] = {0}; //OPTION 2
 //	uint8_t red =0, green=0, blue=0; //OPTION 2
-	uint16_t mean_red = 0, mean_blue=0, mean_green=0;
+	uint32_t mean_red = 0, mean_blue=0, mean_green=0, mean_red_old=0;
 	uint8_t red = 0, green=0, blue=0;
-	uint16_t red_image = 0, green_image=0, blue_image=0;
+	uint8_t red_image = 0, green_image=0, blue_image=0;
 
 	/*Méthode "RGB"*/
     while(1){
@@ -152,23 +153,33 @@ static THD_FUNCTION(ProcessImage, arg) {
 		//gets the pointer to the array filled with the last image in RGB565
 		img_buff_ptr = dcmi_get_last_image_ptr();
 
+		//re-initialiser les valeurs
+		mean_red_old = mean_red;
+		mean_red = 0;
+		mean_blue=0;
+		mean_green=0;
 		//insertion de l'image capturée dans le tableau "image"
-		for(uint16_t i = 0 ; i < (2*IMAGE_BUFFER_SIZE) ; i+=4){
+		for(uint16_t i = 0 ; i < (IMAGE_BUFFER_SIZE) ; i+=2){
 			//séparation des couleurs
-			red_image = ((uint16_t)img_buff_ptr[i]&0xF8)>>3;
-			green_image = (((uint16_t)img_buff_ptr[i]&0x07)<<3) | (((uint16_t)img_buff_ptr[i+1]&0xE0)>>5);
-			blue_image = ((uint16_t)img_buff_ptr[i+1]&0x1F);
+			red_image = ((uint8_t)img_buff_ptr[i]&0xF8)>>3;
+			green_image = (((uint8_t)img_buff_ptr[i]&0x07)<<3) | (((uint8_t)img_buff_ptr[i+1]&0xE0)>>5);
+			blue_image = ((uint8_t)img_buff_ptr[i+1]&0x1F);
+
+			chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", red_image, green_image, blue_image);
 
 			//moyennes
 			mean_red += red_image;
 			mean_green += green_image;
 			mean_blue += blue_image;
-		}
-		mean_red /= (IMAGE_BUFFER_SIZE/2);
-		mean_green /= (IMAGE_BUFFER_SIZE/2);
-		mean_blue /= (IMAGE_BUFFER_SIZE/2);
 
-		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red, mean_green, mean_blue);
+			set_led(LED1, ON);
+		}
+		mean_red /= (IMAGE_BUFFER_SIZE);
+		mean_green /= (IMAGE_BUFFER_SIZE);
+		mean_blue /= (IMAGE_BUFFER_SIZE);
+
+//		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red, mean_green, mean_blue);
+//		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, R_old=%3d\r\n", mean_red, mean_red_old);
 
 		//		if(mean_red > RED_VALUE){red = 1;}
 		//		if(mean_green > GREEN_VALUE){green = 1;}
@@ -178,21 +189,21 @@ static THD_FUNCTION(ProcessImage, arg) {
 		if((mean_green > 12)&&(mean_red < 10)&&(mean_blue < 14)){green = 1;}
 		if((mean_blue > 13)&&(mean_red < 5)&&(mean_green < 30)){blue = 1;}
 
-		if(red && !green && !blue){// && !green && !blue
-				set_led(LED1, ON);
-		}else{
-				set_led(LED1, OFF);
-								}
-		if(green && !red && !blue){// && !green && !blue
-				set_led(LED3, ON);
-		}else{
-				set_led(LED3, OFF);
-		}
-		if(blue && !green && !red){// && !green && !blue
-				set_led(LED5, ON);
-		}else{
-				set_led(LED5, OFF);
-		}
+//		if(red && !green && !blue){// && !green && !blue
+//				set_led(LED1, ON);
+//		}else{
+//				set_led(LED1, OFF);
+//								}
+//		if(green && !red && !blue){// && !green && !blue
+//				set_led(LED3, ON);
+//		}else{
+//				set_led(LED3, OFF);
+//		}
+//		if(blue && !green && !red){// && !green && !blue
+//				set_led(LED5, ON);
+//		}else{
+//				set_led(LED5, OFF);
+//		}
     }
 }
 
