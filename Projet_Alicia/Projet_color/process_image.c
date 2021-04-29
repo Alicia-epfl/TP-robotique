@@ -46,7 +46,7 @@ void find_color(uint8_t *buffer){
 		//			image_b[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F);//blue
 
 			//performs an average
-		for(uint16_t i = 0 ; i < ((IMAGE_BUFFER_SIZE)/4) ; i+=2){//car usage de 2 buffers
+		for(uint16_t i = 0 ; i < (2*(IMAGE_BUFFER_SIZE)) ; i+=2){//car usage de 2 buffers
 
 			red_image = ((uint8_t)buffer[i]&0xF8)>>3;
 			green_image = (((uint8_t)buffer[i]&0x07)<<3) | (((uint8_t)buffer[i+1]&0xE0)>>5);
@@ -60,9 +60,9 @@ void find_color(uint8_t *buffer){
 			mean_blue += blue_image;
 //				chprintf((BaseSequentialStream *)&SDU1, "valeur=%d \n", buffer[i]);
 		}
-		mean_red /= (IMAGE_BUFFER_SIZE/4);
-		mean_green /= (IMAGE_BUFFER_SIZE/4);
-		mean_blue /= (IMAGE_BUFFER_SIZE/4);
+		mean_red /= (IMAGE_BUFFER_SIZE*2);
+		mean_green /= (IMAGE_BUFFER_SIZE*2);
+		mean_blue /= (IMAGE_BUFFER_SIZE*2);
 //		mean_filter = 0.5*mean+0.5*mean_filter;
 
 		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red, mean_green, mean_blue);
@@ -285,7 +285,7 @@ static THD_FUNCTION(CaptureImage, arg) {
     }
 }
 
-static THD_WORKING_AREA(waProcessImage, 4096); //Je suis montée de 1024 à 2048 car il n'y avait pas assez de place pour les 3 couleurs
+static THD_WORKING_AREA(waProcessImage, 1024); //Je suis montée de 1024 à 2048 car il n'y avait pas assez de place pour les 3 couleurs
 static THD_FUNCTION(ProcessImage, arg) {
 
     chRegSetThreadName(__FUNCTION__);
@@ -306,10 +306,8 @@ static THD_FUNCTION(ProcessImage, arg) {
 		//gets the pointer to the array filled with the last image in RGB565
 		img_buff_ptr = dcmi_get_last_image_ptr();
 
-		// pour rouge on part de i = 0 et on met l'hexadécmal de 0XF8
-		//pour vert on a 2x la ligne image[i/2] et on change l'hexa
-		//pour bleu on part de  et on met l'hexadécimal 0X1F
-		for(uint16_t i = 0 ; i < (IMAGE_BUFFER_SIZE/2) ; i+=2){
+		//insertion de l'image capturée dans le tableau "image"
+		for(uint16_t i = 0 ; i < (2*IMAGE_BUFFER_SIZE) ; i+=2){
 
 			image[i/2] = (uint8_t)img_buff_ptr[i];//rouge	et vert
 			image[i/2+1] = (uint8_t)img_buff_ptr[i+1] ;//vert	et bleu
