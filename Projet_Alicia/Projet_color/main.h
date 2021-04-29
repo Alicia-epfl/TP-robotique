@@ -12,8 +12,8 @@ extern "C" {
 
 //constants for the differents parts of the project
 #define IMAGE_BUFFER_SIZE		640
-#define WIDTH_SLOPE				2
-#define WALL						30
+#define WIDTH_SLOPE				10
+#define WALL						15
 #define RED_VALUE				7
 #define GREEN_VALUE				7
 #define BLUE_VALUE				7
