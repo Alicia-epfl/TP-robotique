@@ -2976,10 +2976,11 @@ Disassembly of section .text:
  8002340:	462e      	mov	r6, r5
  8002342:	462f      	mov	r7, r5
  8002344:	7801      	ldrb	r1, [r0, #0]
- 8002346:	f810 3f01 	ldrb.w	r3, [r0, #1]!
- 800234a:	00ca      	lsls	r2, r1, #3
- 800234c:	f002 0238 	and.w	r2, r2, #56	; 0x38
- 8002350:	f003 031f 	and.w	r3, r3, #31
+ 8002346:	7843      	ldrb	r3, [r0, #1]
+ 8002348:	00ca      	lsls	r2, r1, #3
+ 800234a:	f002 0238 	and.w	r2, r2, #56	; 0x38
+ 800234e:	f003 031f 	and.w	r3, r3, #31
+ 8002352:	3002      	adds	r0, #2
  8002354:	eb07 01d1 	add.w	r1, r7, r1, lsr #3
  8002358:	442a      	add	r2, r5
  800235a:	4433      	add	r3, r6
@@ -2994,9 +2995,9 @@ Disassembly of section .text:
  800236c:	fba3 2707 	umull	r2, r7, r3, r7
  8002370:	fba3 2505 	umull	r2, r5, r3, r5
  8002374:	fba3 3606 	umull	r3, r6, r3, r6
- 8002378:	f3c7 274f 	ubfx	r7, r7, #9, #16
- 800237c:	f3c5 254f 	ubfx	r5, r5, #9, #16
- 8002380:	f3c6 264f 	ubfx	r6, r6, #9, #16
+ 8002378:	f3c7 270f 	ubfx	r7, r7, #8, #16
+ 800237c:	f3c5 250f 	ubfx	r5, r5, #8, #16
+ 8002380:	f3c6 260f 	ubfx	r6, r6, #8, #16
  8002384:	9600      	str	r6, [sp, #0]
  8002386:	462b      	mov	r3, r5
  8002388:	463a      	mov	r2, r7

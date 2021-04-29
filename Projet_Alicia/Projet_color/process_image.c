@@ -42,7 +42,7 @@ void find_color(uint8_t *buffer){
 		//			image_b[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F);//blue
 
 			//performs an average
-		for(uint16_t i = 0 ; i < IMAGE_BUFFER_SIZE ; i++){
+		for(uint16_t i = 0 ; i < IMAGE_BUFFER_SIZE ; i+=2){
 
 			red_image = ((uint8_t)buffer[i]&0xF8)>>3;
 			green_image = ((uint8_t)buffer[i]&0x07)<<3;
@@ -56,9 +56,9 @@ void find_color(uint8_t *buffer){
 			mean_blue += blue_image;
 //				chprintf((BaseSequentialStream *)&SDU1, "valeur=%d \n", buffer[i]);
 		}
-		mean_red /= IMAGE_BUFFER_SIZE;
-		mean_green /= IMAGE_BUFFER_SIZE;
-		mean_blue /= IMAGE_BUFFER_SIZE;
+		mean_red /= (IMAGE_BUFFER_SIZE/2);
+		mean_green /= (IMAGE_BUFFER_SIZE/2);
+		mean_blue /= (IMAGE_BUFFER_SIZE/2);
 //		mean_filter = 0.5*mean+0.5*mean_filter;
 
 		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red, mean_green, mean_blue);
