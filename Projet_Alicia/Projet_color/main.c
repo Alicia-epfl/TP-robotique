@@ -34,6 +34,8 @@
 #define SEND_FROM_MIC
 #define DOUBLE_BUFFERING
 /*end of defines pour noise detection*/
+
+/*BUS pour proximity?*/
 messagebus_t bus;
 MUTEX_DECL(bus_lock);
 CONDVAR_DECL(bus_condvar);
