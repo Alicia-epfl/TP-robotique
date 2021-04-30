@@ -22,6 +22,8 @@
 #include <process_image.h>
 #include <leds.h>
 
+//#include <audio/play_melody.h> //COMMENT DEMARRER UNE MELODIE???
+
 
 /*defines pour NOISE detection
  * !!!!!!!!!!IMPORTANT!!!!!!!!!
@@ -32,7 +34,9 @@
 #define SEND_FROM_MIC
 #define DOUBLE_BUFFERING
 /*end of defines pour noise detection*/
-
+messagebus_t bus;
+MUTEX_DECL(bus_lock);
+CONDVAR_DECL(bus_condvar);
 
 /*
  * THREADS
@@ -43,13 +47,27 @@ static THD_FUNCTION(Blinker, arg) {
 
 	 chRegSetThreadName(__FUNCTION__);
 	  (void)arg;
+uint8_t toggle = 0;
 
   while (!chThdShouldTerminateX()) {
-    /* Toggling BODY LED while the main thread is busy.*/
+    /* Toggling BODY LED while the main thread is busy   .*/
     set_body_led(TOGGLE);
+    if(toggle){
+		set_rgb_led(LED6, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
+		set_rgb_led(LED2, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
+		set_rgb_led(LED4, RED_MAUVE, GREEN_MAUVE, BLUE_MAUVE);
+		set_rgb_led(LED8, RED_MAUVE, GREEN_MAUVE, BLUE_MAUVE);
+		toggle =!toggle;
+    }else{
+    		set_rgb_led(LED4, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
+    		set_rgb_led(LED8, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
+    		set_rgb_led(LED2, RED_MAUVE, GREEN_MAUVE, BLUE_MAUVE);
+    		set_rgb_led(LED6, RED_MAUVE, GREEN_MAUVE, BLUE_MAUVE);
+    		toggle =!toggle;
+    }
 
     /* Delay of 250 milliseconds.*/
-    chThdSleepMilliseconds(500);
+    chThdSleepMilliseconds(250);
   }
 }
 /*Fin du thread de BODY LED*/
@@ -116,6 +134,8 @@ int main(void)
     serial_start();
     //start the USB communication
     usb_start();
+    //enclenche la connection SPI pour pouvoir utiliser les LEDS RGB
+    	spi_comm_start();
     //starts the camera
     dcmi_start();
 	po8030_start();
@@ -123,16 +143,20 @@ int main(void)
 	//inits the motors
 	motors_init();
 
-	//enclenche la connection SPI pour pouvoir utiliser les LEDS RGB
-//	spi_comm_start();
-
-
 	//stars the threads for the pi regulator and the processing of the image
-//	pi_regulator_start();
+	//	pi_regulator_start();
 	process_image_start();
+
+	//start the melody
+//	playMelodyStart();
+
+
+
 
 	//Clignotement BODY LED --> appel du thread
 	 chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
+
+
 
 
 	 /*===============================================FROM TP5 AUDIO PROCESSING =============================================*/
@@ -188,7 +212,7 @@ int main(void)
     /* Infinite loop. */
     while (1) {
     	//waits 1 second
-
+//    	playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
     	chThdSleepMilliseconds(1000);
     }
 }

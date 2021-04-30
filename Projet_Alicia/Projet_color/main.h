@@ -11,13 +11,15 @@ extern "C" {
 
 
 //constants for the differents parts of the project
+//CAMERA
 #define IMAGE_BUFFER_SIZE		640
 #define WIDTH_SLOPE				10
 #define WALL						15
-#define RED_VALUE				7
-#define GREEN_VALUE				7
-#define BLUE_VALUE				7
+#define RED_VALUE				10
+#define GREEN_VALUE				19
+#define BLUE_VALUE				10
 #define MIN_LINE_WIDTH			40
+//PID
 #define ROTATION_THRESHOLD		10
 #define ROTATION_COEFF			2 
 #define PXTOCM					1570.0f //experimental value
@@ -27,12 +29,17 @@ extern "C" {
 #define KP						800.0f
 #define KI 						3.5f	//must not be zero
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
+//LEDS
 #define TOGGLE					2
 #define ON						1
 #define OFF						0
-//#define LED33					GPIOD, GPIOD_LED3
-//#define LED55					GPIOD, GPIOD_LED5
-//#define LED11						GPIOD, GPIOD_LED1
+//RGB LEDS
+#define	RED_CYAN					0
+#define	GREEN_CYAN				57
+#define	BLUE_CYAN				26
+#define	RED_MAUVE				31
+#define	GREEN_MAUVE				30
+#define	BLUE_MAUVE				31
 
 /** Robot wide IPC bus. */
 extern messagebus_t bus;
