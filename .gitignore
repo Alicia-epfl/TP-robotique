@@ -1,6 +1,7 @@
 #Folders
 lib/
 Scripts_python/
+Build/
 
 *.DS_Store
 
