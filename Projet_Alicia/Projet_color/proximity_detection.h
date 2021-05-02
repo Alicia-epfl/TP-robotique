@@ -8,7 +8,7 @@
 #ifndef PROXIMITY_DETECTION_H_
 #define PROXIMITY_DETECTION_H_
 
-
+void proxi_start(void);
 
 
 

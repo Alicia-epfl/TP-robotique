@@ -40,6 +40,8 @@ extern "C" {
 #define	RED_MAUVE				31
 #define	GREEN_MAUVE				30
 #define	BLUE_MAUVE				31
+//PROXIMITY
+#define	THRESHOLD				1000
 
 /** Robot wide IPC bus. */
 extern messagebus_t bus;

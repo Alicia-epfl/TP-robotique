@@ -99,7 +99,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 		mean_green /= (IMAGE_BUFFER_SIZE);
 		mean_blue /= (IMAGE_BUFFER_SIZE/2);
 
-		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red, mean_green, mean_blue);//valeurs RGB moyennes
+//		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red, mean_green, mean_blue);//valeurs RGB moyennes
 //		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, R_old=%3d\r\n", mean_red, mean_red_old);
 
 		/*Projet des contraintes qu'on veut poser par la suite mais on attend de faire fonctionner la camera avant de les décommenter*/
