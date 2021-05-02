@@ -79,7 +79,7 @@ uint8_t toggle = 0;
   }
 }
 /*Fin du thread de BODY LED*/
-/*Thread pour proximity*/
+/*Thread pour PROXIMITY*/
 static THD_WORKING_AREA(waProximity, 4096);
 static THD_FUNCTION(Proximity, arg) {
 
@@ -100,13 +100,13 @@ while (!chThdShouldTerminateX()) {
      	    	 	if(proxi_value>THRESHOLD)
      	    	 	{
      	    	 		prox_detected=true;
-     	    	 	}else{
-     	    	 		prox_detected = false;
      	    	 	}
      	     }
 
      	     if(prox_detected){
      	    	 	 set_led(LED7, ON);
+//     	    	 	left_motor_set_speed(0);
+//     	    	 	right_motor_set_speed(0);
      	     }else{
      	    	 	 set_led(LED7, OFF);
      	     }
@@ -116,7 +116,8 @@ while (!chThdShouldTerminateX()) {
      	     /*======================*/
 
      	    /* Delay of 250 milliseconds.*/
-     	    chThdSleepMilliseconds(500);
+//     	    chThdSleepMilliseconds(100);
+     	   prox_detected = false;
 
 	}
 }
@@ -179,6 +180,8 @@ int main(void)
     chSysInit();
     mpu_init();
 
+    //start bus
+    messagebus_init(&bus, &bus_lock, &bus_condvar);
     //starts the serial communication
     serial_start();
     //start the USB communication
@@ -188,6 +191,10 @@ int main(void)
     //starts the camera
     dcmi_start();
 	po8030_start();
+
+	/*Starts the IR sensors*/
+	proximity_start();
+	calibrate_ir();
 
 	//inits the motors
 	motors_init();
@@ -199,22 +206,16 @@ int main(void)
 	//start the melody
 //	playMelodyStart();
 
-	/*Starts the IR sensors*/
-		proximity_start();
-		calibrate_ir();
-
-
-
 
 
 	//Clignotement BODY LED --> appel du thread
 	 chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
+
+
 	 //Activer proximity --> appel du thread
 //	 proxi_start();
 	 //Activer proximity --> appel du thread
 	 	 chThdCreateStatic(waProximity, sizeof(waProximity), NORMALPRIO, Proximity, NULL);
-
-
 
 	 /*===============================================FROM TP5 AUDIO PROCESSING =============================================*/
 	     //send_tab is used to save the state of the buffer to send (double buffering)

@@ -46,7 +46,7 @@ static THD_FUNCTION(CaptureImage, arg) {
     }
 }
 
-static THD_WORKING_AREA(waProcessImage, 4096); //Je suis montée de 1024 à 4096 pour voir si ça réglait le problème
+static THD_WORKING_AREA(waProcessImage, 8192); //Je suis montée de 1024 à 4096 pour voir si ça réglait le problème
 static THD_FUNCTION(ProcessImage, arg) {
 
     chRegSetThreadName(__FUNCTION__);
@@ -57,6 +57,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 	uint16_t mean_red_filtered = 0, mean_blue_filtered=0, mean_green_filtered=0;
 	uint8_t red = 0, green=0, blue=0;
 	uint8_t red_image = 0, green_image=0, blue_image=0;
+	uint8_t j=0;
 
 
 
@@ -102,7 +103,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 //		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red, mean_green, mean_blue);//valeurs RGB moyennes
 //		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, R_old=%3d\r\n", mean_red, mean_red_old);
 
-		/*Projet des contraintes qu'on veut poser par la suite mais on attend de faire fonctionner la camera avant de les décommenter*/
+		/*Filtre passe-bas*/
 		mean_red_filtered = 0.5*mean_red+0.5*mean_red_filtered;
 		mean_green_filtered = 0.5*mean_green+0.5*mean_green_filtered;
 		mean_blue_filtered = 0.5*mean_blue+0.5*mean_blue_filtered;
@@ -113,21 +114,48 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 		if((mean_red_filtered > 1.5*mean_blue_filtered) && (mean_red_filtered > 1.5*mean_green_filtered)){// RED
 						set_led(LED1, ON);
+						red++;
 
 				}else{
 						set_led(LED1, OFF);
+						red=0;
 										}
-				if((mean_green_filtered > mean_blue_filtered) && (mean_green_filtered > 1.5*mean_red_filtered)){// GREEN
+				if((mean_green_filtered > mean_blue_filtered) && (mean_green_filtered > 1.5*mean_red_filtered)){// GREEN --> SUCESS
 						set_led(LED3, ON);
+						green++;
 		//				playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
 				}else{
 						set_led(LED3, OFF);
+						green=0;
 				}
 				if((mean_blue_filtered > 1.5*mean_red_filtered) && (mean_blue_filtered > mean_green_filtered)){//--> pas le green car il est très élevé pour le bleu
 						set_led(LED5, ON);
-		//				playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
+						blue++;
 				}else{
 						set_led(LED5, OFF);
+						blue = 0;
+				}
+//				chprintf((BaseSequentialStream *)&SDU1, "blue=%3d\r", blue);
+				//DROITE
+				if(blue>1){
+					//animation bleu vert la droite
+					while(j==100){
+						left_motor_set_speed(600);
+						right_motor_set_speed(-600);
+						set_rgb_led(LED6, 0, 34, 31);
+						set_rgb_led(LED2, 0, 34, 31);
+						set_rgb_led(LED4, 0, 34, 31);
+						set_rgb_led(LED8, 0, 34, 31);
+						j++;
+					}
+
+
+
+					left_motor_set_speed(600); //par la suite voir si on active pi plutôt que juste le faire run
+					right_motor_set_speed(600);
+
+					blue = 0;
+					j=0;
 				}
 
 //		if(red && !green && !blue){// RED
