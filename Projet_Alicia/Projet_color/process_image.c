@@ -6,6 +6,7 @@
 #include "main.h"
 #include <camera/po8030.h>
 #include <leds.h>
+#include <motors.h>
 
 #include <process_image.h>
 #include <audio/play_melody.h>
@@ -18,6 +19,7 @@
 
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
+static  color = true;
 
 //===================
 //=====THREADS======
@@ -46,6 +48,31 @@ static THD_FUNCTION(CaptureImage, arg) {
     }
 }
 
+/*Thread TOURNER A DROITE*/
+static THD_WORKING_AREA(waRight, 128);
+static THD_FUNCTION(Right, arg){
+	uint16_t j=0;
+	while(1){
+		if (!color){
+
+			left_motor_set_speed(600);
+			right_motor_set_speed(-600);
+			set_rgb_led(LED6, 0, 34, 31);
+			set_rgb_led(LED2, 0, 34, 31);
+			set_rgb_led(LED4, 0, 34, 31);
+			set_rgb_led(LED8, 0, 34, 31);
+
+			color = true;
+
+			chThdSleepMilliseconds(1500);
+			left_motor_set_speed(0);
+			right_motor_set_speed(0);
+
+		}
+		chThdSleepMilliseconds(500);
+	}
+}
+
 static THD_WORKING_AREA(waProcessImage, 8192); //Je suis montée de 1024 à 4096 pour voir si ça réglait le problème
 static THD_FUNCTION(ProcessImage, arg) {
 
@@ -57,7 +84,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 	uint16_t mean_red_filtered = 0, mean_blue_filtered=0, mean_green_filtered=0;
 	uint8_t red = 0, green=0, blue=0;
 	uint8_t red_image = 0, green_image=0, blue_image=0;
-	uint8_t j=0;
+
 
 
 
@@ -130,56 +157,44 @@ static THD_FUNCTION(ProcessImage, arg) {
 				}
 				if((mean_blue_filtered > 1.5*mean_red_filtered) && (mean_blue_filtered > mean_green_filtered)){//--> pas le green car il est très élevé pour le bleu
 						set_led(LED5, ON);
-						blue++;
+						color = false;
 				}else{
 						set_led(LED5, OFF);
 						blue = 0;
 				}
 //				chprintf((BaseSequentialStream *)&SDU1, "blue=%3d\r", blue);
 				//DROITE
-				if(blue>1){
-					//animation bleu vert la droite
-					while(j==100){
-						left_motor_set_speed(600);
-						right_motor_set_speed(-600);
-						set_rgb_led(LED6, 0, 34, 31);
-						set_rgb_led(LED2, 0, 34, 31);
-						set_rgb_led(LED4, 0, 34, 31);
-						set_rgb_led(LED8, 0, 34, 31);
-						j++;
-					}
+				if(blue>0){
+					//met en pause la capture d'image
+					color = false;
+					blue=0;
+					//appelle la fonction pour tourner
+//					blue_right();
 
-
-
-					left_motor_set_speed(600); //par la suite voir si on active pi plutôt que juste le faire run
-					right_motor_set_speed(600);
-
-					blue = 0;
-					j=0;
+//					thread_t *tp_right = chThdCreateStatic(waRight, sizeof(waRight),NORMALPRIO+1, Right, NULL);
+//					chThdSleepUntil(1500);
+//					chThdTerminate(tp_right);
 				}
-
-//		if(red && !green && !blue){// RED
-//				set_led(LED1, ON);
-//
-//		}else{
-//				set_led(LED1, OFF);
-//								}
-//		if(green && !red && !blue){// GREEN
-//				set_led(LED3, ON);
-////				playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
-//		}else{
-//				set_led(LED3, OFF);
-//		}
-//		if(blue && !red){//--> pas le green car il est très élevé pour le bleu
-//				set_led(LED5, ON);
-////				playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
-//		}else{
-//				set_led(LED5, OFF);
-//		}
     }
 }
+
 
 void process_image_start(void){
 	chThdCreateStatic(waProcessImage, sizeof(waProcessImage), NORMALPRIO, ProcessImage, NULL);
 	chThdCreateStatic(waCaptureImage, sizeof(waCaptureImage), NORMALPRIO, CaptureImage, NULL);
+	//lance le thread de tourner --> efficacité?
+	chThdCreateStatic(waRight, sizeof(waRight),NORMALPRIO+1, Right, NULL);
+}
+
+void blue_right(void){
+	left_motor_set_speed(600);
+	right_motor_set_speed(-600);
+	set_rgb_led(LED6, 0, 34, 31);
+	set_rgb_led(LED2, 0, 34, 31);
+	set_rgb_led(LED4, 0, 34, 31);
+	set_rgb_led(LED8, 0, 34, 31);
+	//laissse le temps de tourner
+	chThdSleepMilliseconds(1500);
+	//re-activer la capture d'image
+	color=true;
 }
