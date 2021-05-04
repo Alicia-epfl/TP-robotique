@@ -13,7 +13,18 @@
 
 #include <leds.h>
 
+#include <stdbool.h>
 
+
+
+static bool prox_detected = false;
+static bool prox_front = false;
+static bool prox_right_half = false; // Capteur de droite 45°
+static bool prox_right_full = false; // capteur de droite 90°
+static bool prox_left_half = false;  // capteur gauche 45°
+static bool prox_left_full = false;  // capteur gauche 90°
+static bool prox_back = false;
+static int simple_dodge = 0; // faire des defines associés. Sert a enregistrer que le robot a tourné à cause d'un obstacle et le faire retourner dans sa direction initiale dès que possible
 /*
  * THREADS
  */
@@ -25,14 +36,14 @@ static THD_FUNCTION(Proximity, arg) {
 	  (void)arg;
 
 /* Proximity detection variables*/
-	  bool prox_detected = false;
-	  bool prox_front = false;
-	  bool prox_right_half = false; // Capteur de droite 45°
-	  bool prox_right_full = false; // capteur de droite 90°
-	  bool prox_left_half = false;  // capteur gauche 45°
-	  bool prox_left_full = false;  // capteur gauche 90°
-	  bool prox_back = false;
-	  int simple_dodge = 0; // faire des defines associés. Sert a enregistrer que le robot a tourné à cause d'un obstacle et le faire retourner dans sa direction initiale dès que possible
+//	  bool prox_detected = false;
+//	  bool prox_front = false;
+//	  bool prox_right_half = false; // Capteur de droite 45°
+//	  bool prox_right_full = false; // capteur de droite 90°
+//	  bool prox_left_half = false;  // capteur gauche 45°
+//	  bool prox_left_full = false;  // capteur gauche 90°
+//	  bool prox_back = false;
+//	  int simple_dodge = 0; // faire des defines associés. Sert a enregistrer que le robot a tourné à cause d'un obstacle et le faire retourner dans sa direction initiale dès que possible
 	  int16_t temp = 0;  // je sais pas encore comment l'appeler/ si elle est vraiment utile. Sert à prendre la valeur absolue de la différence de valeurs entre les deux capteurs avant, afin de vérifier que les deux voient bien le meme obstacle
 	  int16_t proxi_value = 0;
 	  /*===========================*/
@@ -51,7 +62,7 @@ static THD_FUNCTION(Proximity, arg) {
 
 		if(prox_detected)
 		{
-				set_front_led(ON); // J'utilise body led pour vérifier que la detection fonctionne toujours au cas ou ce que je fais marche pas de son coté
+				set_front_led(ON); // J'utilise front led pour vérifier que la detection fonctionne toujours au cas ou ce que je fais marche pas de son coté
 		}
 		else
 		{
@@ -148,5 +159,36 @@ static THD_FUNCTION(Proximity, arg) {
 void proxi_start(void){
 	 //Activer proximity --> appel du thread
 	 chThdCreateStatic(waProximity, sizeof(waProximity), NORMALPRIO, Proximity, NULL);
+}
+
+
+int get_prox_front(void)
+{
+	return prox_front;
+}
+
+int get_prox_right_half(void)
+{
+	return prox_right_half;
+}
+
+int get_prox_right_full(void)
+{
+	return prox_right_full;
+}
+
+int get_prox_left_full(void)
+{
+	return prox_left_full;
+}
+
+intget_prox_left_half(void)
+{
+	return prox_left_half;
+}
+
+int get_prox_back(void)
+{
+	return prox_back;
 }
 

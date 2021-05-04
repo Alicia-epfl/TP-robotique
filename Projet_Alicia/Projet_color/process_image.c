@@ -141,26 +141,26 @@ static THD_FUNCTION(ProcessImage, arg) {
 		if(mean_blue_filtered > BLUE_VALUE){blue = true;}
 
 		if((mean_red_filtered > 1.5*mean_blue_filtered) && (mean_red_filtered > 1.5*mean_green_filtered)){// RED
-						set_led(LED1, ON);
+						//set_led(LED1, ON);
 						red++;
 
 				}else{
-						set_led(LED1, OFF);
+						//set_led(LED1, OFF);
 						red=0;
 										}
 				if((mean_green_filtered > mean_blue_filtered) && (mean_green_filtered > 1.5*mean_red_filtered)){// GREEN --> SUCESS
-						set_led(LED3, ON);
+						//set_led(LED3, ON);
 						green++;
 		//				playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
 				}else{
-						set_led(LED3, OFF);
+						//set_led(LED3, OFF);
 						green=0;
 				}
 				if((mean_blue_filtered > 1.5*mean_red_filtered) && (mean_blue_filtered > mean_green_filtered)){//--> pas le green car il est très élevé pour le bleu
-						set_led(LED5, ON);
+						//set_led(LED5, ON);
 						color = false;
 				}else{
-						set_led(LED5, OFF);
+						//set_led(LED5, OFF);
 						blue = 0;
 				}
 //				chprintf((BaseSequentialStream *)&SDU1, "blue=%3d\r", blue);

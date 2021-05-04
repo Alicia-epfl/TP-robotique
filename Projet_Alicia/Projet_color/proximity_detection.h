@@ -10,6 +10,18 @@
 
 void proxi_start(void);
 
+int get_prox_front(void);
+
+int get_prox_right_half(void);
+
+int get_prox_right(void);
+
+int get_prox_left(void);
+
+int get_prox_left_half(void);
+
+int get_prox_back(void);
+
 
 
 

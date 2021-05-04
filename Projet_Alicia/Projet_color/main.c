@@ -233,7 +233,7 @@ int main(void)
 
 
 	 //Activer proximity --> appel du thread
-//	 proxi_start();
+     proxi_start();
 	 //Activer proximity --> appel du thread
 
 
