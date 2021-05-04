@@ -78,70 +78,70 @@ static THD_FUNCTION(Proximity, arg) {
 		 * SI c'est tout cassé, c'est très certainement ici que ça se passe
 		 * */
 
-		if((get_prox(0)>THRESHOLD) || (get_prox(7)>THRESHOLD))
+		if((get_prox(0)>AXIS_THRESHOLD) || (get_prox(7)>AXIS_THRESHOLD))
 		{
 			prox_front = true;
-			set_led(LED7, ON);    // n'est pas destiné à rester là, tout les bool auront leur propre fonction get_bool_prox
+			set_led(LED1, ON);    // n'est pas destiné à rester là, tout les bool auront leur propre fonction get_bool_prox
 		}
 		else
 		{
-			set_led(LED7, OFF);
+			set_led(LED1, OFF);
 			prox_front = false;
 		}
 		if(get_prox(1)>THRESHOLD)
 		{
 			prox_right_half = true;
-			set_led(LED7, ON);
-			set_led(LED1, ON); // c'est peut etre plutot la led 5, je sais plus si elle sont dans le sens horaire ou antihoraire, tant que y'en a deux qui s'allume c'est que ça marche donc osef
+			set_led(LED1, ON);
+			set_led(LED3, ON); // c'est peut etre plutot la led 5, je sais plus si elle sont dans le sens horaire ou antihoraire, tant que y'en a deux qui s'allume c'est que ça marche donc osef
 		}
 		else
 		{
-			set_led(LED7, OFF);
 			set_led(LED1, OFF);
+			set_led(LED3, OFF);
 			prox_right_half = false;
 		}
-		if(get_prox(2)>THRESHOLD)
+		if(get_prox(2)>AXIS_THRESHOLD)
 		{
 			prox_right_full = true;
-			set_led(LED1, ON);
-		}
-		else
-		{
-			set_led(LED1, OFF);
-			prox_right_full = false;
-		}
-
-		if((get_prox(3)>THRESHOLD) || (get_prox(4)>THRESHOLD))
-		{
-			prox_back = true;
 			set_led(LED3, ON);
 		}
 		else
 		{
-			prox_back = false;
 			set_led(LED3, OFF);
+			prox_right_full = false;
+		}
+
+		if((get_prox(3)>AXIS_THRESHOLD) || (get_prox(4)>AXIS_THRESHOLD))
+		{
+			prox_back = true;
+			set_led(LED5, ON);
+		}
+		else
+		{
+			prox_back = false;
+			set_led(LED5, OFF);
 		}
 
 		if(get_prox(6)>THRESHOLD)
 		{
 			prox_left_half = true;
-			set_led(LED3, ON);
-			set_led(LED5, ON); // c'est peut etre plutot la led 5, je sais plus si elle sont dans le sens horaire ou antihoraire, tant que y'en a deux qui s'allume c'est que ça marche donc osef
+			set_led(LED5, ON);
+			set_led(LED7, ON); // c'est peut etre plutot la led 5, je sais plus si elle sont dans le sens horaire ou antihoraire, tant que y'en a deux qui s'allume c'est que ça marche donc osef
 		}
 		else
 		{
-			set_led(LED3, OFF);
 			set_led(LED5, OFF);
+			set_led(LED7, OFF);
 			prox_left_half = false;
 		}
-		if(get_prox(5)>THRESHOLD)
+		if(get_prox(5)>AXIS_THRESHOLD)
 		{
 			prox_left_full = true;
-			set_led(LED5, ON);
+			set_led(LED7, ON);
 		}
 		else
 		{
-			set_led(LED5, OFF);
+			set_led(LED7, OFF);
 			prox_left_full = false;
 		}
 

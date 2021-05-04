@@ -1926,14 +1926,14 @@ Disassembly of section .text:
  8001774:	f001 fbcc 	bl	8002f10 <set_front_led>
  8001778:	2000      	movs	r0, #0
  800177a:	f002 f999 	bl	8003ab0 <get_prox>
- 800177e:	2864      	cmp	r0, #100	; 0x64
+ 800177e:	2846      	cmp	r0, #70	; 0x46
  8001780:	dc05      	bgt.n	800178e <Proximity+0x6e>
  8001782:	2007      	movs	r0, #7
  8001784:	f002 f994 	bl	8003ab0 <get_prox>
- 8001788:	2864      	cmp	r0, #100	; 0x64
+ 8001788:	2846      	cmp	r0, #70	; 0x46
  800178a:	f340 8083 	ble.w	8001894 <Proximity+0x174>
  800178e:	2101      	movs	r1, #1
- 8001790:	2003      	movs	r0, #3
+ 8001790:	2000      	movs	r0, #0
  8001792:	f88b 4000 	strb.w	r4, [fp]
  8001796:	f001 fb2b 	bl	8002df0 <set_led>
  800179a:	2001      	movs	r0, #1
@@ -1941,52 +1941,52 @@ Disassembly of section .text:
  80017a0:	2864      	cmp	r0, #100	; 0x64
  80017a2:	dd6c      	ble.n	800187e <Proximity+0x15e>
  80017a4:	2101      	movs	r1, #1
- 80017a6:	2003      	movs	r0, #3
+ 80017a6:	2000      	movs	r0, #0
  80017a8:	f88a 4000 	strb.w	r4, [sl]
  80017ac:	f001 fb20 	bl	8002df0 <set_led>
  80017b0:	2101      	movs	r1, #1
- 80017b2:	2000      	movs	r0, #0
+ 80017b2:	4608      	mov	r0, r1
  80017b4:	f001 fb1c 	bl	8002df0 <set_led>
  80017b8:	2002      	movs	r0, #2
  80017ba:	f002 f979 	bl	8003ab0 <get_prox>
- 80017be:	2864      	cmp	r0, #100	; 0x64
+ 80017be:	2846      	cmp	r0, #70	; 0x46
  80017c0:	dd56      	ble.n	8001870 <Proximity+0x150>
  80017c2:	2101      	movs	r1, #1
- 80017c4:	2000      	movs	r0, #0
+ 80017c4:	4608      	mov	r0, r1
  80017c6:	f889 4000 	strb.w	r4, [r9]
  80017ca:	f001 fb11 	bl	8002df0 <set_led>
  80017ce:	2003      	movs	r0, #3
  80017d0:	f002 f96e 	bl	8003ab0 <get_prox>
- 80017d4:	2864      	cmp	r0, #100	; 0x64
+ 80017d4:	2846      	cmp	r0, #70	; 0x46
  80017d6:	dc04      	bgt.n	80017e2 <Proximity+0xc2>
  80017d8:	2004      	movs	r0, #4
  80017da:	f002 f969 	bl	8003ab0 <get_prox>
- 80017de:	2864      	cmp	r0, #100	; 0x64
+ 80017de:	2846      	cmp	r0, #70	; 0x46
  80017e0:	dd5f      	ble.n	80018a2 <Proximity+0x182>
- 80017e2:	2101      	movs	r1, #1
- 80017e4:	4b37      	ldr	r3, [pc, #220]	; (80018c4 <Proximity+0x1a4>)
- 80017e6:	4608      	mov	r0, r1
+ 80017e2:	4b38      	ldr	r3, [pc, #224]	; (80018c4 <Proximity+0x1a4>)
+ 80017e4:	2101      	movs	r1, #1
+ 80017e6:	2002      	movs	r0, #2
  80017e8:	701c      	strb	r4, [r3, #0]
  80017ea:	f001 fb01 	bl	8002df0 <set_led>
  80017ee:	2006      	movs	r0, #6
  80017f0:	f002 f95e 	bl	8003ab0 <get_prox>
  80017f4:	2864      	cmp	r0, #100	; 0x64
  80017f6:	dd2d      	ble.n	8001854 <Proximity+0x134>
- 80017f8:	2101      	movs	r1, #1
- 80017fa:	4b33      	ldr	r3, [pc, #204]	; (80018c8 <Proximity+0x1a8>)
- 80017fc:	4608      	mov	r0, r1
+ 80017f8:	4b33      	ldr	r3, [pc, #204]	; (80018c8 <Proximity+0x1a8>)
+ 80017fa:	2101      	movs	r1, #1
+ 80017fc:	2002      	movs	r0, #2
  80017fe:	701c      	strb	r4, [r3, #0]
  8001800:	f001 faf6 	bl	8002df0 <set_led>
  8001804:	2101      	movs	r1, #1
- 8001806:	2002      	movs	r0, #2
+ 8001806:	2003      	movs	r0, #3
  8001808:	f001 faf2 	bl	8002df0 <set_led>
  800180c:	2005      	movs	r0, #5
  800180e:	f002 f94f 	bl	8003ab0 <get_prox>
- 8001812:	2864      	cmp	r0, #100	; 0x64
+ 8001812:	2846      	cmp	r0, #70	; 0x46
  8001814:	dd17      	ble.n	8001846 <Proximity+0x126>
  8001816:	4b2d      	ldr	r3, [pc, #180]	; (80018cc <Proximity+0x1ac>)
  8001818:	2101      	movs	r1, #1
- 800181a:	2002      	movs	r0, #2
+ 800181a:	2003      	movs	r0, #3
  800181c:	701c      	strb	r4, [r3, #0]
  800181e:	f001 fae7 	bl	8002df0 <set_led>
  8001822:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
@@ -2004,16 +2004,16 @@ Disassembly of section .text:
  8001840:	b003      	add	sp, #12
  8001842:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  8001846:	2100      	movs	r1, #0
- 8001848:	2002      	movs	r0, #2
+ 8001848:	2003      	movs	r0, #3
  800184a:	f001 fad1 	bl	8002df0 <set_led>
  800184e:	4b1f      	ldr	r3, [pc, #124]	; (80018cc <Proximity+0x1ac>)
  8001850:	701e      	strb	r6, [r3, #0]
  8001852:	e7e6      	b.n	8001822 <Proximity+0x102>
  8001854:	2100      	movs	r1, #0
- 8001856:	2001      	movs	r0, #1
+ 8001856:	2002      	movs	r0, #2
  8001858:	f001 faca 	bl	8002df0 <set_led>
  800185c:	2100      	movs	r1, #0
- 800185e:	2002      	movs	r0, #2
+ 800185e:	2003      	movs	r0, #3
  8001860:	f001 fac6 	bl	8002df0 <set_led>
  8001864:	4b18      	ldr	r3, [pc, #96]	; (80018c8 <Proximity+0x1a8>)
  8001866:	701e      	strb	r6, [r3, #0]
@@ -2021,26 +2021,26 @@ Disassembly of section .text:
  800186a:	f001 fb51 	bl	8002f10 <set_front_led>
  800186e:	e783      	b.n	8001778 <Proximity+0x58>
  8001870:	2100      	movs	r1, #0
- 8001872:	4608      	mov	r0, r1
+ 8001872:	2001      	movs	r0, #1
  8001874:	f001 fabc 	bl	8002df0 <set_led>
  8001878:	f889 6000 	strb.w	r6, [r9]
  800187c:	e7a7      	b.n	80017ce <Proximity+0xae>
  800187e:	2100      	movs	r1, #0
- 8001880:	2003      	movs	r0, #3
+ 8001880:	4608      	mov	r0, r1
  8001882:	f001 fab5 	bl	8002df0 <set_led>
  8001886:	2100      	movs	r1, #0
- 8001888:	4608      	mov	r0, r1
+ 8001888:	2001      	movs	r0, #1
  800188a:	f001 fab1 	bl	8002df0 <set_led>
  800188e:	f88a 6000 	strb.w	r6, [sl]
  8001892:	e791      	b.n	80017b8 <Proximity+0x98>
  8001894:	2100      	movs	r1, #0
- 8001896:	2003      	movs	r0, #3
+ 8001896:	4608      	mov	r0, r1
  8001898:	f001 faaa 	bl	8002df0 <set_led>
  800189c:	f88b 6000 	strb.w	r6, [fp]
  80018a0:	e77b      	b.n	800179a <Proximity+0x7a>
  80018a2:	4b08      	ldr	r3, [pc, #32]	; (80018c4 <Proximity+0x1a4>)
  80018a4:	2100      	movs	r1, #0
- 80018a6:	2001      	movs	r0, #1
+ 80018a6:	2002      	movs	r0, #2
  80018a8:	701e      	strb	r6, [r3, #0]
  80018aa:	f001 faa1 	bl	8002df0 <set_led>
  80018ae:	e79e      	b.n	80017ee <Proximity+0xce>

@@ -42,6 +42,7 @@ extern "C" {
 #define	BLUE_MAUVE				31
 //PROXIMITY
 #define	THRESHOLD				100//1000 s'actionne au touché
+#define AXIS_THRESHOLD			70
 
 /** Robot wide IPC bus. */
 extern messagebus_t bus;
