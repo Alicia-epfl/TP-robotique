@@ -12,6 +12,7 @@
 #include <arm_math.h>
 
 #include <pi_regulator.h>
+#include "process_image.h"
 
 //semaphore
 //static BSEMAPHORE_DECL(sendToComputer_sem, TRUE);// 								IL SERT A QUOI?
@@ -53,6 +54,7 @@ void sound_remote(float* data){
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
 	static uint8_t RUN = 0;
+	uint8_t right =0;
 
 	//search for the highest peak
 	for(uint16_t i = MIN_FREQ ; i <= MAX_FREQ ; i++){
@@ -95,15 +97,18 @@ void sound_remote(float* data){
 //		left_motor_set_speed(0);
 //		right_motor_set_speed(0);
 //	}
-	if(RUN){
-				//pi_regulator_start();
-				left_motor_set_speed(600);
-				right_motor_set_speed(600);
-			}else{
-				//pi_regulator_stop();//malheureusement je n'arrive pas encore cette fonction :'(
-				left_motor_set_speed(0);
-				right_motor_set_speed(0);
-			}
+	right=get_right();
+	if(right){
+		if(RUN){
+					//pi_regulator_start();
+					left_motor_set_speed(600);
+					right_motor_set_speed(600);
+				}else{
+					//pi_regulator_stop();//malheureusement je n'arrive pas encore cette fonction :'(
+					left_motor_set_speed(0);
+					right_motor_set_speed(0);
+				}
+	}
 
 }
 

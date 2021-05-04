@@ -19,7 +19,7 @@
 
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
-static  color = true;
+static  right = true;
 
 //===================
 //=====THREADS======
@@ -51,9 +51,8 @@ static THD_FUNCTION(CaptureImage, arg) {
 /*Thread TOURNER A DROITE*/
 static THD_WORKING_AREA(waRight, 128);
 static THD_FUNCTION(Right, arg){
-	uint16_t j=0;
 	while(1){
-		if (!color){
+		if (!right){
 
 			left_motor_set_speed(600);
 			right_motor_set_speed(-600);
@@ -63,7 +62,7 @@ static THD_FUNCTION(Right, arg){
 			set_rgb_led(LED8, 0, 34, 31);
 
 
-			color = true;
+			right = true;
 
 			chThdSleepMilliseconds(1500);
 			left_motor_set_speed(0);
@@ -151,7 +150,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 				if((mean_green_filtered > mean_blue_filtered) && (mean_green_filtered > 1.5*mean_red_filtered)){// GREEN --> SUCESS
 						set_led(LED3, ON);
 						green++;
-						playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
+//						playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
 		//				playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
 				}else{
 						set_led(LED3, OFF);
@@ -159,7 +158,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 				}
 				if((mean_blue_filtered > 1.5*mean_red_filtered) && (mean_blue_filtered > mean_green_filtered)){//--> pas le green car il est très élevé pour le bleu
 						set_led(LED5, ON);
-						color = false;
+						right = false;
 				}else{
 						set_led(LED5, OFF);
 						blue = 0;
@@ -168,15 +167,9 @@ static THD_FUNCTION(ProcessImage, arg) {
 				//DROITE
 				if(blue>0){
 					//met en pause la capture d'image
-					color = false;
+					right = false;
 					blue=0;
 
-					//appelle la fonction pour tourner
-//					blue_right();
-
-//					thread_t *tp_right = chThdCreateStatic(waRight, sizeof(waRight),NORMALPRIO+1, Right, NULL);
-//					chThdSleepUntil(1500);
-//					chThdTerminate(tp_right);
 				}
     }
 }
@@ -189,15 +182,8 @@ void process_image_start(void){
 	chThdCreateStatic(waRight, sizeof(waRight),NORMALPRIO+1, Right, NULL);
 }
 
-void blue_right(void){
-	left_motor_set_speed(600);
-	right_motor_set_speed(-600);
-	set_rgb_led(LED6, 0, 34, 31);
-	set_rgb_led(LED2, 0, 34, 31);
-	set_rgb_led(LED4, 0, 34, 31);
-	set_rgb_led(LED8, 0, 34, 31);
-	//laissse le temps de tourner
-	chThdSleepMilliseconds(1500);
-	//re-activer la capture d'image
-	color=true;
+//Si right = true --> normal
+//Si right = false --> tourne à droite, tout le monde s'arrête
+uint8_t get_right(void){
+	return right;
 }
