@@ -26,6 +26,7 @@
 #include <msgbus/messagebus.h>
 #include "proximity_detection.h"
 /*============================*/
+#include <audio/play_melody.h>
 
 
 //#include <audio/play_melody.h> //COMMENT DEMARRER UNE MELODIE???
@@ -199,6 +200,8 @@ int main(void)
     serial_start();
     //start the USB communication
     usb_start();
+    //pour la musique
+    dac_start();
     //enclenche la connection SPI pour pouvoir utiliser les LEDS RGB
     	spi_comm_start();
     //starts the camera
@@ -219,7 +222,7 @@ int main(void)
 	process_image_start();
 
 	//start the melody
-//	playMelodyStart();
+	playMelodyStart();
 
 
 
