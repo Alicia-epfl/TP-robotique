@@ -61,6 +61,7 @@ static THD_FUNCTION(Right, arg){
 			set_rgb_led(LED2, 0, 34, 31);
 			set_rgb_led(LED4, 0, 34, 31);
 			set_rgb_led(LED8, 0, 34, 31);
+			playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
 
 			color = true;
 
