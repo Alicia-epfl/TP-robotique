@@ -27,13 +27,14 @@ static THD_FUNCTION(Proximity, arg) {
 /* Proximity detection variables*/
 	  bool prox_detected = false;
 	  int16_t proxi_value = 0;
+	  uint8_t i=0;
 	  /*===========================*/
 
 while (!chThdShouldTerminateX()) {
-  	  for(int i=0; i<7; i++)
+  	  for(i=0; i<7; i++)
   	  	  {
      	   		proxi_value= get_prox(i);
-     	   		chprintf((BaseSequentialStream *)&SDU1, "green=%d \n", proxi_value);
+//     	   		chprintf((BaseSequentialStream *)&SDU1, "green=%d \n", proxi_value);
      	    	 	if(proxi_value>THRESHOLD)
      	    	 	{
      	    	 		prox_detected=true;
@@ -42,6 +43,8 @@ while (!chThdShouldTerminateX()) {
 
      	     if(prox_detected){
      	    	 	 set_led(LED7, ON);
+//     	    	 	left_motor_set_speed(0);
+//     	    	 	right_motor_set_speed(0);
      	     }else{
      	    	 	 set_led(LED7, OFF);
      	     }
@@ -51,9 +54,9 @@ while (!chThdShouldTerminateX()) {
      	     /*======================*/
 
      	    /* Delay of 250 milliseconds.*/
-     	    chThdSleepMilliseconds(500);
+//     	    chThdSleepMilliseconds(100);
+     	   prox_detected = false;
 
-     	  prox_detected = false;
 	}
 }
 /*Fin du thread Proximity*/

@@ -231,9 +231,8 @@ int main(void)
 
 
 	 //Activer proximity --> appel du thread
-//	 proxi_start();
-	 //Activer proximity --> appel du thread
-	 	 chThdCreateStatic(waProximity, sizeof(waProximity), NORMALPRIO, Proximity, NULL);
+	 proxi_start();
+
 //
 //	 /*===============================================FROM TP5 AUDIO PROCESSING =============================================*/
 //	     //send_tab is used to save the state of the buffer to send (double buffering)

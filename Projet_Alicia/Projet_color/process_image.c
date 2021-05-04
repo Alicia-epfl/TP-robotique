@@ -61,7 +61,7 @@ static THD_FUNCTION(Right, arg){
 			set_rgb_led(LED2, 0, 34, 31);
 			set_rgb_led(LED4, 0, 34, 31);
 			set_rgb_led(LED8, 0, 34, 31);
-			playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
+
 
 			color = true;
 
@@ -151,6 +151,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 				if((mean_green_filtered > mean_blue_filtered) && (mean_green_filtered > 1.5*mean_red_filtered)){// GREEN --> SUCESS
 						set_led(LED3, ON);
 						green++;
+						playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
 		//				playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
 				}else{
 						set_led(LED3, OFF);
@@ -169,6 +170,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 					//met en pause la capture d'image
 					color = false;
 					blue=0;
+
 					//appelle la fonction pour tourner
 //					blue_right();
 

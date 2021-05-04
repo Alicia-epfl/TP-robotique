@@ -15,7 +15,7 @@ CSRC += ./main.c \
 		./communications.c \
 		./fft.c \
 		./noise_detection.c \
-		#./proximity_detection.c\
+		./proximity_detection.c\
 
 #Header folders to include
 INCDIR += 
