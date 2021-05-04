@@ -23,6 +23,4 @@ int get_prox_left_half(void);
 int get_prox_back(void);
 
 
-
-
 #endif /* PROXIMITY_DETECTION_H_ */

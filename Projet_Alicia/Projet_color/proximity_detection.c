@@ -4,7 +4,6 @@
 #include "hal.h"
 #include <usbcfg.h>
 #include <chprintf.h>
-#include "sensors/proximity.h"
 #include <main.h>
 #include <proximity_detection.h>
 
@@ -88,11 +87,12 @@ static THD_FUNCTION(Proximity, arg) {
 			set_led(LED1, OFF);
 			prox_front = false;
 		}
+
 		if(get_prox(1)>THRESHOLD)
 		{
 			prox_right_half = true;
 			set_led(LED1, ON);
-			set_led(LED3, ON); // c'est peut etre plutot la led 5, je sais plus si elle sont dans le sens horaire ou antihoraire, tant que y'en a deux qui s'allume c'est que ça marche donc osef
+			set_led(LED3, ON);
 		}
 		else
 		{
@@ -100,6 +100,7 @@ static THD_FUNCTION(Proximity, arg) {
 			set_led(LED3, OFF);
 			prox_right_half = false;
 		}
+
 		if(get_prox(2)>AXIS_THRESHOLD)
 		{
 			prox_right_full = true;
@@ -182,7 +183,7 @@ int get_prox_left_full(void)
 	return prox_left_full;
 }
 
-intget_prox_left_half(void)
+int get_prox_left_half(void)
 {
 	return prox_left_half;
 }
