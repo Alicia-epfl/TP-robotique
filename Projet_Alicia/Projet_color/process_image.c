@@ -19,7 +19,11 @@
 
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
-static  right = true;
+static uint8_t  right = true;
+static uint8_t left=true;
+static uint8_t red_rgb=false;
+static uint8_t green_rgb=false;
+static uint8_t blue_rgb=false;
 
 //===================
 //=====THREADS======
@@ -35,7 +39,7 @@ static THD_FUNCTION(CaptureImage, arg) {
 	dcmi_enable_double_buffering();
 	dcmi_set_capture_mode(CAPTURE_ONE_SHOT);
 	dcmi_prepare();
-//	po8030_set_brightness(10);//TEST de gérer la brithness
+
 
     while(1){
         //starts a capture
@@ -53,26 +57,41 @@ static THD_WORKING_AREA(waRight, 128);
 static THD_FUNCTION(Right, arg){
 	while(1){
 		if (!right){
-
-			left_motor_set_speed(600);
 			right_motor_set_speed(-600);
-			set_rgb_led(LED6, 0, 34, 31);
-			set_rgb_led(LED2, 0, 34, 31);
-			set_rgb_led(LED4, 0, 34, 31);
-			set_rgb_led(LED8, 0, 34, 31);
+			left_motor_set_speed(600);
 
 
-			right = true;
 
-			chThdSleepMilliseconds(1500);
+			chThdSleepMilliseconds(550);
+			//on remet à 0 avant de laisser la décision au thread du son pour plus de précisions
 			left_motor_set_speed(0);
 			right_motor_set_speed(0);
+			right = true;
 
 		}
 		chThdSleepMilliseconds(500);
 	}
 }
+/*Thread TOURNER A GAUCHE*/
+static THD_WORKING_AREA(waLeft, 128);
+static THD_FUNCTION(Left, arg){
+	while(1){
+		if (!left){
+			right_motor_set_speed(600);
+			left_motor_set_speed(-600);
 
+
+
+			chThdSleepMilliseconds(550);
+			//on remet à 0 avant de laisser la décision au thread du son pour plus de précisions
+			left_motor_set_speed(0);
+			right_motor_set_speed(0);
+			left = true;
+
+		}
+		chThdSleepMilliseconds(500);
+	}
+}
 static THD_WORKING_AREA(waProcessImage, 8192); //Je suis montée de 1024 à 4096 pour voir si ça réglait le problème
 static THD_FUNCTION(ProcessImage, arg) {
 
@@ -103,7 +122,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 		mean_red = 0;
 		mean_blue=0;
 		mean_green=0;
-		red =0, green =0, blue =0;
+		red =0, green =0;
 
 //		uint32_t mean_red = 0, mean_blue=0, mean_green=0;
 
@@ -127,7 +146,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 		mean_green /= (IMAGE_BUFFER_SIZE);
 		mean_blue /= (IMAGE_BUFFER_SIZE/2);
 
-//		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red, mean_green, mean_blue);//valeurs RGB moyennes
+		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red, mean_green, mean_blue);//valeurs RGB moyennes
 //		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, R_old=%3d\r\n", mean_red, mean_red_old);
 
 		/*Filtre passe-bas*/
@@ -146,30 +165,47 @@ static THD_FUNCTION(ProcessImage, arg) {
 				}else{
 						set_led(LED1, OFF);
 						red=0;
-										}
+				/*GREEN*/					}
 				if((mean_green_filtered > mean_blue_filtered) && (mean_green_filtered > 1.5*mean_red_filtered)){// GREEN --> SUCESS
 						set_led(LED3, ON);
-						green++;
-//						playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
-		//				playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
+						playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
 				}else{
 						set_led(LED3, OFF);
-						green=0;
 				}
+				/*BLUE*/
 				if((mean_blue_filtered > 1.5*mean_red_filtered) && (mean_blue_filtered > mean_green_filtered)){//--> pas le green car il est très élevé pour le bleu
-						set_led(LED5, ON);
+//						set_led(LED5, ON);
+						/*Pour afficher ce qu'il voit comme couleur*/
+						red_rgb=0.8*mean_red_filtered;
+						/*Pour éclaircir un peu le bleu des LEDs*/
+						if(1.2*mean_green_filtered<63){
+							green_rgb=1.2*mean_green_filtered;
+						}else{
+							green_rgb=mean_green_filtered;
+						}
+						blue_rgb = mean_blue_filtered;
+
+						/*Lancer la rotation*/
 						right = false;
+
+						chThdSleepMilliseconds(500);
 				}else{
 						set_led(LED5, OFF);
-						blue = 0;
 				}
-//				chprintf((BaseSequentialStream *)&SDU1, "blue=%3d\r", blue);
-				//DROITE
-				if(blue>0){
-					//met en pause la capture d'image
-					right = false;
-					blue=0;
+				/*YELLOW*/
+				if((mean_red_filtered > 1.5*mean_blue_filtered) && (mean_green_filtered > mean_blue_filtered)){//YELLOW
+					set_led(LED5, ON);
+					/*Pour afficher ce qu'il voit comme couleur*/
+					red_rgb=mean_red_filtered;
+					green_rgb=mean_green_filtered;
+					blue_rgb = 0.5*mean_blue_filtered;
 
+					/*Lancer la rotation*/
+					left = false;
+
+					chThdSleepMilliseconds(500);
+				}else{
+					set_led(LED5, OFF);
 				}
     }
 }
@@ -180,10 +216,28 @@ void process_image_start(void){
 	chThdCreateStatic(waCaptureImage, sizeof(waCaptureImage), NORMALPRIO, CaptureImage, NULL);
 	//lance le thread de tourner --> efficacité?
 	chThdCreateStatic(waRight, sizeof(waRight),NORMALPRIO+1, Right, NULL);
+	chThdCreateStatic(waLeft, sizeof(waLeft),NORMALPRIO+1, Left, NULL);
 }
 
 //Si right = true --> normal
 //Si right = false --> tourne à droite, tout le monde s'arrête
 uint8_t get_right(void){
+
 	return right;
+}
+uint8_t get_left(void){
+
+	return left;
+}
+uint8_t get_red(void){
+
+	return red_rgb;
+}
+uint8_t get_green(void){
+
+	return green_rgb;
+}
+uint8_t get_blue(void){
+
+	return blue_rgb;
 }

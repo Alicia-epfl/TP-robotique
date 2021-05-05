@@ -29,7 +29,6 @@
 #include <audio/play_melody.h>
 
 
-//#include <audio/play_melody.h> //COMMENT DEMARRER UNE MELODIE???
 
 
 /*defines pour NOISE detection
@@ -42,7 +41,7 @@
 #define DOUBLE_BUFFERING
 /*end of defines pour noise detection*/
 
-/*BUS pour proximity?*/
+/*BUS pour proximity*/
 messagebus_t bus;
 MUTEX_DECL(bus_lock);
 CONDVAR_DECL(bus_condvar);
@@ -51,18 +50,31 @@ CONDVAR_DECL(bus_condvar);
  * THREADS
  */
 /*Thread pour le clignotement de BODY LED*/
-static THD_WORKING_AREA(waBlinker, 128);
+static THD_WORKING_AREA(waBlinker, 256);//128 mais 256 juste pour le printf
 static THD_FUNCTION(Blinker, arg) {
 
 	 chRegSetThreadName(__FUNCTION__);
 	  (void)arg;
-uint8_t toggle = 0, right=0;
+uint8_t toggle = 0, right=0, left=0;
+uint8_t red_rgb =0, green_rgb=0, blue_rgb=0;
 
   while (!chThdShouldTerminateX()) {
     /* Toggling LEDs while the main thread is busy   .*/
 //    set_body_led(TOGGLE);
 	  right = get_right();
-	  if(right){
+	  left=get_left();
+	  red_rgb=get_red();
+	  green_rgb=get_green();
+	  blue_rgb=get_blue();
+
+//	  chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", right);
+	  if((!right)||(!left)){
+		  set_rgb_led(LED6, red_rgb, green_rgb, blue_rgb);
+		  set_rgb_led(LED2, red_rgb, green_rgb, blue_rgb);
+		  set_rgb_led(LED4, red_rgb, green_rgb, blue_rgb);
+		  set_rgb_led(LED8, red_rgb, green_rgb, blue_rgb);
+
+	  }else{
 		if(toggle){
 			set_rgb_led(LED6, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
 			set_rgb_led(LED2, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
@@ -236,7 +248,7 @@ int main(void)
 	 //Activer proximity --> appel du thread
 	 proxi_start();
 
-//
+
 	 /*===============================================FROM TP5 AUDIO PROCESSING =============================================*/
 	     //send_tab is used to save the state of the buffer to send (double buffering)
 	     //to avoid modifications of the buffer while sending it
@@ -290,7 +302,6 @@ int main(void)
     /* Infinite loop. */
     while (1) {
     	//waits 1 second
-//    	playMelody(WE_ARE_THE_CHAMPIONS, ML_SIMPLE_PLAY, NULL);
     	chThdSleepMilliseconds(1000);
     }
 }

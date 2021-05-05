@@ -54,7 +54,7 @@ void sound_remote(float* data){
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
 	static uint8_t RUN = 0;
-	uint8_t right =0;
+	uint8_t right =0, left=0;
 
 	//search for the highest peak
 	for(uint16_t i = MIN_FREQ ; i <= MAX_FREQ ; i++){
@@ -98,7 +98,8 @@ void sound_remote(float* data){
 //		right_motor_set_speed(0);
 //	}
 	right=get_right();
-	if(right){
+	left=get_left();
+	if(right&&left){
 		if(RUN){
 					//pi_regulator_start();
 					left_motor_set_speed(600);
