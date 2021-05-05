@@ -27,12 +27,80 @@ static bool prox_left_half = false;  // capteur gauche 45°
 static bool prox_left_full = false;  // capteur gauche 90°
 static bool prox_back = false;
 
-static int turn = 0;
+static int turn = false;
+static uint8_t right=true;
+static uint8_t left=true;
+static uint8_t back = true;
 
 //static int simple_dodge = 0; // faire des defines associés. Sert a enregistrer que le robot a tourné à cause d'un obstacle et le faire retourner dans sa direction initiale dès que possible
 /*
  * THREADS
  */
+
+
+
+/*Thread TOURNER A DROITE*/
+static THD_WORKING_AREA(waProRight, 128);
+static THD_FUNCTION(ProRight, arg){
+	while(1){
+		if (!right){
+			right_motor_set_speed(-600);
+			left_motor_set_speed(600);
+
+
+
+			chThdSleepMilliseconds(550);
+			//on remet à 0 avant de laisser la décision au thread du son pour plus de précisions
+			left_motor_set_speed(600);
+			right_motor_set_speed(600);
+			right = true;
+
+		}
+		chThdSleepMilliseconds(500);
+	}
+}
+/*Thread TOURNER A GAUCHE*/
+static THD_WORKING_AREA(waProLeft, 128);
+static THD_FUNCTION(ProLeft, arg){
+	while(1){
+		if (!left){
+			right_motor_set_speed(600);
+			left_motor_set_speed(-600);
+
+
+
+			chThdSleepMilliseconds(550);
+			//on remet à 0 avant de laisser la décision au thread du son pour plus de précisions
+			left_motor_set_speed(600);
+			right_motor_set_speed(600);
+			left = true;
+
+		}
+		chThdSleepMilliseconds(500);
+	}
+}
+
+/*Thread TOURNER A DEMI-TOUR*/
+static THD_WORKING_AREA(waProBack, 128);
+static THD_FUNCTION(ProBack, arg){
+	while(1){
+		if (!right){
+			right_motor_set_speed(-600);
+			left_motor_set_speed(600);
+
+
+
+			chThdSleepMilliseconds(1100);
+			//on remet à 0 avant de laisser la décision au thread du son pour plus de précisions
+			left_motor_set_speed(600);
+			right_motor_set_speed(600);
+			back = true;
+
+		}
+		chThdSleepMilliseconds(500);
+	}
+}
+
 /*Thread pour proximity*/
 static THD_WORKING_AREA(waProximity, 4096);
 static THD_FUNCTION(Proximity, arg) {
@@ -55,24 +123,25 @@ static THD_FUNCTION(Proximity, arg) {
 
 	while (!chThdShouldTerminateX())
 	{
-		for(int i=0; i<7; i++)
-		{
-			proxi_value= get_prox(i);
-			//chprintf((BaseSequentialStream *)&SDU1, "green=%d \n", proxi_value);
-			if(proxi_value>THRESHOLD)
-			{
-				prox_detected=true;
-			}
-		}
-
-		if(prox_detected)
-		{
-				set_front_led(ON); // J'utilise front led pour vérifier que la detection fonctionne toujours au cas ou ce que je fais marche pas de son coté
-		}
-		else
-		{
-				set_front_led(OFF);
-		}
+		/*Ancienne fonction, plus forcément besoin*/
+//		for(int i=0; i<7; i++)
+//		{
+//			proxi_value= get_prox(i);
+//			//chprintf((BaseSequentialStream *)&SDU1, "green=%d \n", proxi_value);
+//			if(proxi_value>THRESHOLD)
+//			{
+//				prox_detected=true;
+//			}
+//		}
+//
+//		if(prox_detected)
+//		{
+//				set_front_led(ON); // J'utilise front led pour vérifier que la detection fonctionne toujours au cas ou ce que je fais marche pas de son coté
+//		}
+//		else
+//		{
+//				set_front_led(OFF);
+//		}
 
 		   //temp: Need to see if turns off when nothing is close, later, each sensor will likely have their own boolean and a case/switch
 			 //to toggle different leds or different actions such as obstacle avoidance
@@ -185,8 +254,9 @@ static THD_FUNCTION(Proximity, arg) {
 					}
 					else // la voie est libre derrière le robot, il se retourne pour progresser dans le parcours
 					{
-						right_motor_set_speed(-100); //le robot se retourne pour trouver une sortie
-						left_motor_set_speed(100);   // tourne de 180° vers la droite == 2 virages à droite pour l'instant
+//						right_motor_set_speed(-100); //le robot se retourne pour trouver une sortie
+//						left_motor_set_speed(100);   // tourne de 180° vers la droite == 2 virages à droite pour l'instant
+						back = false;
 
 						// manque la gestion du demi tour parfait
 
@@ -198,8 +268,9 @@ static THD_FUNCTION(Proximity, arg) {
 				}
 				else //voie est libre à gauche, pas besoin de vérifier derrière, tourne à gauche
 				{
-					right_motor_set_speed(100);
-					left_motor_set_speed(-100);
+//					right_motor_set_speed(100);
+//					left_motor_set_speed(-100);
+					left=false;
 					//ajouter gestion durée quart de tour
 //					right_motor_set_speed(100);
 //					left_motor_set_speed(100);
@@ -211,8 +282,9 @@ static THD_FUNCTION(Proximity, arg) {
 				if(get_prox(5)<AXIS_THRESHOLD) // si y'a pas d'obstacle à gauche, tourner à gauche
 					// peut être finalement se mettre à utiliser mes ptits booleens, appeler une fonction à chaque fois ça pèse un peu plus lourd qu'appeler un booleen non ?
 				{
-					right_motor_set_speed(100);
-					left_motor_set_speed(-100);
+//					right_motor_set_speed(100);
+//					left_motor_set_speed(-100);
+					left=false;
 					//ajouter gestion durée quart de tour
 					//right_motor_set_speed(100);
 					//left_motor_set_speed(100);
@@ -221,8 +293,9 @@ static THD_FUNCTION(Proximity, arg) {
 			}
 			else
 			{
-				right_motor_set_speed(-100);
-				left_motor_set_speed(100);
+//				right_motor_set_speed(-100);
+//				left_motor_set_speed(100);
+				right=false;
 				//ajouter gestion durée quart de tour
 				//right_motor_set_speed(100);
 				//left_motor_set_speed(100);
@@ -236,8 +309,9 @@ static THD_FUNCTION(Proximity, arg) {
 		{
 			if(turn > 0) // s'il y a des virages a droite à compenser
 			{
-				right_motor_set_speed(100);
-				left_motor_set_speed(-100);
+//				right_motor_set_speed(100);
+//				left_motor_set_speed(-100);
+				right=false;
 				//ajouter gestion durée quart de tour
 				//right_motor_set_speed(100);
 				//left_motor_set_speed(100);
@@ -245,8 +319,9 @@ static THD_FUNCTION(Proximity, arg) {
 			}
 			else if(turn < 0) // s'il y a des virages à gauche à compenser
 			{
-				right_motor_set_speed(-100);
-				left_motor_set_speed(100);
+//				right_motor_set_speed(-100);
+//				left_motor_set_speed(100);
+				left=false;
 				//ajouter gestion durée quart de tour
 				//right_motor_set_speed(100);
 				//left_motor_set_speed(100);
@@ -275,6 +350,9 @@ static THD_FUNCTION(Proximity, arg) {
 void proxi_start(void){
 	 //Activer proximity --> appel du thread
 	 chThdCreateStatic(waProximity, sizeof(waProximity), NORMALPRIO, Proximity, NULL);
+	  chThdCreateStatic(waProRight, sizeof(waProRight),NORMALPRIO+1, ProRight, NULL);
+	  chThdCreateStatic(waProLeft, sizeof(waProLeft),NORMALPRIO+1, ProLeft, NULL);
+	  chThdCreateStatic(waProBack, sizeof(waProBack),NORMALPRIO+1, ProBack, NULL);
 }
 
 

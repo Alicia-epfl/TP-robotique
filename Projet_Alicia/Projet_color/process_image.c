@@ -186,16 +186,3 @@ void process_image_start(void){
 	//lance le thread de tourner --> efficacité?
 	chThdCreateStatic(waRight, sizeof(waRight),NORMALPRIO+1, Right, NULL);
 }
-
-void blue_right(void){
-	left_motor_set_speed(600);
-	right_motor_set_speed(-600);
-	set_rgb_led(LED6, 0, 34, 31);
-	set_rgb_led(LED2, 0, 34, 31);
-	set_rgb_led(LED4, 0, 34, 31);
-	set_rgb_led(LED8, 0, 34, 31);
-	//laissse le temps de tourner
-	chThdSleepMilliseconds(1500);
-	//re-activer la capture d'image
-	color=true;
-}
