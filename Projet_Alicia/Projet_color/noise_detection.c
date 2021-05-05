@@ -27,7 +27,7 @@ static float micRight_output[FFT_SIZE];
 static float micFront_output[FFT_SIZE];
 static float micBack_output[FFT_SIZE];
 
-#define MIN_VALUE_THRESHOLD	10000
+#define MIN_VALUE_THRESHOLD	30000 //je l'ai montée de 10000 à 30000 pour augmenter l'intensité minimum en entrée
 
 #define MIN_FREQ		10	//we don't analyze before this index to not use resources for nothing
 #define FREQ_FORWARD		16	//250Hz
@@ -35,6 +35,9 @@ static float micBack_output[FFT_SIZE];
 #define FREQ_RIGHT		23	//359HZ
 #define FREQ_BACKWARD	26	//406Hz
 #define MAX_FREQ		30	//we don't analyze after this index to not use resources for nothing
+
+#define MIN_RUN_FREQ 64 //1KHz
+#define MAX_RUN_FREQ 160 //2.5KHz
 
 #define FREQ_FORWARD_L		(FREQ_FORWARD-1)
 #define FREQ_FORWARD_H		(FREQ_FORWARD+1)
@@ -55,7 +58,7 @@ void sound_remote(float* data){
 	static uint8_t RUN = 0;
 
 	//search for the highest peak
-	for(uint16_t i = MIN_FREQ ; i <= MAX_FREQ ; i++){
+	for(uint16_t i = MIN_RUN_FREQ ; i <= MAX_RUN_FREQ ; i++){ // c'est un peu gourmand en terme de ressources vu que j'analyse 1,5KHz entre mes deux indices oups
 		if(data[i] > max_norm){
 			max_norm = data[i];
 			max_norm_index = i;
@@ -64,7 +67,7 @@ void sound_remote(float* data){
 
 	//go forward --> du coup nous on veut plutôt un toggle à chaque fois qu'il entend la fréquence right? En mode on a un static RUN qu'on met à 1 ou 0
 	// et en fonction de sa valeur on dit go forward ou stop right? Et le gauche et droite de ici on l'utilise dans les couleurs
-	if(max_norm_index >= FREQ_FORWARD_L && max_norm_index <= FREQ_FORWARD_H){
+	if(max_norm_index >= MIN_RUN_FREQ && max_norm_index <= MAX_RUN_FREQ){  //j'ai échangé FREQ_FORWARD_L et FREQ_FORWARD_H par MIN_RUN_FREQ et MAX_RUN_FREQ
 //		left_motor_set_speed(600);
 //		right_motor_set_speed(600);
 
@@ -72,8 +75,8 @@ void sound_remote(float* data){
 		if(RUN){
 			RUN = false;
 		}else{
-//			RUN = true;
-			RUN = false;
+			RUN = true;
+			//RUN = false;
 		}
 	}
 //	//turn left
