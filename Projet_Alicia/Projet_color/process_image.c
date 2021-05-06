@@ -38,29 +38,25 @@ static uint8_t blue_rgb=false;
 //=====THREADS======
 
 /*Thread CHECKER LA CAMERA*/
-static THD_WORKING_AREA(waRecord, 1024);//tentative de 256 à 1024
+static THD_WORKING_AREA(waRecord, 2046);//tentative de 256 à 1024
 static THD_FUNCTION(Record, arg){
-	uint16_t measure=0, mes=0;
+	uint16_t measure=0;
 
 
 
 	while(1){
 
-		mes = VL53L0X_get_dist_mm();
-		chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", mes);
-//		if(get_prox(0)<get_prox(1)){
-//			measure=get_prox(0);
-//		}else{
-//			measure=get_prox(1);
-//		}
-//		if (measure>10){
+		measure = VL53L0X_get_dist_mm();
+		chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", measure);
+
+		if (measure<130){
+			record = true;
+			set_front_led(ON);
+		}else{
+			record = false;
 //			record = true;
-//			set_front_led(ON);
-//		}else{
-//			record = false;
-////			record = true;
-//			set_front_led(OFF);
-//		}
+			set_front_led(OFF);
+		}
 		chThdSleepMilliseconds(500);
 	}
 }
