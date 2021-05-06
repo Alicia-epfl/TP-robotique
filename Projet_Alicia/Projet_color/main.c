@@ -41,7 +41,7 @@
  * ==================================================================
  * Visiblement il faut garder DOUBLE_BUFFERING quand même? --> Je comprends pas pourquoi, askip on a vu en TP*/
 #define SEND_FROM_MIC
-#define DOUBLE_BUFFERING
+//#define DOUBLE_BUFFERING
 /*end of defines pour noise detection*/
 
 /*BUS pour proximity*/
@@ -257,6 +257,7 @@ int main(void)
 	 /*===============================================FROM TP5 AUDIO PROCESSING =============================================*/
 	     //send_tab is used to save the state of the buffer to send (double buffering)
 	     //to avoid modifications of the buffer while sending it
+	 //La partie grise peut être effacée avant de rendre le projet
 	     static float send_tab[FFT_SIZE];
 
 

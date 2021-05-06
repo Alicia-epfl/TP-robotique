@@ -74,8 +74,8 @@ void sound_remote(float* data){
 		if(RUN){
 			RUN = false;
 		}else{
-//			RUN = true;
-			RUN = false;
+			RUN = true;
+//			RUN = false;
 		}
 	}
 //	//turn left
