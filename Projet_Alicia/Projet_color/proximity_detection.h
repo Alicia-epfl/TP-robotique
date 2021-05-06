@@ -8,6 +8,8 @@
 #ifndef PROXIMITY_DETECTION_H_
 #define PROXIMITY_DETECTION_H_
 
+#define MOTOR_SPEED_LIMIT 600 // steps/s
+
 void proxi_start(void);
 
 int get_prox_front(void);
