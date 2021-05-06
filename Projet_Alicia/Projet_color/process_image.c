@@ -48,19 +48,19 @@ static THD_FUNCTION(Record, arg){
 
 		mes = VL53L0X_get_dist_mm();
 		chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", mes);
-		if(get_prox(0)<get_prox(1)){
-			measure=get_prox(0);
-		}else{
-			measure=get_prox(1);
-		}
-		if (measure>10){
-			record = true;
-			set_front_led(ON);
-		}else{
-			record = false;
+//		if(get_prox(0)<get_prox(1)){
+//			measure=get_prox(0);
+//		}else{
+//			measure=get_prox(1);
+//		}
+//		if (measure>10){
 //			record = true;
-			set_front_led(OFF);
-		}
+//			set_front_led(ON);
+//		}else{
+//			record = false;
+////			record = true;
+//			set_front_led(OFF);
+//		}
 		chThdSleepMilliseconds(500);
 	}
 }

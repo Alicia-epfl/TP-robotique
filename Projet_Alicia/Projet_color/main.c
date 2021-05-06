@@ -225,8 +225,7 @@ int main(void)
     //starts the camera
     dcmi_start();
 	po8030_start();
-	/*pour utiliser time of Flight*/
-//	i2c_start();
+
 
 	/*Starts the IR sensors*/
 	proximity_start();
@@ -245,7 +244,7 @@ int main(void)
 	playMelodyStart();
 
 	//start VL53L0X
-	VL53L0X_start;
+	VL53L0X_start();
 
 	//Clignotement BODY LED --> appel du thread
 	 chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
