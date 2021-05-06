@@ -225,10 +225,10 @@ static THD_FUNCTION(Proximity, arg) {
 
 		/*Fin de si c'est tout cassé*/
 
-		leftSpeed = MOTOR_SPEED_LIMIT - get_prox(0)*2 - get_prox(1);
-		rightSpeed = MOTOR_SPEED_LIMIT - get_prox(7)*2 - get_prox(6);
-		right_motor_set_speed(rightSpeed);
-		left_motor_set_speed(leftSpeed);
+		leftspeed = MOTOR_SPEED_LIMIT - get_prox(0)*2 - get_prox(1);
+		rightspeed = MOTOR_SPEED_LIMIT - get_prox(7)*2 - get_prox(6);
+		right_motor_set_speed(rightspeed);
+		left_motor_set_speed(leftspeed);
 
 		/*SI c'est tout cassé le retour*/
 //		if((get_prox(0)>AXIS_THRESHOLD) || (get_prox(7)>AXIS_THRESHOLD) /* || blue*/)
