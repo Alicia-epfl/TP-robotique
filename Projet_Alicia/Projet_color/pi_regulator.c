@@ -11,6 +11,8 @@
 #include <process_image.h>
 #include "noise_detection.h"
 
+#include "sensors/VL53L0X/VL53L0X.h"
+
 //simple PI regulator implementation
 int16_t pi_regulator(float distance, float goal){
 
@@ -24,7 +26,7 @@ int16_t pi_regulator(float distance, float goal){
 	//disables the PI regulator if the error is to small
 	//this avoids to always move as we cannot exactly be where we want and 
 	//the camera is a bit noisy
-	if(fabs(error) < ERROR_THRESHOLD){
+	if(error < ERROR_THRESHOLD){
 		return 0;
 	}
 
@@ -33,16 +35,19 @@ int16_t pi_regulator(float distance, float goal){
 	//we set a maximum and a minimum for the sum to avoid an uncontrolled growth
 	if(sum_error > MAX_SUM_ERROR){
 		sum_error = MAX_SUM_ERROR;
-	}else if(sum_error < -MAX_SUM_ERROR){
-		sum_error = -MAX_SUM_ERROR;
+	}else if(sum_error < 0){
+		sum_error = 0;
 	}
 
 	speed = KP * error + KI * sum_error;
 
+if(speed <0){
+	return (int16_t)0;
+}else{
     return (int16_t)speed;
 }
 
-static THD_WORKING_AREA(waPiRegulator,2046);//256 pas suffisant
+static THD_WORKING_AREA(waPiRegulator,8192);//256 pas suffisant, 2048 non plus
 static THD_FUNCTION(PiRegulator, arg) {
 
     chRegSetThreadName(__FUNCTION__);
@@ -56,7 +61,8 @@ static THD_FUNCTION(PiRegulator, arg) {
 
 
     while(1){
-    	 	run = get_run();
+//    	 	run = get_run();
+    	run=true;
     	 	if(run){
 			measure	= VL53L0X_get_dist_mm();
 			//computes the speed to give to the motors

@@ -23,7 +23,7 @@ extern "C" {
 #define ROTATION_THRESHOLD		10//no need
 #define ROTATION_COEFF			2 //no need
 #define PXTOCM					1570.0f //experimental value
-#define GOAL_DISTANCE 			10.0f//probablement à mettre en dessous de la détection des capteurs IR
+#define GOAL_DISTANCE 			1//probablement à mettre en dessous de la détection des capteurs IR
 #define MAX_DISTANCE 			25.0f
 #define ERROR_THRESHOLD			0.1f	//[cm] because of the noise of the camera
 #define KP						800.0f
