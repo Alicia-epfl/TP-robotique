@@ -36,5 +36,8 @@ void wait_send_to_computer(void);
 */
 float* get_audio_buffer_ptr(BUFFER_NAME_t name);
 
+/*Fonction pour return si le robot doit avancer ou s'arrêter*/
+uint8_t get_run(void);
+
 #endif /* AUDIO_PROCESSING_H */
 

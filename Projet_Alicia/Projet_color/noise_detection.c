@@ -28,6 +28,8 @@ static float micRight_output[FFT_SIZE];
 static float micFront_output[FFT_SIZE];
 static float micBack_output[FFT_SIZE];
 
+static uint8_t run = 0;
+
 #define MIN_VALUE_THRESHOLD	10000
 
 #define MIN_FREQ		10	//we don't analyze before this index to not use resources for nothing
@@ -53,7 +55,6 @@ static float micBack_output[FFT_SIZE];
 void sound_remote(float* data){
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
-	static uint8_t RUN = 0;
 	uint8_t right =0, left=0;
 
 	//search for the highest peak
@@ -71,10 +72,10 @@ void sound_remote(float* data){
 //		right_motor_set_speed(600);
 
 		//Pour tester le GO and STOP, ça fonctionne avec le "mmmmmh" mais pas avec Go et Stop mdr
-		if(RUN){
-			RUN = false;
+		if(run){
+			run = false;
 		}else{
-			RUN = true;
+			run = true;
 //			RUN = false;
 		}
 	}
@@ -97,19 +98,23 @@ void sound_remote(float* data){
 //		left_motor_set_speed(0);
 //		right_motor_set_speed(0);
 //	}
-	right=get_right();
-	left=get_left();
-	if(right&&left){
-		if(RUN){
-					//pi_regulator_start();
-					left_motor_set_speed(600);
-					right_motor_set_speed(600);
-				}else{
-					//pi_regulator_stop();//malheureusement je n'arrive pas encore cette fonction :'(
-					left_motor_set_speed(0);
-					right_motor_set_speed(0);
-				}
-	}
+
+
+
+
+//	right=get_right();
+//	left=get_left();
+//	if(right&&left){
+//		if(RUN){
+//					//pi_regulator_start();
+//					left_motor_set_speed(600);
+//					right_motor_set_speed(600);
+//				}else{
+//					//pi_regulator_stop();//malheureusement je n'arrive pas encore cette fonction :'(
+//					left_motor_set_speed(0);
+//					right_motor_set_speed(0);
+//				}
+//	}
 
 }
 
@@ -228,4 +233,7 @@ float* get_audio_buffer_ptr(BUFFER_NAME_t name){
 	else{
 		return NULL;
 	}
+}
+uint8_t get_run(void){
+	return run;
 }

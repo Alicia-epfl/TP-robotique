@@ -45,9 +45,9 @@ static THD_FUNCTION(Record, arg){
 
 
 	while(1){
-
+/*L'idée ensuite c'est de faire une fonction qui récuoère les mesures dans pi et qui return 1 ou 0 directement pour ici!*/
 		measure = VL53L0X_get_dist_mm();
-		chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", measure);
+//		chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", measure);
 
 		if (measure<130){
 			record = true;
