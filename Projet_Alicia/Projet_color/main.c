@@ -27,6 +27,9 @@
 #include "proximity_detection.h"
 /*============================*/
 #include <audio/play_melody.h>
+/*============================*/
+#include "sensors/VL53L0X/VL53L0X.h"
+//#include <i2c_bus.h>
 
 
 
@@ -222,6 +225,8 @@ int main(void)
     //starts the camera
     dcmi_start();
 	po8030_start();
+	/*pour utiliser time of Flight*/
+//	i2c_start();
 
 	/*Starts the IR sensors*/
 	proximity_start();
@@ -239,7 +244,8 @@ int main(void)
 	//start the melody
 	playMelodyStart();
 
-
+	//start VL53L0X
+	VL53L0X_start;
 
 	//Clignotement BODY LED --> appel du thread
 	 chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
@@ -301,6 +307,10 @@ int main(void)
 
     /* Infinite loop. */
     while (1) {
+//    	uint16_t measure=0;
+//    	measure = VL53L0X_get_dist_mm();
+//    	chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", measure);
+
     	//waits 1 second
     	chThdSleepMilliseconds(1000);
     }
