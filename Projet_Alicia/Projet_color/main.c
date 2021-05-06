@@ -236,15 +236,19 @@ int main(void)
 
 	readyAnimation();
 
-	//stars the threads for the pi regulator and the processing of the image
-	pi_regulator_start();
-	process_image_start();
+	//start VL53L0X
+	VL53L0X_start();
 
 	//start the melody
 	playMelodyStart();
 
-	//start VL53L0X
-	VL53L0X_start();
+	//stars the threads for the pi regulator and the processing of the image
+	pi_regulator_start();
+	process_image_start();
+
+
+
+
 
 	//Clignotement BODY LED --> appel du thread
 	 chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
