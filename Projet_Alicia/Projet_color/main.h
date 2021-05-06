@@ -25,7 +25,7 @@ extern "C" {
 //#define PXTOCM					1570.0f //experimental value
 #define GOAL_DISTANCE 			20//probablement à mettre en dessous de la détection des capteurs IR
 #define MAX_DISTANCE 			25
-#define ERROR_THRESHOLD			2	//[cm] because of the noise of the camera
+#define ERROR_THRESHOLD			20	//[cm] because of the noise of the camera
 #define KP						3
 #define KI 						0.1	//must not be zero
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)

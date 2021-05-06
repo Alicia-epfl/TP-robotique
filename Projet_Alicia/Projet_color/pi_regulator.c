@@ -16,19 +16,19 @@
 static float sum_error = 0;
 
 //simple PI regulator implementation
-int16_t pi_regulator(uint16_t distance, uint16_t goal){
+int16_t pi_regulator(uint16_t distance){
 
 	float error = 0;
 	float speed = 0;
 
 
 
-	error = distance - goal;
+	error = distance - GOAL_DISTANCE;
 
 	//disables the PI regulator if the error is to small
 	//this avoids to always move as we cannot exactly be where we want and 
 	//the camera is a bit noisy
-	if(fabs(error) < ERROR_THRESHOLD){
+	if(error < ERROR_THRESHOLD){
 			return 0;
 	}
 
@@ -69,7 +69,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 			measure	= VL53L0X_get_dist_mm();
 			//computes the speed to give to the motors
 			//distance_cm is modified by the image processing thread
-			speed = pi_regulator(measure, GOAL_DISTANCE);
+			speed = pi_regulator(measure);
 //			if(speed<0){speed = 0;}
 
 

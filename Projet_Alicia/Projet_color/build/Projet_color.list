@@ -3055,72 +3055,71 @@ Disassembly of section .text:
  800242c:	00000000 	.word	0x00000000
 
 08002430 <pi_regulator>:
- 8002430:	1a41      	subs	r1, r0, r1
- 8002432:	b500      	push	{lr}
- 8002434:	ee07 1a90 	vmov	s15, r1
+ 8002430:	b500      	push	{lr}
+ 8002432:	3814      	subs	r0, #20
+ 8002434:	ee07 0a90 	vmov	s15, r0
  8002438:	eeb8 7ae7 	vcvt.f32.s32	s14, s15
- 800243c:	4b23      	ldr	r3, [pc, #140]	; (80024cc <pi_regulator+0x9c>)
- 800243e:	eef0 6ac7 	vabs.f32	s13, s14
- 8002442:	eef0 7a00 	vmov.f32	s15, #0	; 0x40000000  2.0
- 8002446:	b083      	sub	sp, #12
- 8002448:	eef4 6ae7 	vcmpe.f32	s13, s15
- 800244c:	681a      	ldr	r2, [r3, #0]
- 800244e:	9201      	str	r2, [sp, #4]
- 8002450:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 8002454:	d42f      	bmi.n	80024b6 <pi_regulator+0x86>
- 8002456:	4a1e      	ldr	r2, [pc, #120]	; (80024d0 <pi_regulator+0xa0>)
- 8002458:	eddf 6a1e 	vldr	s13, [pc, #120]	; 80024d4 <pi_regulator+0xa4>
- 800245c:	edd2 7a00 	vldr	s15, [r2]
- 8002460:	ee77 7a27 	vadd.f32	s15, s14, s15
- 8002464:	eeb6 6a00 	vmov.f32	s12, #96	; 0x3f000000  0.5
- 8002468:	ee67 7a86 	vmul.f32	s15, s15, s12
- 800246c:	eef4 7ae6 	vcmpe.f32	s15, s13
- 8002470:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 8002474:	dd13      	ble.n	800249e <pi_regulator+0x6e>
- 8002476:	eddf 7a18 	vldr	s15, [pc, #96]	; 80024d8 <pi_regulator+0xa8>
- 800247a:	edc2 6a00 	vstr	s13, [r2]
- 800247e:	eef0 6a08 	vmov.f32	s13, #8	; 0x40400000  3.0
- 8002482:	eee7 7a26 	vfma.f32	s15, s14, s13
- 8002486:	eefd 7ae7 	vcvt.s32.f32	s15, s15
- 800248a:	ee17 2a90 	vmov	r2, s15
- 800248e:	b210      	sxth	r0, r2
- 8002490:	9a01      	ldr	r2, [sp, #4]
- 8002492:	681b      	ldr	r3, [r3, #0]
- 8002494:	429a      	cmp	r2, r3
- 8002496:	d117      	bne.n	80024c8 <pi_regulator+0x98>
- 8002498:	b003      	add	sp, #12
- 800249a:	f85d fb04 	ldr.w	pc, [sp], #4
- 800249e:	eddf 6a0f 	vldr	s13, [pc, #60]	; 80024dc <pi_regulator+0xac>
- 80024a2:	eef4 7ae6 	vcmpe.f32	s15, s13
- 80024a6:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 80024aa:	d506      	bpl.n	80024ba <pi_regulator+0x8a>
- 80024ac:	eddf 7a0c 	vldr	s15, [pc, #48]	; 80024e0 <pi_regulator+0xb0>
- 80024b0:	edc2 6a00 	vstr	s13, [r2]
- 80024b4:	e7e3      	b.n	800247e <pi_regulator+0x4e>
- 80024b6:	2000      	movs	r0, #0
- 80024b8:	e7ea      	b.n	8002490 <pi_regulator+0x60>
- 80024ba:	eddf 6a0a 	vldr	s13, [pc, #40]	; 80024e4 <pi_regulator+0xb4>
- 80024be:	edc2 7a00 	vstr	s15, [r2]
- 80024c2:	ee67 7aa6 	vmul.f32	s15, s15, s13
- 80024c6:	e7da      	b.n	800247e <pi_regulator+0x4e>
- 80024c8:	f7ff ff9a 	bl	8002400 <__stack_chk_fail>
- 80024cc:	20000b00 	.word	0x20000b00
- 80024d0:	20001b18 	.word	0x20001b18
- 80024d4:	462be000 	.word	0x462be000
- 80024d8:	44898000 	.word	0x44898000
- 80024dc:	c62be000 	.word	0xc62be000
- 80024e0:	c4898000 	.word	0xc4898000
- 80024e4:	3dcccccd 	.word	0x3dcccccd
+ 800243c:	4b22      	ldr	r3, [pc, #136]	; (80024c8 <pi_regulator+0x98>)
+ 800243e:	eef0 7a00 	vmov.f32	s15, #0	; 0x40000000  2.0
+ 8002442:	b083      	sub	sp, #12
+ 8002444:	eeb4 7ae7 	vcmpe.f32	s14, s15
+ 8002448:	681a      	ldr	r2, [r3, #0]
+ 800244a:	9201      	str	r2, [sp, #4]
+ 800244c:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 8002450:	d42f      	bmi.n	80024b2 <pi_regulator+0x82>
+ 8002452:	4a1e      	ldr	r2, [pc, #120]	; (80024cc <pi_regulator+0x9c>)
+ 8002454:	eddf 6a1e 	vldr	s13, [pc, #120]	; 80024d0 <pi_regulator+0xa0>
+ 8002458:	edd2 7a00 	vldr	s15, [r2]
+ 800245c:	ee77 7a27 	vadd.f32	s15, s14, s15
+ 8002460:	eeb6 6a00 	vmov.f32	s12, #96	; 0x3f000000  0.5
+ 8002464:	ee67 7a86 	vmul.f32	s15, s15, s12
+ 8002468:	eef4 7ae6 	vcmpe.f32	s15, s13
+ 800246c:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 8002470:	dd13      	ble.n	800249a <pi_regulator+0x6a>
+ 8002472:	eddf 7a18 	vldr	s15, [pc, #96]	; 80024d4 <pi_regulator+0xa4>
+ 8002476:	edc2 6a00 	vstr	s13, [r2]
+ 800247a:	eef0 6a08 	vmov.f32	s13, #8	; 0x40400000  3.0
+ 800247e:	eee7 7a26 	vfma.f32	s15, s14, s13
+ 8002482:	eefd 7ae7 	vcvt.s32.f32	s15, s15
+ 8002486:	ee17 2a90 	vmov	r2, s15
+ 800248a:	b210      	sxth	r0, r2
+ 800248c:	9a01      	ldr	r2, [sp, #4]
+ 800248e:	681b      	ldr	r3, [r3, #0]
+ 8002490:	429a      	cmp	r2, r3
+ 8002492:	d117      	bne.n	80024c4 <pi_regulator+0x94>
+ 8002494:	b003      	add	sp, #12
+ 8002496:	f85d fb04 	ldr.w	pc, [sp], #4
+ 800249a:	eddf 6a0f 	vldr	s13, [pc, #60]	; 80024d8 <pi_regulator+0xa8>
+ 800249e:	eef4 7ae6 	vcmpe.f32	s15, s13
+ 80024a2:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 80024a6:	d506      	bpl.n	80024b6 <pi_regulator+0x86>
+ 80024a8:	eddf 7a0c 	vldr	s15, [pc, #48]	; 80024dc <pi_regulator+0xac>
+ 80024ac:	edc2 6a00 	vstr	s13, [r2]
+ 80024b0:	e7e3      	b.n	800247a <pi_regulator+0x4a>
+ 80024b2:	2000      	movs	r0, #0
+ 80024b4:	e7ea      	b.n	800248c <pi_regulator+0x5c>
+ 80024b6:	eddf 6a0a 	vldr	s13, [pc, #40]	; 80024e0 <pi_regulator+0xb0>
+ 80024ba:	edc2 7a00 	vstr	s15, [r2]
+ 80024be:	ee67 7aa6 	vmul.f32	s15, s15, s13
+ 80024c2:	e7da      	b.n	800247a <pi_regulator+0x4a>
+ 80024c4:	f7ff ff9c 	bl	8002400 <__stack_chk_fail>
+ 80024c8:	20000b00 	.word	0x20000b00
+ 80024cc:	20001b18 	.word	0x20001b18
+ 80024d0:	462be000 	.word	0x462be000
+ 80024d4:	44898000 	.word	0x44898000
+ 80024d8:	c62be000 	.word	0xc62be000
+ 80024dc:	c4898000 	.word	0xc4898000
+ 80024e0:	3dcccccd 	.word	0x3dcccccd
 	...
 
 080024f0 <PiRegulator>:
  80024f0:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
- 80024f4:	4c1e      	ldr	r4, [pc, #120]	; (8002570 <PiRegulator+0x80>)
- 80024f6:	4a1f      	ldr	r2, [pc, #124]	; (8002574 <PiRegulator+0x84>)
+ 80024f4:	4c1d      	ldr	r4, [pc, #116]	; (800256c <PiRegulator+0x7c>)
+ 80024f6:	4a1e      	ldr	r2, [pc, #120]	; (8002570 <PiRegulator+0x80>)
  80024f8:	69a3      	ldr	r3, [r4, #24]
  80024fa:	6811      	ldr	r1, [r2, #0]
- 80024fc:	f8df 807c 	ldr.w	r8, [pc, #124]	; 800257c <PiRegulator+0x8c>
- 8002500:	4a1d      	ldr	r2, [pc, #116]	; (8002578 <PiRegulator+0x88>)
+ 80024fc:	f8df 8078 	ldr.w	r8, [pc, #120]	; 8002578 <PiRegulator+0x88>
+ 8002500:	4a1c      	ldr	r2, [pc, #112]	; (8002574 <PiRegulator+0x84>)
  8002502:	619a      	str	r2, [r3, #24]
  8002504:	b082      	sub	sp, #8
  8002506:	2600      	movs	r6, #0
@@ -3145,24 +3144,23 @@ Disassembly of section .text:
  8002538:	f007 fab2 	bl	8009aa0 <chSysHalt>
  800253c:	f386 8811 	msr	BASEPRI, r6
  8002540:	f007 f94e 	bl	80097e0 <VL53L0X_get_dist_mm>
- 8002544:	2114      	movs	r1, #20
- 8002546:	f7ff ff73 	bl	8002430 <pi_regulator>
- 800254a:	f8ad 0002 	strh.w	r0, [sp, #2]
- 800254e:	f8bd 0002 	ldrh.w	r0, [sp, #2]
- 8002552:	b200      	sxth	r0, r0
- 8002554:	f003 f8ac 	bl	80056b0 <right_motor_set_speed>
- 8002558:	f8bd 0002 	ldrh.w	r0, [sp, #2]
- 800255c:	b200      	sxth	r0, r0
- 800255e:	f003 f88f 	bl	8005680 <left_motor_set_speed>
- 8002562:	f105 010a 	add.w	r1, r5, #10
- 8002566:	4628      	mov	r0, r5
- 8002568:	f008 f8b2 	bl	800a6d0 <chThdSleepUntilWindowed>
- 800256c:	e7d0      	b.n	8002510 <PiRegulator+0x20>
- 800256e:	bf00      	nop
- 8002570:	200170c8 	.word	0x200170c8
- 8002574:	20000b00 	.word	0x20000b00
- 8002578:	080185f0 	.word	0x080185f0
- 800257c:	08018600 	.word	0x08018600
+ 8002544:	f7ff ff74 	bl	8002430 <pi_regulator>
+ 8002548:	f8ad 0002 	strh.w	r0, [sp, #2]
+ 800254c:	f8bd 0002 	ldrh.w	r0, [sp, #2]
+ 8002550:	b200      	sxth	r0, r0
+ 8002552:	f003 f8ad 	bl	80056b0 <right_motor_set_speed>
+ 8002556:	f8bd 0002 	ldrh.w	r0, [sp, #2]
+ 800255a:	b200      	sxth	r0, r0
+ 800255c:	f003 f890 	bl	8005680 <left_motor_set_speed>
+ 8002560:	f105 010a 	add.w	r1, r5, #10
+ 8002564:	4628      	mov	r0, r5
+ 8002566:	f008 f8b3 	bl	800a6d0 <chThdSleepUntilWindowed>
+ 800256a:	e7d1      	b.n	8002510 <PiRegulator+0x20>
+ 800256c:	200170c8 	.word	0x200170c8
+ 8002570:	20000b00 	.word	0x20000b00
+ 8002574:	080185f0 	.word	0x080185f0
+ 8002578:	08018600 	.word	0x08018600
+ 800257c:	00000000 	.word	0x00000000
 
 08002580 <pi_regulator_start>:
  8002580:	b510      	push	{r4, lr}
@@ -37675,7 +37673,7 @@ Disassembly of section .text:
  80185d0:	63617453 6d73206b 69687361 6420676e     Stack smashing d
  80185e0:	63657465 00646574 00000000 00000000     etected.........
 
-080185f0 <__FUNCTION__.13398>:
+080185f0 <__FUNCTION__.13397>:
  80185f0:	65526950 616c7567 00726f74 00000000     PiRegulator.....
 
 08018600 <__func__.7153>:

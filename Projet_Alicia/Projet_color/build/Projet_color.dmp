@@ -56,21 +56,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  17 .comment      0000015e  00000000  00000000  000318c1  2**0
                   CONTENTS, READONLY
- 18 .debug_info   0012de16  00000000  00000000  00031a1f  2**0
+ 18 .debug_info   0012ddfd  00000000  00000000  00031a1f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .debug_abbrev 00013ff9  00000000  00000000  0015f835  2**0
+ 19 .debug_abbrev 00013ff9  00000000  00000000  0015f81c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 20 .debug_loc    00024a61  00000000  00000000  0017382e  2**0
+ 20 .debug_loc    00024a0e  00000000  00000000  00173815  2**0
                   CONTENTS, READONLY, DEBUGGING
- 21 .debug_aranges 000024f8  00000000  00000000  00198290  2**3
+ 21 .debug_aranges 000024f8  00000000  00000000  00198228  2**3
                   CONTENTS, READONLY, DEBUGGING
- 22 .debug_ranges 00004c50  00000000  00000000  0019a788  2**0
+ 22 .debug_ranges 00004c50  00000000  00000000  0019a720  2**0
                   CONTENTS, READONLY, DEBUGGING
- 23 .debug_line   000360ef  00000000  00000000  0019f3d8  2**0
+ 23 .debug_line   000360eb  00000000  00000000  0019f370  2**0
                   CONTENTS, READONLY, DEBUGGING
- 24 .debug_str    0000cdd8  00000000  00000000  001d54c7  2**0
+ 24 .debug_str    0000cdd3  00000000  00000000  001d545b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 25 .debug_frame  0000ad50  00000000  00000000  001e22a0  2**2
+ 25 .debug_frame  0000ad50  00000000  00000000  001e2230  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -136,10 +136,10 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 20000b20 l     O .data	0000000c ser_cfg.15627
 080185c0 l     O .text	00000008 __FUNCTION__.15597
 00000000 l    df *ABS*	00000000 pi_regulator.c
-080024f0 l     F .text	00000090 PiRegulator
+080024f0 l     F .text	0000008c PiRegulator
 20001b18 l     O .bss	00000004 sum_error
 20001b20 l     O .bss	00000578 waPiRegulator
-080185f0 l     O .text	0000000c __FUNCTION__.13398
+080185f0 l     O .text	0000000c __FUNCTION__.13397
 08018600 l     O .text	0000000c __func__.7153
 00000000 l    df *ABS*	00000000 process_image.c
 080025c0 l     F .text	00000038 Record
@@ -1238,7 +1238,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 20000400 g       .mstack	00000000 __main_stack_end__
 0800ee40 g     F .text	00000050 Vector78
 0800208c g     F .text	00000012 .hidden __aeabi_dcmpeq
-08002430 g     F .text	000000b8 pi_regulator
+08002430 g     F .text	000000b4 pi_regulator
 2000188c g       .data	00000000 _edata
 080116e0 g     F .text	00000278 i2c_lld_start
 08013dd0 g     F .text	000004ba arm_cfft_radix8by4_f32
