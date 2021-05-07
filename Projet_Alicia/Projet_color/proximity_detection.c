@@ -31,7 +31,7 @@ static int turn = false;
 static uint8_t right=true;
 static uint8_t left=true;
 static uint8_t back = true;
-static uint16_t rightspeed = 0, leftspeed = 0;
+static int16_t rightspeed = 0, leftspeed = 0;
 
 //static int simple_dodge = 0; // faire des defines associés. Sert a enregistrer que le robot a tourné à cause d'un obstacle et le faire retourner dans sa direction initiale dès que possible
 /*
