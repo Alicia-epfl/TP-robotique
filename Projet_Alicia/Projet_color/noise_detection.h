@@ -31,6 +31,8 @@ void processAudioData(int16_t *data, uint16_t num_samples);
 */
 void wait_send_to_computer(void);
 
+//void sound_start_stop(int16_t *data, uint16_t num_samples);
+
 /*
 *	Returns the pointer to the BUFFER_NAME_t buffer asked
 */

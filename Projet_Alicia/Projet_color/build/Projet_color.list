@@ -2000,7 +2000,7 @@ Disassembly of section .text:
  800185c:	b082      	sub	sp, #8
  800185e:	9201      	str	r2, [sp, #4]
  8001860:	075a      	lsls	r2, r3, #29
- 8001862:	d427      	bmi.n	80018b4 <Proximity+0x74>
+ 8001862:	d428      	bmi.n	80018b6 <Proximity+0x76>
  8001864:	4e1a      	ldr	r6, [pc, #104]	; (80018d0 <Proximity+0x90>)
  8001866:	f240 2526 	movw	r5, #550	; 0x226
  800186a:	2000      	movs	r0, #0
@@ -2018,24 +2018,23 @@ Disassembly of section .text:
  800188a:	f002 f8b1 	bl	80039f0 <get_prox>
  800188e:	1b2c      	subs	r4, r5, r4
  8001890:	ebc0 0044 	rsb	r0, r0, r4, lsl #1
- 8001894:	b280      	uxth	r0, r0
+ 8001894:	b200      	sxth	r0, r0
  8001896:	f001 fe33 	bl	8003500 <right_motor_set_speed>
- 800189a:	8830      	ldrh	r0, [r6, #0]
- 800189c:	f001 fe18 	bl	80034d0 <left_motor_set_speed>
- 80018a0:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
- 80018a4:	f003 f98c 	bl	8004bc0 <chThdSleep>
- 80018a8:	f8d8 3018 	ldr.w	r3, [r8, #24]
- 80018ac:	f893 3021 	ldrb.w	r3, [r3, #33]	; 0x21
- 80018b0:	075b      	lsls	r3, r3, #29
- 80018b2:	d5da      	bpl.n	800186a <Proximity+0x2a>
- 80018b4:	9a01      	ldr	r2, [sp, #4]
- 80018b6:	683b      	ldr	r3, [r7, #0]
- 80018b8:	429a      	cmp	r2, r3
- 80018ba:	d102      	bne.n	80018c2 <Proximity+0x82>
- 80018bc:	b002      	add	sp, #8
- 80018be:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
- 80018c2:	f7ff fda5 	bl	8001410 <__stack_chk_fail>
- 80018c6:	bf00      	nop
+ 800189a:	f9b6 0000 	ldrsh.w	r0, [r6]
+ 800189e:	f001 fe17 	bl	80034d0 <left_motor_set_speed>
+ 80018a2:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
+ 80018a6:	f003 f98b 	bl	8004bc0 <chThdSleep>
+ 80018aa:	f8d8 3018 	ldr.w	r3, [r8, #24]
+ 80018ae:	f893 3021 	ldrb.w	r3, [r3, #33]	; 0x21
+ 80018b2:	075b      	lsls	r3, r3, #29
+ 80018b4:	d5d9      	bpl.n	800186a <Proximity+0x2a>
+ 80018b6:	9a01      	ldr	r2, [sp, #4]
+ 80018b8:	683b      	ldr	r3, [r7, #0]
+ 80018ba:	429a      	cmp	r2, r3
+ 80018bc:	d102      	bne.n	80018c4 <Proximity+0x84>
+ 80018be:	b002      	add	sp, #8
+ 80018c0:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
+ 80018c4:	f7ff fda4 	bl	8001410 <__stack_chk_fail>
  80018c8:	08011730 	.word	0x08011730
  80018cc:	20000800 	.word	0x20000800
  80018d0:	20003a40 	.word	0x20003a40
@@ -27232,7 +27231,7 @@ Disassembly of section .text:
  80116c8:	20000e3c 	.word	0x20000e3c
  80116cc:	00000000 	.word	0x00000000
 
-080116d0 <__FUNCTION__.15010>:
+080116d0 <__FUNCTION__.15013>:
  80116d0:	6e696c42 0072656b 00000000 00000000     Blinker.........
  80116e0:	63617453 6d73206b 69687361 6420676e     Stack smashing d
  80116f0:	63657465 00646574 00000000 00000000     etected.........

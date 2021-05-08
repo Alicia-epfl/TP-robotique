@@ -29,24 +29,28 @@ static float micBack_output[FFT_SIZE];
 
 #define MIN_VALUE_THRESHOLD	30000 //je l'ai montée de 10000 à 30000 pour augmenter l'intensité minimum en entrée
 
-#define MIN_FREQ		10	//we don't analyze before this index to not use resources for nothing
-#define FREQ_FORWARD		16	//250Hz
-#define FREQ_LEFT		19	//296Hz
-#define FREQ_RIGHT		23	//359HZ
-#define FREQ_BACKWARD	26	//406Hz
-#define MAX_FREQ		30	//we don't analyze after this index to not use resources for nothing
+#define MIN_FREQ		90	//    1400Hz we don't analyze before this index to not use resources for nothing
+#define FREQ_FORWARD		96	//1500Hz
+//#define FREQ_LEFT		19	//296Hz
+//#define FREQ_RIGHT		23	//359HZ
+//#define FREQ_BACKWARD	26	//406Hz
+#define MAX_FREQ		108	// 1700Hz   we don't analyze after this index to not use resources for nothing
 
-#define MIN_RUN_FREQ 64 //1KHz
-#define MAX_RUN_FREQ 160 //2.5KHz
 
-#define FREQ_FORWARD_L		(FREQ_FORWARD-1)
-#define FREQ_FORWARD_H		(FREQ_FORWARD+1)
-#define FREQ_LEFT_L			(FREQ_LEFT-1)
-#define FREQ_LEFT_H			(FREQ_LEFT+1)
-#define FREQ_RIGHT_L		(FREQ_RIGHT-1)
-#define FREQ_RIGHT_H		(FREQ_RIGHT+1)
-#define FREQ_BACKWARD_L		(FREQ_BACKWARD-1)
-#define FREQ_BACKWARD_H		(FREQ_BACKWARD+1)
+
+#define FREQ_FORWARD_L		(FREQ_FORWARD-3)
+#define FREQ_FORWARD_H		(FREQ_FORWARD+3)
+//#define FREQ_LEFT_L			(FREQ_LEFT-1)
+//#define FREQ_LEFT_H			(FREQ_LEFT+1)
+//#define FREQ_RIGHT_L		(FREQ_RIGHT-1)
+//#define FREQ_RIGHT_H		(FREQ_RIGHT+1)
+//#define FREQ_BACKWARD_L		(FREQ_BACKWARD-1)
+//#define FREQ_BACKWARD_H		(FREQ_BACKWARD+1)
+
+
+static int freq_found = false ;
+static uint16_t compteur = 0 ;
+static int running = false;
 
 /*
 *	Simple function used to detect the highest value in a buffer
@@ -55,10 +59,10 @@ static float micBack_output[FFT_SIZE];
 void sound_remote(float* data){
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
-	static uint8_t RUN = 0;
+//	static uint8_t RUN = 0;
 
 	//search for the highest peak
-	for(uint16_t i = MIN_RUN_FREQ ; i <= MAX_RUN_FREQ ; i++){ // c'est un peu gourmand en terme de ressources vu que j'analyse 1,5KHz entre mes deux indices oups
+	for(uint16_t i = MIN_FREQ ; i <= MAX_FREQ ; i++){
 		if(data[i] > max_norm){
 			max_norm = data[i];
 			max_norm_index = i;
@@ -67,17 +71,20 @@ void sound_remote(float* data){
 
 	//go forward --> du coup nous on veut plutôt un toggle à chaque fois qu'il entend la fréquence right? En mode on a un static RUN qu'on met à 1 ou 0
 	// et en fonction de sa valeur on dit go forward ou stop right? Et le gauche et droite de ici on l'utilise dans les couleurs
-	if(max_norm_index >= MIN_RUN_FREQ && max_norm_index <= MAX_RUN_FREQ){  //j'ai échangé FREQ_FORWARD_L et FREQ_FORWARD_H par MIN_RUN_FREQ et MAX_RUN_FREQ
+	if(max_norm_index >= FREQ_FORWARD_L && max_norm_index <= FREQ_FORWARD_H){  //j'ai échangé FREQ_FORWARD_L et FREQ_FORWARD_H par MIN_RUN_FREQ et MAX_RUN_FREQ
 //		left_motor_set_speed(600);
 //		right_motor_set_speed(600);
-
+		freq_found = true;
 		//Pour tester le GO and STOP, ça fonctionne avec le "mmmmmh" mais pas avec Go et Stop mdr
-		if(RUN){
-			RUN = false;
-		}else{
-			RUN = true;
-			//RUN = false;
-		}
+//		if(RUN){
+//			RUN = false;
+//		}else{
+//			RUN = true;
+//			//RUN = false;
+//		}
+	}
+	else {
+		freq_found = false;
 	}
 //	//turn left
 //	else if(max_norm_index >= FREQ_LEFT_L && max_norm_index <= FREQ_LEFT_H){
@@ -98,7 +105,7 @@ void sound_remote(float* data){
 //		left_motor_set_speed(0);
 //		right_motor_set_speed(0);
 //	}
-	if(RUN){
+	if(running){
 				//pi_regulator_start();
 				left_motor_set_speed(600);
 				right_motor_set_speed(600);
@@ -184,6 +191,7 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		if(mustSend > 8){
 			//signals to send the result to the computer
 //			chBSemSignal(&sendToComputer_sem);
+
 			mustSend = 0;
 		}
 		nb_samples = 0;
@@ -191,7 +199,21 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 
 		sound_remote(micLeft_output);
 	}
+	if(freq_found)
+	{
+		compteur++;
+	}
+	else if(compteur<500)
+	{
+		compteur=0;
+	}
+	else
+	{
+		running = !running;
+		compteur=0;
+	}
 }
+
 
 //void wait_send_to_computer(void){
 //	chBSemWait(&sendToComputer_sem);
