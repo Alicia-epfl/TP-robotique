@@ -11,6 +11,7 @@ extern "C" {
 
 
 //constants for the differents parts of the project
+#define PI					3.1415926536f// f pour float
 //CAMERA
 #define IMAGE_BUFFER_SIZE		640
 #define WIDTH_SLOPE				10
@@ -22,7 +23,6 @@ extern "C" {
 //PI
 #define ROTATION_THRESHOLD		10//no need
 #define ROTATION_COEFF			2 //no need
-//#define PXTOCM					1570.0f //experimental value
 #define GOAL_DISTANCE 			20//probablement à mettre en dessous de la détection des capteurs IR
 #define MAX_DISTANCE 			25
 #define ERROR_THRESHOLD			20	//[cm] because of the noise of the camera

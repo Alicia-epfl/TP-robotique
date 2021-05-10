@@ -7,6 +7,7 @@
 #include <camera/po8030.h>
 #include <leds.h>
 #include <motors.h>
+#include "pi_regulator.h"
 
 #include <process_image.h>
 #include <audio/play_melody.h>
@@ -87,28 +88,7 @@ static THD_FUNCTION(CaptureImage, arg) {
     }
 }
 
-/*Thread TOURNER A DROITE*/
-static THD_WORKING_AREA(waRight, 128);
-static THD_FUNCTION(Right, arg){
-	while(1){
-		if (!right){
 
-			left_motor_set_pos(800000);
-			right_motor_set_pos(800000);
-
-			right_motor_set_speed(-600);
-			left_motor_set_speed(600);
-
-			chThdSleepMilliseconds(600);
-			//on remet à 0 avant de laisser la décision au thread du son pour plus de précisions
-//			left_motor_set_speed(0);
-//			right_motor_set_speed(0);
-			right = true;
-
-		}
-		chThdSleepMilliseconds(500);
-	}
-}
 /*Thread TOURNER A GAUCHE*/
 static THD_WORKING_AREA(waLeft, 128);
 static THD_FUNCTION(Left, arg){
@@ -152,6 +132,11 @@ static THD_FUNCTION(ProcessImage, arg) {
 			mean_red = 0;
 			mean_blue=0;
 			mean_green=0;
+
+			/*Si e-puck devait tourner et qu'il l'a fait --> remettre le static initial*/
+			if(!right && (get_done_right())){
+				right=true;
+			}
 
 	//		uint32_t mean_red = 0, mean_blue=0, mean_green=0;
 		if(record){
@@ -215,7 +200,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 				/*Lancer la rotation*/
 				right = false;
 
-				chThdSleepMilliseconds(500);
+				chThdSleepMilliseconds(600);
 			}
 
 			/*YELLOW*/
@@ -248,7 +233,6 @@ void process_image_start(void){
 	chThdCreateStatic(waProcessImage, sizeof(waProcessImage), NORMALPRIO, ProcessImage, NULL);
 	chThdCreateStatic(waCaptureImage, sizeof(waCaptureImage), NORMALPRIO, CaptureImage, NULL);
 	//lance le thread de tourner --> efficacité?
-	chThdCreateStatic(waRight, sizeof(waRight),NORMALPRIO+1, Right, NULL);
 	chThdCreateStatic(waLeft, sizeof(waLeft),NORMALPRIO+1, Left, NULL);
 	chThdCreateStatic(waRecord, sizeof(waRecord),NORMALPRIO+1, Record, NULL);
 }
