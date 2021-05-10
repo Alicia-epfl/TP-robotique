@@ -10,6 +10,7 @@
 #include <communications.h>
 #include <fft.h>
 #include <arm_math.h>
+#include <leds.h>
 
 #include <pi_regulator.h>
 #include "process_image.h"
@@ -29,18 +30,20 @@ static float micFront_output[FFT_SIZE];
 static float micBack_output[FFT_SIZE];
 
 static uint8_t run = 0;
+static int8_t led_on = false;
+static uint16_t compteur = 0;
 
 #define MIN_VALUE_THRESHOLD	10000
 
 #define MIN_FREQ		10	//we don't analyze before this index to not use resources for nothing
-#define FREQ_FORWARD		16	//250Hz
-#define FREQ_LEFT		19	//296Hz
-#define FREQ_RIGHT		23	//359HZ
-#define FREQ_BACKWARD	26	//406Hz
+#define FREQ_FORWARD		16	//150Hz
+//#define FREQ_LEFT		19	//296Hz
+//#define FREQ_RIGHT		23	//359HZ
+//#define FREQ_BACKWARD	26	//406Hz
 #define MAX_FREQ		30	//we don't analyze after this index to not use resources for nothing
 
-#define FREQ_FORWARD_L		(FREQ_FORWARD-1)
-#define FREQ_FORWARD_H		(FREQ_FORWARD+1)
+#define FREQ_FORWARD_L		(FREQ_FORWARD-2)
+#define FREQ_FORWARD_H		(FREQ_FORWARD+2)
 #define FREQ_LEFT_L			(FREQ_LEFT-1)
 #define FREQ_LEFT_H			(FREQ_LEFT+1)
 #define FREQ_RIGHT_L		(FREQ_RIGHT-1)
@@ -67,17 +70,23 @@ void sound_remote(float* data){
 
 	//go forward --> du coup nous on veut plutôt un toggle à chaque fois qu'il entend la fréquence right? En mode on a un static RUN qu'on met à 1 ou 0
 	// et en fonction de sa valeur on dit go forward ou stop right? Et le gauche et droite de ici on l'utilise dans les couleurs
-	if(max_norm_index >= FREQ_FORWARD_L && max_norm_index <= FREQ_FORWARD_H){
+	if(max_norm_index >= MIN_FREQ && max_norm_index <= MAX_FREQ){
 //		left_motor_set_speed(600);
 //		right_motor_set_speed(600);
 
 		//Pour tester le GO and STOP, ça fonctionne avec le "mmmmmh" mais pas avec Go et Stop mdr
-		if(run){
-			run = false;
-		}else{
-			run = true;
-//			RUN = false;
-		}
+		run = true;
+
+//		if(run){
+//			run = false;
+//		}else{
+//			run = true;
+////			RUN = false;
+//		}
+	}
+	else
+	{
+		run = false;
 	}
 //	//turn left
 //	else if(max_norm_index >= FREQ_LEFT_L && max_norm_index <= FREQ_LEFT_H){
@@ -198,6 +207,37 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		mustSend++;
 
 		sound_remote(micLeft_output);
+		if(run)
+		{
+			set_led(LED5, OFF);
+		}
+		else
+		{
+			set_led(LED5, OFF);
+		}
+		if(compteur > 100)
+		{
+			if(led_on)
+			{
+				set_led(LED3, OFF);
+				led_on = false;
+				compteur = 0;
+			}
+			else if(!led_on)
+			{
+				set_led(LED3, ON);
+				led_on = true;
+				compteur = 0;
+			}
+		}
+		else if(run)
+		{
+			compteur++;
+		}
+		else
+		{
+			compteur = 0;
+		}
 	}
 }
 
