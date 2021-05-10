@@ -92,13 +92,17 @@ static THD_WORKING_AREA(waRight, 128);
 static THD_FUNCTION(Right, arg){
 	while(1){
 		if (!right){
+
+			left_motor_set_pos(800000);
+			right_motor_set_pos(800000);
+
 			right_motor_set_speed(-600);
 			left_motor_set_speed(600);
 
-			chThdSleepMilliseconds(550);
+			chThdSleepMilliseconds(600);
 			//on remet à 0 avant de laisser la décision au thread du son pour plus de précisions
-			left_motor_set_speed(0);
-			right_motor_set_speed(0);
+//			left_motor_set_speed(0);
+//			right_motor_set_speed(0);
 			right = true;
 
 		}

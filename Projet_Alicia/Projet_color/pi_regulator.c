@@ -59,13 +59,15 @@ static THD_FUNCTION(PiRegulator, arg) {
     volatile int16_t speed = 0;
     int16_t measure = 0;
     uint8_t run = 0;
+    uint8_t right =0, left=0;
 
 
     while(1){
 //    	 	run = get_run();
 //    	run = true;
     		time = chVTGetSystemTime();
-    	 	if(1){
+    		right=get_right(); //si !right --> alors il tourne à droite donc ne doit pas avancer ou être arrêté
+    	 	if(run && right){
 			measure	= VL53L0X_get_dist_mm();
 			//computes the speed to give to the motors
 			//distance_cm is modified by the image processing thread
@@ -76,7 +78,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 			//applies the speed from the PI regulator and the correction for the rotation
 			right_motor_set_speed(speed);
 			left_motor_set_speed(speed);
-    	 	}else{
+    	 	}else if(right){
     	 		right_motor_set_speed(0);//enlever les Magic numbers
     	 		left_motor_set_speed(0);
     	 	}
