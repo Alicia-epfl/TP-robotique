@@ -76,6 +76,7 @@ void sound_remote(float* data){
 
 		//Pour tester le GO and STOP, ça fonctionne avec le "mmmmmh" mais pas avec Go et Stop mdr
 		run = true;
+		set_body_led(ON);//tests
 
 //		if(run){
 //			run = false;
@@ -87,6 +88,7 @@ void sound_remote(float* data){
 	else
 	{
 		run = false;
+		set_body_led(OFF);// tests
 	}
 //	//turn left
 //	else if(max_norm_index >= FREQ_LEFT_L && max_norm_index <= FREQ_LEFT_H){
