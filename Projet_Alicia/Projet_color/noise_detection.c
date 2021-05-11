@@ -90,42 +90,6 @@ void sound_remote(float* data){
 		run = false;
 		//set_body_led(OFF);// tests
 	}
-//	//turn left
-//	else if(max_norm_index >= FREQ_LEFT_L && max_norm_index <= FREQ_LEFT_H){
-//		left_motor_set_speed(-600);
-//		right_motor_set_speed(600);
-//	}
-//	//turn right
-//	else if(max_norm_index >= FREQ_RIGHT_L && max_norm_index <= FREQ_RIGHT_H){
-//		left_motor_set_speed(600);
-//		right_motor_set_speed(-600);
-//	}
-//	//go backward
-//	else if(max_norm_index >= FREQ_BACKWARD_L && max_norm_index <= FREQ_BACKWARD_H){
-//		left_motor_set_speed(-600);
-//		right_motor_set_speed(-600);
-//	}
-//	else{
-//		left_motor_set_speed(0);
-//		right_motor_set_speed(0);
-//	}
-
-
-
-
-//	right=get_right();
-//	left=get_left();
-//	if(right&&left){
-//		if(RUN){
-//					//pi_regulator_start();
-//					left_motor_set_speed(600);
-//					right_motor_set_speed(600);
-//				}else{
-//					//pi_regulator_stop();//malheureusement je n'arrive pas encore cette fonction :'(
-//					left_motor_set_speed(0);
-//					right_motor_set_speed(0);
-//				}
-//	}
 
 }
 

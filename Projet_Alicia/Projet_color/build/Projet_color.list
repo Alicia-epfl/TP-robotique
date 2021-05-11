@@ -3695,25 +3695,25 @@ Disassembly of section .text:
 
 08002b70 <processAudioData>:
  8002b70:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
- 8002b74:	4e70      	ldr	r6, [pc, #448]	; (8002d38 <processAudioData+0x1c8>)
- 8002b76:	4f71      	ldr	r7, [pc, #452]	; (8002d3c <processAudioData+0x1cc>)
+ 8002b74:	4e6e      	ldr	r6, [pc, #440]	; (8002d30 <processAudioData+0x1c0>)
+ 8002b76:	4f6f      	ldr	r7, [pc, #444]	; (8002d34 <processAudioData+0x1c4>)
  8002b78:	6833      	ldr	r3, [r6, #0]
  8002b7a:	883a      	ldrh	r2, [r7, #0]
  8002b7c:	b083      	sub	sp, #12
  8002b7e:	9301      	str	r3, [sp, #4]
  8002b80:	2900      	cmp	r1, #0
- 8002b82:	f000 80bc 	beq.w	8002cfe <processAudioData+0x18e>
- 8002b86:	f8df 91bc 	ldr.w	r9, [pc, #444]	; 8002d44 <processAudioData+0x1d4>
- 8002b8a:	f8df 81bc 	ldr.w	r8, [pc, #444]	; 8002d48 <processAudioData+0x1d8>
- 8002b8e:	f8df e1c0 	ldr.w	lr, [pc, #448]	; 8002d50 <processAudioData+0x1e0>
- 8002b92:	f8df c1b8 	ldr.w	ip, [pc, #440]	; 8002d4c <processAudioData+0x1dc>
- 8002b96:	eddf 7a6a 	vldr	s15, [pc, #424]	; 8002d40 <processAudioData+0x1d0>
+ 8002b82:	f000 80b5 	beq.w	8002cf0 <processAudioData+0x180>
+ 8002b86:	f8df 91b4 	ldr.w	r9, [pc, #436]	; 8002d3c <processAudioData+0x1cc>
+ 8002b8a:	f8df 81b4 	ldr.w	r8, [pc, #436]	; 8002d40 <processAudioData+0x1d0>
+ 8002b8e:	f8df e1b8 	ldr.w	lr, [pc, #440]	; 8002d48 <processAudioData+0x1d8>
+ 8002b92:	f8df c1b0 	ldr.w	ip, [pc, #432]	; 8002d44 <processAudioData+0x1d4>
+ 8002b96:	eddf 7a68 	vldr	s15, [pc, #416]	; 8002d38 <processAudioData+0x1c8>
  8002b9a:	2500      	movs	r5, #0
  8002b9c:	e004      	b.n	8002ba8 <processAudioData+0x38>
  8002b9e:	3504      	adds	r5, #4
  8002ba0:	b2ad      	uxth	r5, r5
  8002ba2:	42a9      	cmp	r1, r5
- 8002ba4:	f240 80c4 	bls.w	8002d30 <processAudioData+0x1c0>
+ 8002ba4:	f240 80c0 	bls.w	8002d28 <processAudioData+0x1b8>
  8002ba8:	f930 3015 	ldrsh.w	r3, [r0, r5, lsl #1]
  8002bac:	ee07 3a10 	vmov	s14, r3
  8002bb0:	0094      	lsls	r4, r2, #2
@@ -3752,38 +3752,38 @@ Disassembly of section .text:
  8002c24:	edc3 7a00 	vstr	s15, [r3]
  8002c28:	d3b9      	bcc.n	8002b9e <processAudioData+0x2e>
  8002c2a:	803a      	strh	r2, [r7, #0]
- 8002c2c:	4945      	ldr	r1, [pc, #276]	; (8002d44 <processAudioData+0x1d4>)
+ 8002c2c:	4943      	ldr	r1, [pc, #268]	; (8002d3c <processAudioData+0x1cc>)
  8002c2e:	f44f 6080 	mov.w	r0, #1024	; 0x400
  8002c32:	f7ff ff7d 	bl	8002b30 <doFFT_optimized>
- 8002c36:	4944      	ldr	r1, [pc, #272]	; (8002d48 <processAudioData+0x1d8>)
+ 8002c36:	4942      	ldr	r1, [pc, #264]	; (8002d40 <processAudioData+0x1d0>)
  8002c38:	f44f 6080 	mov.w	r0, #1024	; 0x400
  8002c3c:	f7ff ff78 	bl	8002b30 <doFFT_optimized>
- 8002c40:	4942      	ldr	r1, [pc, #264]	; (8002d4c <processAudioData+0x1dc>)
+ 8002c40:	4940      	ldr	r1, [pc, #256]	; (8002d44 <processAudioData+0x1d4>)
  8002c42:	f44f 6080 	mov.w	r0, #1024	; 0x400
  8002c46:	f7ff ff73 	bl	8002b30 <doFFT_optimized>
- 8002c4a:	4941      	ldr	r1, [pc, #260]	; (8002d50 <processAudioData+0x1e0>)
+ 8002c4a:	493f      	ldr	r1, [pc, #252]	; (8002d48 <processAudioData+0x1d8>)
  8002c4c:	f44f 6080 	mov.w	r0, #1024	; 0x400
  8002c50:	f7ff ff6e 	bl	8002b30 <doFFT_optimized>
  8002c54:	f44f 6280 	mov.w	r2, #1024	; 0x400
- 8002c58:	493e      	ldr	r1, [pc, #248]	; (8002d54 <processAudioData+0x1e4>)
- 8002c5a:	483a      	ldr	r0, [pc, #232]	; (8002d44 <processAudioData+0x1d4>)
+ 8002c58:	493c      	ldr	r1, [pc, #240]	; (8002d4c <processAudioData+0x1dc>)
+ 8002c5a:	4838      	ldr	r0, [pc, #224]	; (8002d3c <processAudioData+0x1cc>)
  8002c5c:	f011 fbf0 	bl	8014440 <arm_cmplx_mag_f32>
  8002c60:	f44f 6280 	mov.w	r2, #1024	; 0x400
- 8002c64:	493c      	ldr	r1, [pc, #240]	; (8002d58 <processAudioData+0x1e8>)
- 8002c66:	4838      	ldr	r0, [pc, #224]	; (8002d48 <processAudioData+0x1d8>)
+ 8002c64:	493a      	ldr	r1, [pc, #232]	; (8002d50 <processAudioData+0x1e0>)
+ 8002c66:	4836      	ldr	r0, [pc, #216]	; (8002d40 <processAudioData+0x1d0>)
  8002c68:	f011 fbea 	bl	8014440 <arm_cmplx_mag_f32>
  8002c6c:	f44f 6280 	mov.w	r2, #1024	; 0x400
- 8002c70:	493a      	ldr	r1, [pc, #232]	; (8002d5c <processAudioData+0x1ec>)
- 8002c72:	4836      	ldr	r0, [pc, #216]	; (8002d4c <processAudioData+0x1dc>)
+ 8002c70:	4938      	ldr	r1, [pc, #224]	; (8002d54 <processAudioData+0x1e4>)
+ 8002c72:	4834      	ldr	r0, [pc, #208]	; (8002d44 <processAudioData+0x1d4>)
  8002c74:	f011 fbe4 	bl	8014440 <arm_cmplx_mag_f32>
  8002c78:	f44f 6280 	mov.w	r2, #1024	; 0x400
- 8002c7c:	4938      	ldr	r1, [pc, #224]	; (8002d60 <processAudioData+0x1f0>)
- 8002c7e:	4834      	ldr	r0, [pc, #208]	; (8002d50 <processAudioData+0x1e0>)
+ 8002c7c:	4936      	ldr	r1, [pc, #216]	; (8002d58 <processAudioData+0x1e8>)
+ 8002c7e:	4832      	ldr	r0, [pc, #200]	; (8002d48 <processAudioData+0x1d8>)
  8002c80:	f011 fbde 	bl	8014440 <arm_cmplx_mag_f32>
- 8002c84:	4937      	ldr	r1, [pc, #220]	; (8002d64 <processAudioData+0x1f4>)
- 8002c86:	ed9f 7a38 	vldr	s14, [pc, #224]	; 8002d68 <processAudioData+0x1f8>
+ 8002c84:	4935      	ldr	r1, [pc, #212]	; (8002d5c <processAudioData+0x1ec>)
+ 8002c86:	ed9f 7a36 	vldr	s14, [pc, #216]	; 8002d60 <processAudioData+0x1f0>
  8002c8a:	780b      	ldrb	r3, [r1, #0]
- 8002c8c:	4a37      	ldr	r2, [pc, #220]	; (8002d6c <processAudioData+0x1fc>)
+ 8002c8c:	4a35      	ldr	r2, [pc, #212]	; (8002d64 <processAudioData+0x1f4>)
  8002c8e:	2b08      	cmp	r3, #8
  8002c90:	bf9a      	itte	ls
  8002c92:	3301      	addls	r3, #1
@@ -3805,75 +3805,72 @@ Disassembly of section .text:
  8002cbe:	2b1f      	cmp	r3, #31
  8002cc0:	d1f0      	bne.n	8002ca4 <processAudioData+0x134>
  8002cc2:	390a      	subs	r1, #10
- 8002cc4:	b289      	uxth	r1, r1
- 8002cc6:	2914      	cmp	r1, #20
- 8002cc8:	bf88      	it	hi
- 8002cca:	2300      	movhi	r3, #0
- 8002ccc:	4d28      	ldr	r5, [pc, #160]	; (8002d70 <processAudioData+0x200>)
- 8002cce:	4c29      	ldr	r4, [pc, #164]	; (8002d74 <processAudioData+0x204>)
- 8002cd0:	bf96      	itet	ls
- 8002cd2:	2301      	movls	r3, #1
- 8002cd4:	4619      	movhi	r1, r3
- 8002cd6:	2100      	movls	r1, #0
- 8002cd8:	2002      	movs	r0, #2
- 8002cda:	702b      	strb	r3, [r5, #0]
- 8002cdc:	f002 f8e0 	bl	8004ea0 <set_led>
- 8002ce0:	8823      	ldrh	r3, [r4, #0]
- 8002ce2:	2b64      	cmp	r3, #100	; 0x64
- 8002ce4:	d915      	bls.n	8002d12 <processAudioData+0x1a2>
- 8002ce6:	4d24      	ldr	r5, [pc, #144]	; (8002d78 <processAudioData+0x208>)
- 8002ce8:	f995 7000 	ldrsb.w	r7, [r5]
- 8002cec:	b1af      	cbz	r7, 8002d1a <processAudioData+0x1aa>
- 8002cee:	2100      	movs	r1, #0
- 8002cf0:	2001      	movs	r0, #1
- 8002cf2:	f002 f8d5 	bl	8004ea0 <set_led>
- 8002cf6:	2300      	movs	r3, #0
- 8002cf8:	702b      	strb	r3, [r5, #0]
- 8002cfa:	8023      	strh	r3, [r4, #0]
- 8002cfc:	e002      	b.n	8002d04 <processAudioData+0x194>
- 8002cfe:	f5b2 6f00 	cmp.w	r2, #2048	; 0x800
- 8002d02:	d293      	bcs.n	8002c2c <processAudioData+0xbc>
- 8002d04:	9a01      	ldr	r2, [sp, #4]
- 8002d06:	6833      	ldr	r3, [r6, #0]
- 8002d08:	429a      	cmp	r2, r3
- 8002d0a:	d113      	bne.n	8002d34 <processAudioData+0x1c4>
- 8002d0c:	b003      	add	sp, #12
- 8002d0e:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 8002d12:	782a      	ldrb	r2, [r5, #0]
- 8002d14:	b94a      	cbnz	r2, 8002d2a <processAudioData+0x1ba>
- 8002d16:	8022      	strh	r2, [r4, #0]
- 8002d18:	e7f4      	b.n	8002d04 <processAudioData+0x194>
- 8002d1a:	2101      	movs	r1, #1
- 8002d1c:	4608      	mov	r0, r1
- 8002d1e:	f002 f8bf 	bl	8004ea0 <set_led>
- 8002d22:	2301      	movs	r3, #1
- 8002d24:	8027      	strh	r7, [r4, #0]
- 8002d26:	702b      	strb	r3, [r5, #0]
- 8002d28:	e7ec      	b.n	8002d04 <processAudioData+0x194>
- 8002d2a:	3301      	adds	r3, #1
- 8002d2c:	8023      	strh	r3, [r4, #0]
- 8002d2e:	e7e9      	b.n	8002d04 <processAudioData+0x194>
- 8002d30:	803a      	strh	r2, [r7, #0]
- 8002d32:	e7e7      	b.n	8002d04 <processAudioData+0x194>
- 8002d34:	f7ff fb34 	bl	80023a0 <__stack_chk_fail>
- 8002d38:	20000b00 	.word	0x20000b00
- 8002d3c:	20012006 	.word	0x20012006
- 8002d40:	00000000 	.word	0x00000000
- 8002d44:	2000f004 	.word	0x2000f004
- 8002d48:	2000c004 	.word	0x2000c004
- 8002d4c:	20009004 	.word	0x20009004
- 8002d50:	20006004 	.word	0x20006004
- 8002d54:	20011004 	.word	0x20011004
- 8002d58:	2000e004 	.word	0x2000e004
- 8002d5c:	2000b004 	.word	0x2000b004
- 8002d60:	20008004 	.word	0x20008004
- 8002d64:	20012004 	.word	0x20012004
- 8002d68:	461c4000 	.word	0x461c4000
- 8002d6c:	2000e02c 	.word	0x2000e02c
- 8002d70:	20012008 	.word	0x20012008
- 8002d74:	20006000 	.word	0x20006000
- 8002d78:	20006002 	.word	0x20006002
- 8002d7c:	00000000 	.word	0x00000000
+ 8002cc4:	4c28      	ldr	r4, [pc, #160]	; (8002d68 <processAudioData+0x1f8>)
+ 8002cc6:	b289      	uxth	r1, r1
+ 8002cc8:	2914      	cmp	r1, #20
+ 8002cca:	8823      	ldrh	r3, [r4, #0]
+ 8002ccc:	d81a      	bhi.n	8002d04 <processAudioData+0x194>
+ 8002cce:	4a27      	ldr	r2, [pc, #156]	; (8002d6c <processAudioData+0x1fc>)
+ 8002cd0:	2101      	movs	r1, #1
+ 8002cd2:	2b0a      	cmp	r3, #10
+ 8002cd4:	7011      	strb	r1, [r2, #0]
+ 8002cd6:	d924      	bls.n	8002d22 <processAudioData+0x1b2>
+ 8002cd8:	4d25      	ldr	r5, [pc, #148]	; (8002d70 <processAudioData+0x200>)
+ 8002cda:	f995 7000 	ldrsb.w	r7, [r5]
+ 8002cde:	b1c7      	cbz	r7, 8002d12 <processAudioData+0x1a2>
+ 8002ce0:	2100      	movs	r1, #0
+ 8002ce2:	2001      	movs	r0, #1
+ 8002ce4:	f002 f8dc 	bl	8004ea0 <set_led>
+ 8002ce8:	2300      	movs	r3, #0
+ 8002cea:	702b      	strb	r3, [r5, #0]
+ 8002cec:	8023      	strh	r3, [r4, #0]
+ 8002cee:	e002      	b.n	8002cf6 <processAudioData+0x186>
+ 8002cf0:	f5b2 6f00 	cmp.w	r2, #2048	; 0x800
+ 8002cf4:	d29a      	bcs.n	8002c2c <processAudioData+0xbc>
+ 8002cf6:	9a01      	ldr	r2, [sp, #4]
+ 8002cf8:	6833      	ldr	r3, [r6, #0]
+ 8002cfa:	429a      	cmp	r2, r3
+ 8002cfc:	d116      	bne.n	8002d2c <processAudioData+0x1bc>
+ 8002cfe:	b003      	add	sp, #12
+ 8002d00:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 8002d04:	4919      	ldr	r1, [pc, #100]	; (8002d6c <processAudioData+0x1fc>)
+ 8002d06:	2200      	movs	r2, #0
+ 8002d08:	2b0a      	cmp	r3, #10
+ 8002d0a:	700a      	strb	r2, [r1, #0]
+ 8002d0c:	d8e4      	bhi.n	8002cd8 <processAudioData+0x168>
+ 8002d0e:	8022      	strh	r2, [r4, #0]
+ 8002d10:	e7f1      	b.n	8002cf6 <processAudioData+0x186>
+ 8002d12:	2101      	movs	r1, #1
+ 8002d14:	4608      	mov	r0, r1
+ 8002d16:	f002 f8c3 	bl	8004ea0 <set_led>
+ 8002d1a:	2301      	movs	r3, #1
+ 8002d1c:	8027      	strh	r7, [r4, #0]
+ 8002d1e:	702b      	strb	r3, [r5, #0]
+ 8002d20:	e7e9      	b.n	8002cf6 <processAudioData+0x186>
+ 8002d22:	3301      	adds	r3, #1
+ 8002d24:	8023      	strh	r3, [r4, #0]
+ 8002d26:	e7e6      	b.n	8002cf6 <processAudioData+0x186>
+ 8002d28:	803a      	strh	r2, [r7, #0]
+ 8002d2a:	e7e4      	b.n	8002cf6 <processAudioData+0x186>
+ 8002d2c:	f7ff fb38 	bl	80023a0 <__stack_chk_fail>
+ 8002d30:	20000b00 	.word	0x20000b00
+ 8002d34:	20012006 	.word	0x20012006
+ 8002d38:	00000000 	.word	0x00000000
+ 8002d3c:	2000f004 	.word	0x2000f004
+ 8002d40:	2000c004 	.word	0x2000c004
+ 8002d44:	20009004 	.word	0x20009004
+ 8002d48:	20006004 	.word	0x20006004
+ 8002d4c:	20011004 	.word	0x20011004
+ 8002d50:	2000e004 	.word	0x2000e004
+ 8002d54:	2000b004 	.word	0x2000b004
+ 8002d58:	20008004 	.word	0x20008004
+ 8002d5c:	20012004 	.word	0x20012004
+ 8002d60:	461c4000 	.word	0x461c4000
+ 8002d64:	2000e02c 	.word	0x2000e02c
+ 8002d68:	20006000 	.word	0x20006000
+ 8002d6c:	20012008 	.word	0x20012008
+ 8002d70:	20006002 	.word	0x20006002
+	...
 
 08002d80 <get_audio_buffer_ptr>:
  8002d80:	b500      	push	{lr}
