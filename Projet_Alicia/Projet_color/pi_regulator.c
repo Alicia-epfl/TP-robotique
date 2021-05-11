@@ -73,7 +73,7 @@ static THD_FUNCTION(PiRegulator, arg) {
     		time = chVTGetSystemTime();
     		right=get_right(); //si !right --> alors il tourne à droite donc ne doit pas avancer ou être arrêté
     		left=get_left(); //si !left --> alors il tourne à gauche donc ne doit pas avancer ou être arrêté
-    	 	if(run && right){
+    	 	if(run && left){
 			measure	= VL53L0X_get_dist_mm();
 			//computes the speed to give to the motors
 			//distance_cm is modified by the image processing thread
@@ -84,14 +84,11 @@ static THD_FUNCTION(PiRegulator, arg) {
 			//applies the speed from the PI regulator and the correction for the rotation
 			right_motor_set_speed(speed);
 			left_motor_set_speed(speed);
-    	 	}else if(right){
+    	 	}else if(left){
     	 		right_motor_set_speed(0);//enlever les Magic numbers
     	 		left_motor_set_speed(0);
 
-    	 	}else if(!right){//run && !right				WARNING
-    	 		turn(-PI/2);
-
-    	 	}else if(!left){
+    	 	}else if(!left){//run && !right				WARNING
     	 		turn(PI/2);
     	 		chThdSleepMilliseconds(500);
     	 		done_l = false;

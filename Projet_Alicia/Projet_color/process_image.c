@@ -177,32 +177,10 @@ static THD_FUNCTION(ProcessImage, arg) {
 				blue_rgb = mean_blue_filtered;
 
 				/*Lancer la rotation*/
-				right = false;
-
-				chThdSleepMilliseconds(600);
-			}
-
-			/*YELLOW*/
-			if((mean_red_filtered > 1.5*mean_blue_filtered) && (mean_green_filtered > mean_blue_filtered)){//YELLOW
-
-				/*Pour afficher ce qu'il voit comme couleur*/
-				if(1.5*mean_red_filtered<31){
-					red_rgb=1.2*mean_red_filtered;
-				}else{
-					red_rgb=mean_red_filtered;
-				}
-				if(1.2*mean_green_filtered<63){
-					green_rgb=1.2*mean_green_filtered;
-				}else{
-					green_rgb=mean_green_filtered;
-				}
-				blue_rgb = 0.5*mean_blue_filtered;
-
-				/*Lancer la rotation*/
 				left = false;
 
-				chThdSleepMilliseconds(500);
-			}
+				chThdSleepMilliseconds(600);
+			}//blue
     		}//record
     }//while
 }//thread
