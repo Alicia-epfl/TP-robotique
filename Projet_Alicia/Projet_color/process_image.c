@@ -89,27 +89,6 @@ static THD_FUNCTION(CaptureImage, arg) {
 }
 
 
-/*Thread TOURNER A GAUCHE*/
-static THD_WORKING_AREA(waLeft, 128);
-static THD_FUNCTION(Left, arg){
-	while(1){
-		if (!left){
-			right_motor_set_speed(600);
-			left_motor_set_speed(-600);
-
-
-
-			chThdSleepMilliseconds(550);
-			//on remet à 0 avant de laisser la décision au thread du son pour plus de précisions
-			left_motor_set_speed(0);
-			right_motor_set_speed(0);
-			left = true;
-
-		}
-		chThdSleepMilliseconds(500);
-	}
-}
-
 
 static THD_WORKING_AREA(waProcessImage, 1024); //Je suis montée de 1024 à 4096 pour voir si ça réglait le problème
 static THD_FUNCTION(ProcessImage, arg) {
@@ -134,8 +113,8 @@ static THD_FUNCTION(ProcessImage, arg) {
 			mean_green=0;
 
 			/*Si e-puck devait tourner et qu'il l'a fait --> remettre le static initial*/
-			if(!right && (get_done_right())){
-				right=true;
+			if(!left && (get_done_left())){
+				left=true;
 			}
 
 	//		uint32_t mean_red = 0, mean_blue=0, mean_green=0;
@@ -232,8 +211,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 void process_image_start(void){
 	chThdCreateStatic(waProcessImage, sizeof(waProcessImage), NORMALPRIO, ProcessImage, NULL);
 	chThdCreateStatic(waCaptureImage, sizeof(waCaptureImage), NORMALPRIO, CaptureImage, NULL);
-	//lance le thread de tourner --> efficacité?
-	chThdCreateStatic(waLeft, sizeof(waLeft),NORMALPRIO+1, Left, NULL);
+	//thread contrôlant la distance grace à VL
 	chThdCreateStatic(waRecord, sizeof(waRecord),NORMALPRIO+1, Record, NULL);
 }
 

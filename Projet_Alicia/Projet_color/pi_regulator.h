@@ -4,6 +4,6 @@
 //start the PI regulator thread
 void turn(float alpha);
 void pi_regulator_start(void);
-uint8_t get_done_right(void);
+uint8_t get_done_left(void);
 
 #endif /* PI_REGULATOR_H */

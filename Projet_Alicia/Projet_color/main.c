@@ -41,7 +41,7 @@
  * ==================================================================
  * Visiblement il faut garder DOUBLE_BUFFERING quand même? --> Je comprends pas pourquoi, askip on a vu en TP*/
 #define SEND_FROM_MIC
-#define DOUBLE_BUFFERING
+//#define DOUBLE_BUFFERING
 /*end of defines pour noise detection*/
 
 /*BUS pour proximity*/
