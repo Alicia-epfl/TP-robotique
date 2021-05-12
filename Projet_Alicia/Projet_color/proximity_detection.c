@@ -18,6 +18,8 @@
 #include <leds.h>
 #include <motors.h>
 
+//static pour indiquer si on est en train d'éviter un obstacle --> si oui on met le "run" en pause dans le pi
+static uint8_t avoid = false;
 /*
  * THREADS
  */
@@ -37,14 +39,6 @@ static THD_FUNCTION(Proximity, arg) {
 		run = get_run();
 
 		while(run){
-	//		//What is that?
-	//		leftspeed = MOTOR_SPEED_LIMIT - get_prox(0)*2 - get_prox(1);
-	//		rightspeed = MOTOR_SPEED_LIMIT - get_prox(7)*2 - get_prox(6);
-	//		right_motor_set_speed(rightspeed);
-	//		left_motor_set_speed(leftspeed);
-	//		//Fin de What is that?
-
-			/*===========================*/
 			/*Fonction d'évitement*/
 
 			//OBSTACLE DEVANT
@@ -52,6 +46,9 @@ static THD_FUNCTION(Proximity, arg) {
 				//le robot s'arrete avant de chercher son chemin
 				right_motor_set_speed(0);
 				left_motor_set_speed(0);
+
+				//indique qu'on est en processus d'évitement
+				avoid = true;
 
 				//OBSTACLE DEVANT + A DROITE
 				if(get_prox(2)>AXIS_THRESHOLD){
@@ -67,17 +64,23 @@ static THD_FUNCTION(Proximity, arg) {
 						else{
 							//effectue un demi-tour
 							turn(PI);
+							//libère run
+							avoid = false;
 						}
 
 					//OBSTACLE DEVANT + A DROITE
 					}else{
 						//tourne à gauche
 						turn(PI/2);
+						//libère run
+						avoid = false;
 					}
 				//OBSTACLE DEVANT
 				}else{
 					//tourne à droite
 					turn(-PI/4);
+					//libère run
+					avoid = false;
 				}
 			}
 			/*===========================*/
@@ -92,5 +95,8 @@ static THD_FUNCTION(Proximity, arg) {
 void proxi_start(void){
 	 //Activer proximity --> appel du thread
 	 chThdCreateStatic(waProximity, sizeof(waProximity), NORMALPRIO, Proximity, NULL);
+}
+uint8_t get_avoid(void){
+	return avoid;
 }
 

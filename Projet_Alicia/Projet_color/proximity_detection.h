@@ -9,6 +9,7 @@
 #define PROXIMITY_DETECTION_H_
 
 void proxi_start(void);
+uint8_t get_avoid(void);
 
 
 

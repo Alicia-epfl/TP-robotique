@@ -12,11 +12,18 @@
 #include "noise_detection.h"
 
 #include "sensors/VL53L0X/VL53L0X.h"
+
+//pour avoir accès à la statique "avoid" qui "contrôle" l'état de run
+#include "proximity_detection.h"
+
+
+
 /*Define pour les demi-tours*/
 #define NSTEP_ONE_TURN      1000								// number of step for 1 turn of the motor
 #define WHEEL_PERIMETER    	13//12.5663706144f					// [cm] -->4*pi --> 4cm est la mesure du diamètre des roues
 #define WHEEL_OFFSET			2.65								//[cm] --> de combien la roue est décalé par rapport au centre du robot
 
+/*Initialisation des statics*/
 static float sum_error = 0;//pour le pi
 static float sum_error_rot = 0;//pour le pi de rotation
 static uint8_t done_l = false;//pour indiquer à process image que la rotation a bien été effectuée
@@ -91,7 +98,7 @@ int16_t pi_rotator(uint16_t position, int32_t nstep){
 
 }
 
-static THD_WORKING_AREA(waPiRegulator,1024);//256 pas suffisant, 2048 non plus
+static THD_WORKING_AREA(waPiRegulator,1024);
 static THD_FUNCTION(PiRegulator, arg) {
 
     chRegSetThreadName(__FUNCTION__);
@@ -102,11 +109,14 @@ static THD_FUNCTION(PiRegulator, arg) {
     volatile int16_t speed = 0;
     int16_t measure = 0;
     uint8_t run = 0;
+    uint8_t avoid = 0;
     uint8_t left=0;
 
 
     while(1){
+    		avoid = get_avoid();
     	 	run = get_run();
+    	 	run = run && !avoid;
 
     		time = chVTGetSystemTime();//pour le sleep Window d'en dessous
 
