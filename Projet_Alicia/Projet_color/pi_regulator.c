@@ -50,6 +50,7 @@ int16_t pi_regulator(uint16_t distance){
 
 	speed = KP * error + KI * sum_error;
 
+
 	return (int16_t)speed;
 
 }
@@ -62,13 +63,13 @@ int16_t pi_rotator(uint16_t position, int32_t nstep){
 
 
 
-	error = position - nstep;
+	error = nstep - position;
 
 	//disables the PI regulator if the error is to small
 	//this avoids to always move as we cannot exactly be where we want and
 	//the camera is a bit noisy
-	if(abs(error) < ERROR_THRE_ROT){
-			return 0;
+	if((error) < ERROR_THRE_ROT){
+			return 200;//faible vitesse pour finir correctement le tour
 	}
 
 	sum_error_rot += error;
@@ -82,6 +83,8 @@ int16_t pi_rotator(uint16_t position, int32_t nstep){
 	}
 
 	speed = KP * error + KI * sum_error_rot;
+
+
 
 	return (int16_t)speed;
 

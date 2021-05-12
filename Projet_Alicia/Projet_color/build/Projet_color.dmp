@@ -66,11 +66,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  22 .debug_ranges 000047e8  00000000  00000000  00178e6b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 23 .debug_line   00030be9  00000000  00000000  0017d653  2**0
+ 23 .debug_line   00030be0  00000000  00000000  0017d653  2**0
                   CONTENTS, READONLY, DEBUGGING
- 24 .debug_str    0000bb56  00000000  00000000  001ae23c  2**0
+ 24 .debug_str    0000bb56  00000000  00000000  001ae233  2**0
                   CONTENTS, READONLY, DEBUGGING
- 25 .debug_frame  0000a288  00000000  00000000  001b9d94  2**2
+ 25 .debug_frame  0000a288  00000000  00000000  001b9d8c  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -905,7 +905,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 0800e530 g     F .text	0000002c ext_lld_init
 0800df30 g     F .text	0000004c VectorE4
 0800af20 g     F .text	00000098 pwmEnableChannel
-080014a0 g     F .text	000000b4 pi_rotator
+080014a0 g     F .text	000000b8 pi_rotator
 0800ccd0 g     F .text	000000cc _usb_ep0out
 08004ed0 g     F .text	00000050 VL53L0X_PerformSingleRangingMeasurement
 0800f690 g     F .text	00000120 VectorC0
