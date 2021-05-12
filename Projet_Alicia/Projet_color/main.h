@@ -29,6 +29,9 @@ extern "C" {
 #define KP						3
 #define KI 						0.1	//must not be zero
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
+//PI rotation
+#define ERROR_THRE_ROT			40// nb de steps pour π/16 radians
+
 //LEDS
 #define TOGGLE					2
 #define ON						1

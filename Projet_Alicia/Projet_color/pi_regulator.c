@@ -17,8 +17,9 @@
 #define WHEEL_PERIMETER    	13//12.5663706144f					// [cm] -->4*pi --> 4cm est la mesure du diamètre des roues
 #define WHEEL_OFFSET			2.65								//[cm] --> de combien la roue est décalé par rapport au centre du robot
 
-static float sum_error = 0;
-static uint8_t done_l = false;
+static float sum_error = 0;//pour le pi
+static float sum_error_rot = 0;//pour le pi de rotation
+static uint8_t done_l = false;//pour indiquer à process image que la rotation a bien été effectuée
 
 //simple PI regulator implementation
 int16_t pi_regulator(uint16_t distance){
@@ -50,6 +51,40 @@ int16_t pi_regulator(uint16_t distance){
 	speed = KP * error + KI * sum_error;
 
 	return (int16_t)speed;
+
+}
+
+//simple PI regulator for rotation implementation
+int16_t pi_rotator(uint16_t position, int32_t nstep){
+
+	float error = 0;
+	float speed = 0;
+
+
+
+	error = position - nstep;
+
+	//disables the PI regulator if the error is to small
+	//this avoids to always move as we cannot exactly be where we want and
+	//the camera is a bit noisy
+	if(abs(error) < ERROR_THRE_ROT){
+			return 0;
+	}
+
+	sum_error_rot += error;
+	sum_error_rot = 0.5*sum_error_rot;//division par 2 dans l'idée d'une moyenne
+
+	//on pose un maximum et un minimum à la somme pour éviter une croissance non contrôlée
+	if(sum_error_rot > MAX_SUM_ERROR){
+		sum_error_rot = MAX_SUM_ERROR;
+	}else if(sum_error_rot < -MAX_SUM_ERROR){
+		sum_error_rot = -MAX_SUM_ERROR;
+	}
+
+	speed = KP * error + KI * sum_error_rot;
+
+	return (int16_t)speed;
+
 
 }
 
@@ -101,21 +136,10 @@ static THD_FUNCTION(PiRegulator, arg) {
 
 void turn(float alpha){
 	int32_t nstep = 0;
+	volatile float speed = 0;
 	volatile int32_t right_pos=0, left_pos=0;//Finalement prendre les 2 pour plus de précisions
 
 	nstep = (int32_t)((alpha*WHEEL_OFFSET*NSTEP_ONE_TURN)/WHEEL_PERIMETER);
-
-	/*Option avec SET_POS*/
-//	left_motor_set_pos(nstep);
-//	right_motor_set_pos(nstep);
-//
-//	if(alpha>0){//gauche
-//		right_motor_set_speed(600);
-//		left_motor_set_speed(-600);
-//	}else{//droite
-//		right_motor_set_speed(-600);
-//		left_motor_set_speed(600);
-//	}
 
 /*Option inspirée du TP2*/
 	left_motor_set_pos(0);
@@ -126,14 +150,15 @@ void turn(float alpha){
 		right_pos = right_motor_get_pos();
 		left_pos = left_motor_get_pos();
 
-		if(alpha > 0){//gauche
-			right_motor_set_speed(100);
-			left_motor_set_speed(-100);
-		}else{//droite
-			right_motor_set_speed(-100);
-			left_motor_set_speed(100);
-		}
+		speed = pi_rotator(right_pos, nstep);
 
+		if(alpha > 0){//gauche
+			right_motor_set_speed(speed);
+			left_motor_set_speed(-speed);
+		}else{//droite
+			right_motor_set_speed(-speed);
+			left_motor_set_speed(speed);
+		}
 	}
 	done_l = true;
 	right_motor_set_speed(0);
