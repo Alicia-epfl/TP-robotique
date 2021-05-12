@@ -124,113 +124,18 @@ static THD_FUNCTION(Proximity, arg) {
 
 	while (!chThdShouldTerminateX())
 	{
-		/*Ancienne fonction, plus forcément besoin*/
-//		for(int i=0; i<7; i++)
-//		{
-//			proxi_value= get_prox(i);
-//			//chprintf((BaseSequentialStream *)&SDU1, "green=%d \n", proxi_value);
-//			if(proxi_value>THRESHOLD)
-//			{
-//				prox_detected=true;
-//			}
-//		}
-//
-//		if(prox_detected)
-//		{
-//				set_front_led(ON); // J'utilise front led pour vérifier que la detection fonctionne toujours au cas ou ce que je fais marche pas de son coté
-//		}
-//		else
-//		{
-//				set_front_led(OFF);
-//		}
-
-		   //temp: Need to see if turns off when nothing is close, later, each sensor will likely have their own boolean and a case/switch
-			 //to toggle different leds or different actions such as obstacle avoidance
-			 /*======================*/
 
 
-		/*
-		 * SI c'est tout cassé, c'est très certainement ici que ça se passe
-		 * */
-
-//		if((get_prox(0)>AXIS_THRESHOLD) || (get_prox(7)>AXIS_THRESHOLD))
-//		{
-//			prox_front = true;
-//			set_led(LED1, ON);    // n'est pas destiné à rester là, tout les bool auront leur propre fonction get_bool_prox
-//		}
-//		else
-//		{
-//			set_led(LED1, OFF);
-//			prox_front = false;
-//		}
-//
-//		if(get_prox(1)>THRESHOLD)
-//		{
-//			prox_right_half = true;
-//			set_led(LED1, ON);
-//			set_led(LED3, ON);
-//		}
-//		else
-//		{
-//			set_led(LED1, OFF);
-//			set_led(LED3, OFF);
-//			prox_right_half = false;
-//		}
-//
-//		if(get_prox(2)>AXIS_THRESHOLD)
-//		{
-//			prox_right_full = true;
-//			set_led(LED3, ON);
-//		}
-//		else
-//		{
-//			set_led(LED3, OFF);
-//			prox_right_full = false;
-//		}
-//
-//		if((get_prox(3)>AXIS_THRESHOLD) || (get_prox(4)>AXIS_THRESHOLD))
-//		{
-//			prox_back = true;
-//			set_led(LED5, ON);
-//		}
-//		else
-//		{
-//			prox_back = false;
-//			set_led(LED5, OFF);
-//		}
-//
-//		if(get_prox(6)>THRESHOLD)
-//		{
-//			prox_left_half = true;
-//			set_led(LED1, ON);
-//			set_led(LED7, ON); // c'est peut etre plutot la led 5, je sais plus si elle sont dans le sens horaire ou antihoraire, tant que y'en a deux qui s'allume c'est que ça marche donc osef
-//		}
-//		else
-//		{
-//			set_led(LED1, OFF);
-//			set_led(LED7, OFF);
-//			prox_left_half = false;
-//		}
-//		if(get_prox(5)>AXIS_THRESHOLD)
-//		{
-//			prox_left_full = true;
-//			set_led(LED7, ON);
-//		}
-//		else
-//		{
-//			set_led(LED7, OFF);
-//			prox_left_full = false;
-//		}
-
-
-		/*Fin de si c'est tout cassé*/
-
+ /*SIMPLE OBSTACLE AVOIDANCE ---- Tiré du projet epuck main processor pour le tester en comparaison au mien*/
 		leftspeed = MOTOR_SPEED_LIMIT - get_prox(0)*2 - get_prox(1);
 		rightspeed = MOTOR_SPEED_LIMIT - get_prox(7)*2 - get_prox(6);
 		right_motor_set_speed(rightspeed);
 		left_motor_set_speed(leftspeed);
 
-		/*SI c'est tout cassé le retour*/
+
+		/*===================fin du test du code du prof===============*/
+
+		/*SI c'est tout cassé le retour       =============== DECOMMENTER CELLE CI ======================*/
 //		if((get_prox(0)>AXIS_THRESHOLD) || (get_prox(7)>AXIS_THRESHOLD) /* || blue*/)
 //		{
 //			prox_front = true;  // finalement, n'est pas très utile je crois rip
