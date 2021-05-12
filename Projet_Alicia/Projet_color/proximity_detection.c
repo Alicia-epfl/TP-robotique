@@ -24,16 +24,13 @@ static uint8_t avoid = false;
  * THREADS
  */
 /*Thread pour proximity*/
-static THD_WORKING_AREA(waProximity, 4096);
+static THD_WORKING_AREA(waProximity, 1024);
 static THD_FUNCTION(Proximity, arg) {
 
 	 chRegSetThreadName(__FUNCTION__);
 	  (void)arg;
 
-/* Proximity detection variables*/
 	  uint8_t run = 0;
-//	  uint16_t rightspeed = 0, leftspeed = 0;//Nico
-	  /*===========================*/
 
 	while (1){
 		run = get_run();
@@ -43,12 +40,13 @@ static THD_FUNCTION(Proximity, arg) {
 
 			//OBSTACLE DEVANT
 			if((get_prox(0)>AXIS_THRESHOLD) || (get_prox(7)>AXIS_THRESHOLD)){
+				//indique qu'on est en processus d'évitement
+				avoid = true;
 				//le robot s'arrete avant de chercher son chemin
 				right_motor_set_speed(0);
 				left_motor_set_speed(0);
 
-				//indique qu'on est en processus d'évitement
-				avoid = true;
+
 
 				//OBSTACLE DEVANT + A DROITE
 				if(get_prox(2)>AXIS_THRESHOLD){
@@ -66,21 +64,26 @@ static THD_FUNCTION(Proximity, arg) {
 							turn(PI);
 							//libère run
 							avoid = false;
+							chThdSleepMilliseconds(100);
 						}
 
 					//OBSTACLE DEVANT + A DROITE
 					}else{
 						//tourne à gauche
-						turn(PI/2);
+//						turn(PI/2);
+						set_body_led(ON);
 						//libère run
 						avoid = false;
+						chThdSleepMilliseconds(100);
 					}
 				//OBSTACLE DEVANT
 				}else{
 					//tourne à droite
-					turn(-PI/4);
+//					turn(-PI/2);
+					set_body_led(ON);
 					//libère run
 					avoid = false;
+					chThdSleepMilliseconds(100);
 				}
 			}
 			/*===========================*/

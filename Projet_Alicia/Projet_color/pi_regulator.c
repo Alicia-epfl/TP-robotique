@@ -13,8 +13,6 @@
 
 #include "sensors/VL53L0X/VL53L0X.h"
 
-//pour avoir accès à la statique "avoid" qui "contrôle" l'état de run
-#include "proximity_detection.h"
 
 
 
@@ -109,14 +107,11 @@ static THD_FUNCTION(PiRegulator, arg) {
     volatile int16_t speed = 0;
     int16_t measure = 0;
     uint8_t run = 0;
-    uint8_t avoid = 0;
     uint8_t left=0;
 
 
     while(1){
-    		avoid = get_avoid();
     	 	run = get_run();
-    	 	run = run && !avoid;
 
     		time = chVTGetSystemTime();//pour le sleep Window d'en dessous
 

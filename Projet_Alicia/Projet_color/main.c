@@ -183,24 +183,21 @@ int main(void)
 	//Démarre VL53L0X
 	VL53L0X_start();
 
-
-
-	//Démarre le thread des melodies
-	playMelodyStart();
+	//Démarre les micro
+//	mic_start(&processAudioData);
 
 	//Démarre les threads pour le régulateur pi et le image processing
 	pi_regulator_start();
 	process_image_start();
 
-	//Démarre les micro
-	mic_start(&processAudioData);
+	 //Activer proximity --> appel du thread
+	 proxi_start();
 
 	//Clignotement BODY LED --> appel du thread
 	 chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
 
-	 //Activer proximity --> appel du thread
-	 proxi_start();
-
+	//Démarre le thread des melodies
+	playMelodyStart();
 
     /* Infinite loop. */
     while (1) {

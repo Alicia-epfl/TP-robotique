@@ -11,7 +11,7 @@ extern "C" {
 
 
 //constants for the differents parts of the project
-#define PI					3.1415926536f// f pour float
+#define PI					3.14f// f pour float
 //CAMERA
 #define IMAGE_BUFFER_SIZE		640
 #define WIDTH_SLOPE				10

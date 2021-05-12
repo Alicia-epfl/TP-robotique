@@ -15,6 +15,9 @@
 #include <pi_regulator.h>
 #include "process_image.h"
 
+//pour avoir accès à la statique "avoid" qui "contrôle" l'état de run
+#include "proximity_detection.h"
+
 
 
 //2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)
@@ -169,6 +172,10 @@ float* get_audio_buffer_ptr(BUFFER_NAME_t name){
 }
 
 uint8_t get_run(void){
+	uint8_t run = 0;
+	uint8_t avoid = get_avoid();
+
+	run = 1 && !avoid; //après on va remplacer 1 par run!
 //	return freq_found;
-	return 1;//pour tester le robot
+	return run;//pour tester le robot
 }
