@@ -122,7 +122,7 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		arm_cmplx_mag_f32(micLeft_cmplx_input, micLeft_output, FFT_SIZE);
 
 		nb_samples = 0;
-		chprintf((BaseSequentialStream *)&SDU1, "compteur=%3d\r",successive_freq_counter);
+//		chprintf((BaseSequentialStream *)&SDU1, "compteur=%3d\r",successive_freq_counter);
 		sound_remote(micLeft_output);
 		if(successive_freq_counter > MAX_MIC_INPUT_COUNTER) //environs 1/2 secondes
 		{

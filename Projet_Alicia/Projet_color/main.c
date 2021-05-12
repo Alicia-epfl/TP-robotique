@@ -239,6 +239,8 @@ int main(void)
 	//start VL53L0X
 	VL53L0X_start();
 
+
+
 	//start the melody
 	playMelodyStart();
 
@@ -246,84 +248,24 @@ int main(void)
 	pi_regulator_start();
 	process_image_start();
 
-
-
-
+	//start des micro
+	mic_start(&processAudioData);
 
 	//Clignotement BODY LED --> appel du thread
 	 chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
-
 
 	 //Activer proximity --> appel du thread
 	 proxi_start();
 
 
-//	 /*===============================================FROM TP5 AUDIO PROCESSING =============================================*/
-//	     //send_tab is used to save the state of the buffer to send (double buffering)
-//	     //to avoid modifications of the buffer while sending it
-//	 //La partie grise peut être effacée avant de rendre le projet
-//	     static float send_tab[FFT_SIZE];
-//
-//
-//	 #ifdef SEND_FROM_MIC
-	     //starts the microphones processing thread.
-	     //it calls the callback given in parameter when samples are ready
-	     mic_start(&processAudioData);
-	 //test 2
-
-//	 #endif  /* SEND_FROM_MIC */
-//
-//	     /* Infinite loop. */
-//	     while (1) {
-//	 #ifdef SEND_FROM_MIC
-//	         //waits until a result must be sent to the computer
-////	         wait_send_to_computer();
-//	 #ifdef DOUBLE_BUFFERING
-//	         //we copy the buffer to avoid conflicts
-//	         arm_copy_f32(get_audio_buffer_ptr(LEFT_OUTPUT), send_tab, FFT_SIZE);
-//
-//	 #else
-//	         SendFloatToComputer((BaseSequentialStream *) &SD3, get_audio_buffer_ptr(LEFT_OUTPUT), FFT_SIZE);
-//	 #endif  /* DOUBLE_BUFFERING */
-//	 #else
-//	         float* bufferCmplxInput = get_audio_buffer_ptr(LEFT_CMPLX_INPUT);
-//	         float* bufferOutput = get_audio_buffer_ptr(LEFT_OUTPUT);
-//
-//	         uint16_t size = ReceiveInt16FromComputer((BaseSequentialStream *) &SD3, bufferCmplxInput, FFT_SIZE);
-//
-//	         if(size == FFT_SIZE){
-//	             /*
-//	             *   Optimized FFT
-//	             */
-//
-//	             doFFT_optimized(FFT_SIZE, bufferCmplxInput);
-//
-//	             /*
-//	             *   End of optimized FFT
-//	             */
-//
-//	             arm_cmplx_mag_f32(bufferCmplxInput, bufferOutput, FFT_SIZE);
-//
-//	             SendFloatToComputer((BaseSequentialStream *) &SD3, bufferOutput, FFT_SIZE);
-//
-//	         }
-//	 #endif  /* SEND_FROM_MIC */
-//	     }
-//	     /*=======================================END OF TP5 IMPORTATION================================*/
-
     /* Infinite loop. */
     while (1) {
-//    	uint16_t measure=0;
-//    	measure = VL53L0X_get_dist_mm();
-//    	chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", measure);
-
     	//waits 1 second
     	chThdSleepMilliseconds(1000);
     }
 }
 
 
-//Pas encore trop compris sa fonction? A noter si tu sais?
 #define STACK_CHK_GUARD 0xe2dee396
 uintptr_t __stack_chk_guard = STACK_CHK_GUARD;
 
