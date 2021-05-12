@@ -102,31 +102,33 @@ static THD_FUNCTION(PiRegulator, arg) {
     volatile int16_t speed = 0;
     int16_t measure = 0;
     uint8_t run = 0;
-    uint8_t right =0, left=0;
+    uint8_t left=0;
 
 
     while(1){
-//    	 	run = get_run();
-//    	run = true;
-    		time = chVTGetSystemTime();
-    		right=get_right(); //si !right --> alors il tourne à droite donc ne doit pas avancer ou être arrêté
+    	 	run = get_run();
+
+    		time = chVTGetSystemTime();//pour le sleep Window d'en dessous
+
     		left=get_left(); //si !left --> alors il tourne à gauche donc ne doit pas avancer ou être arrêté
+
+    		//si il est en mouvement est n'a pas vu de bleu
     	 	if(run && left){
+    	 		//mesure de la distance à un obstacle pour réguler la vitesse grâce au PI
 			measure	= VL53L0X_get_dist_mm();
-			//computes the speed to give to the motors
-			//distance_cm is modified by the image processing thread
 			speed = pi_regulator(measure);
-//			if(speed<0){speed = 0;}
 
-
-			//applies the speed from the PI regulator and the correction for the rotation
+			//applique la vitesse calculée aux moteurs
 			right_motor_set_speed(speed);
 			left_motor_set_speed(speed);
-    	 	}else if(left){
-    	 		right_motor_set_speed(0);//enlever les Magic numbers
+
+		//s'il doit être arrêté
+    	 	}else if(!run){
+    	 		right_motor_set_speed(0);
     	 		left_motor_set_speed(0);
 
-    	 	}else if(!left){//run && !right				WARNING
+    	 	//s'il a vu du bleu
+    	 	}else if(run && !left){
     	 		turn(PI/2);
     	 		chThdSleepMilliseconds(500);
     	 		done_l = false;

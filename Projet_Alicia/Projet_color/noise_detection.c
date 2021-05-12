@@ -169,5 +169,6 @@ float* get_audio_buffer_ptr(BUFFER_NAME_t name){
 }
 
 uint8_t get_run(void){
-	return freq_found;
+//	return freq_found;
+	return 1;//pour tester le robot
 }

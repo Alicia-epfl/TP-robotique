@@ -31,18 +31,7 @@
 #include "sensors/VL53L0X/VL53L0X.h"
 //#include <i2c_bus.h>
 
-
-
-
-/*defines pour NOISE detection
- * !!!!!!!!!!IMPORTANT!!!!!!!!!
- * SEND_FROM_MIC permet d'utiliser les micro de e-puck alors que
- * DOUBLE_BUFFERING prends les infos de l'ordinateur!
- * ==================================================================
- * Visiblement il faut garder DOUBLE_BUFFERING quand même? --> Je comprends pas pourquoi, askip on a vu en TP*/
 #define SEND_FROM_MIC
-//#define DOUBLE_BUFFERING
-/*end of defines pour noise detection*/
 
 /*BUS pour proximity*/
 messagebus_t bus;
@@ -98,49 +87,7 @@ uint8_t red_rgb =0, green_rgb=0, blue_rgb=0;
   }
 }
 /*Fin du thread de BODY LED*/
-/*Thread pour PROXIMITY*/
-static THD_WORKING_AREA(waProximity, 4096);
-static THD_FUNCTION(Proximity, arg) {
 
-	 chRegSetThreadName(__FUNCTION__);
-	  (void)arg;
-
-/* Proximity detection variables*/
-	  bool prox_detected = false;
-	  int16_t proxi_value = 0;
-	  uint8_t i=0;
-	  /*===========================*/
-
-while (!chThdShouldTerminateX()) {
-  	  for(i=0; i<7; i++)
-  	  	  {
-     	   		proxi_value= get_prox(i);
-//     	   		chprintf((BaseSequentialStream *)&SDU1, "green=%d \n", proxi_value);
-     	    	 	if(proxi_value>THRESHOLD)
-     	    	 	{
-     	    	 		prox_detected=true;
-     	    	 	}
-     	     }
-
-     	     if(prox_detected){
-     	    	 	 set_led(LED7, ON);
-//     	    	 	left_motor_set_speed(0);
-//     	    	 	right_motor_set_speed(0);
-     	     }else{
-     	    	 	 set_led(LED7, OFF);
-     	     }
-
-     	   //temp: Need to see if turns off when nothing is close, later, each sensor will likely have their own boolean and a case/switch
-     	     //to toggle different leds or different actions such as obstacle avoidance
-     	     /*======================*/
-
-     	    /* Delay of 250 milliseconds.*/
-//     	    chThdSleepMilliseconds(100);
-     	   prox_detected = false;
-
-	}
-}
-/*Fin du thread Proximity*/
 
 /*
  * FUNCTIONS
@@ -170,9 +117,6 @@ void SendUint8ToComputer(uint8_t* data, uint16_t size)
 	chSequentialStreamWrite((BaseSequentialStream *)&SD3, (uint8_t*)data, size);
 }
 /*Version pour les floats:*/
-/*
-*	Sends floats numbers to the computer
-*/
 void SendFloatToComputer(BaseSequentialStream* out, float* data, uint16_t size)
 {
 	chSequentialStreamWrite(out, (uint8_t*)"START", 5);
@@ -180,6 +124,7 @@ void SendFloatToComputer(BaseSequentialStream* out, float* data, uint16_t size)
 	chSequentialStreamWrite(out, (uint8_t*)data, sizeof(float) * size);
 }
 // @brief
+/*Sequence d'animation de body led au démarrage du programme */
 void readyAnimation(void) {
 
 	set_body_led(ON);
@@ -199,7 +144,6 @@ void readyAnimation(void) {
 //attendre avant de lancer
 	chThdSleepMilliseconds(500);
 	set_body_led(OFF);
-
 }
 
 /*
@@ -212,43 +156,43 @@ int main(void)
     chSysInit();
     mpu_init();
 
-    //start bus
+    //Démarre le bus
     messagebus_init(&bus, &bus_lock, &bus_condvar);
-    //starts the serial communication
+    //Démarre la serial communication
     serial_start();
-    //start the USB communication
+    //Démarre la communication USB
     usb_start();
     //pour la musique
     dac_start();
     //enclenche la connection SPI pour pouvoir utiliser les LEDS RGB
     	spi_comm_start();
-    //starts the camera
+    //Démarre la camera
     dcmi_start();
 	po8030_start();
 
 
-	/*Starts the IR sensors*/
+	/*Démarre les capteurs IR*/
 	proximity_start();
 	calibrate_ir();
 
-	//inits the motors
+	//initialise les moteurs
 	motors_init();
 
 	readyAnimation();
 
-	//start VL53L0X
+	//Démarre VL53L0X
 	VL53L0X_start();
 
 
 
-	//start the melody
+	//Démarre le thread des melodies
 	playMelodyStart();
 
-	//stars the threads for the pi regulator and the processing of the image
+	//Démarre les threads pour le régulateur pi et le image processing
 	pi_regulator_start();
 	process_image_start();
 
-	//start des micro
+	//Démarre les micro
 	mic_start(&processAudioData);
 
 	//Clignotement BODY LED --> appel du thread
@@ -260,7 +204,7 @@ int main(void)
 
     /* Infinite loop. */
     while (1) {
-    	//waits 1 second
+    	//Attend 1 seconde
     	chThdSleepMilliseconds(1000);
     }
 }
