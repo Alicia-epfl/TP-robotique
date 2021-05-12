@@ -31,9 +31,10 @@ static float micLeft_output[FFT_SIZE];
 
 static uint8_t freq_found = 0;
 static int8_t led_on = false;
-static uint16_t compteur = 0;
+static uint8_t successive_freq_counter = 0;
 
 #define MIN_VALUE_THRESHOLD	10000
+#define MAX_MIC_INPUT_COUNTER 10
 
 #define MIN_FREQ		10	//we don't analyze before this index to not use resources for nothing
 #define FREQ_FORWARD		16	//150Hz
@@ -41,6 +42,9 @@ static uint16_t compteur = 0;
 //#define FREQ_RIGHT		23	//359HZ
 //#define FREQ_BACKWARD	26	//406Hz
 #define MAX_FREQ		30	//we don't analyze after this index to not use resources for nothing
+
+#define L_FREQ 90
+#define M_FREQ 110
 
 #define FREQ_FORWARD_L		(FREQ_FORWARD-2)
 #define FREQ_FORWARD_H		(FREQ_FORWARD+2)
@@ -61,7 +65,7 @@ void sound_remote(float* data){
 	uint8_t right =0, left=0;
 
 	//search for the highest peak
-	for(uint16_t i = MIN_FREQ ; i <= MAX_FREQ ; i++){
+	for(uint16_t i = L_FREQ ; i <= M_FREQ ; i++){
 		if(data[i] > max_norm){
 			max_norm = data[i];
 			max_norm_index = i;
@@ -70,7 +74,7 @@ void sound_remote(float* data){
 
 	//go forward --> du coup nous on veut plutôt un toggle à chaque fois qu'il entend la fréquence right? En mode on a un static RUN qu'on met à 1 ou 0
 	// et en fonction de sa valeur on dit go forward ou stop right? Et le gauche et droite de ici on l'utilise dans les couleurs
-	if(max_norm_index >= MIN_FREQ && max_norm_index <= MAX_FREQ){
+	if(max_norm_index >= L_FREQ && max_norm_index <= M_FREQ){
 //		left_motor_set_speed(600);
 //		right_motor_set_speed(600);
 
@@ -164,26 +168,17 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 
 		//sends only one FFT result over 10 for 1 mic to not flood the computer
 		//sends to UART3
-		if(mustSend > 8){
-			//signals to send the result to the computer
-//			chBSemSignal(&sendToComputer_sem);
-			mustSend = 0;
-		}
+//		if(mustSend > 8){
+//			//signals to send the result to the computer
+////			chBSemSignal(&sendToComputer_sem);
+//			mustSend = 0;
+//		}
 		nb_samples = 0;
-		mustSend++;
+//		mustSend++;
 
 		sound_remote(micLeft_output);
-//		if(freq_found)
-//		{
-//			set_led(LED5, OFF);
-//		}
-//		else
-//		{
-//			set_led(LED5, OFF);
-//		}
-		if(compteur > 10) // mesurer combien ça prends
+		if(successive_freq_counter > MAX_MIC_INPUT_COUNTER) //environs 1/2 secondes
 		{
-			compteur=0;
 			if(led_on)
 			{
 				set_led(LED3, OFF);
@@ -194,14 +189,15 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 				set_led(LED3, ON);
 				led_on = true;
 			}
+			successive_freq_counter=0;
 		}
 		else if(freq_found)
 		{
-			compteur++;
+			successive_freq_counter++;
 		}
 		else
 		{
-			compteur = 0;
+			successive_freq_counter = 0;
 		}
 	}
 }
