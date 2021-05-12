@@ -23,9 +23,10 @@ static float micLeft_cmplx_input[2 * FFT_SIZE];
 //Arrays containing the computed magnitude of the complex numbers
 static float micLeft_output[FFT_SIZE];
 
-static uint8_t freq_found = 0;
+static uint8_t freq_found = false;
 static int8_t led_on = false;
-static uint8_t successive_freq_counter = 0;
+static int16_t successive_freq_counter = 0;//pourquoi un int? NICO
+
 
 #define MIN_VALUE_THRESHOLD	10000
 #define MAX_MIC_INPUT_COUNTER 10
@@ -121,7 +122,7 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		arm_cmplx_mag_f32(micLeft_cmplx_input, micLeft_output, FFT_SIZE);
 
 		nb_samples = 0;
-
+		chprintf((BaseSequentialStream *)&SDU1, "compteur=%3d\r",successive_freq_counter);
 		sound_remote(micLeft_output);
 		if(successive_freq_counter > MAX_MIC_INPUT_COUNTER) //environs 1/2 secondes
 		{
@@ -140,6 +141,7 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		else if(freq_found)
 		{
 			successive_freq_counter++;
+			freq_found = false;
 		}
 		else
 		{

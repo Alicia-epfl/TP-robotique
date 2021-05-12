@@ -265,11 +265,13 @@ int main(void)
 //	     static float send_tab[FFT_SIZE];
 //
 //
-	 #ifdef SEND_FROM_MIC
+//	 #ifdef SEND_FROM_MIC
 	     //starts the microphones processing thread.
 	     //it calls the callback given in parameter when samples are ready
 	     mic_start(&processAudioData);
-	 #endif  /* SEND_FROM_MIC */
+	 //test 2
+
+//	 #endif  /* SEND_FROM_MIC */
 //
 //	     /* Infinite loop. */
 //	     while (1) {
