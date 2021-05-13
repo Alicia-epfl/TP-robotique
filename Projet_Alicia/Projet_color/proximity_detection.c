@@ -20,6 +20,7 @@
 
 //static pour indiquer si on est en train d'éviter un obstacle --> si oui on met le "run" en pause dans le pi
 static uint8_t avoid = false;
+static uint8_t game_over = false;
 /*
  * THREADS
  */
@@ -30,12 +31,12 @@ static THD_FUNCTION(Proximity, arg) {
 	 chRegSetThreadName(__FUNCTION__);
 	  (void)arg;
 
-	  uint8_t run = 0;
+	  uint8_t avoid_allowed;
 
-	while (1){
-		run = get_run();
+	while (0){
+		avoid_allowed = get_avoid_allowed_fsm();
 
-		while(run){
+		while(avoid_allowed){
 			/*Fonction d'évitement*/
 
 			//OBSTACLE DEVANT
@@ -46,8 +47,6 @@ static THD_FUNCTION(Proximity, arg) {
 				right_motor_set_speed(0);
 				left_motor_set_speed(0);
 
-
-
 				//OBSTACLE DEVANT + A DROITE
 				if(get_prox(2)>AXIS_THRESHOLD){
 
@@ -56,7 +55,8 @@ static THD_FUNCTION(Proximity, arg) {
 
 				//OBSTACLE PARTOUT --> ENCERCLE
 						if((get_prox(3)>AXIS_THRESHOLD) || (get_prox(4)>AXIS_THRESHOLD)){
-							run = 0;	//RETURN RUN A FALSE											WARNING
+							//Le jeu est perdu --> game over
+							game_over = true;
 						}
 						//OBSTACLE DEVANT + A DROITE + A GAUCHE
 						else{
@@ -70,8 +70,7 @@ static THD_FUNCTION(Proximity, arg) {
 					//OBSTACLE DEVANT + A DROITE
 					}else{
 						//tourne à gauche
-//						turn(PI/2);
-						set_body_led(ON);
+						turn(PI/2);
 						//libère run
 						avoid = false;
 						chThdSleepMilliseconds(100);
@@ -79,8 +78,7 @@ static THD_FUNCTION(Proximity, arg) {
 				//OBSTACLE DEVANT
 				}else{
 					//tourne à droite
-//					turn(-PI/2);
-					set_body_led(ON);
+					turn(-PI/2);
 					//libère run
 					avoid = false;
 					chThdSleepMilliseconds(100);

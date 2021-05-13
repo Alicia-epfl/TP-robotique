@@ -3,9 +3,8 @@
 
 
 /*Fonction pour vérifier si le robot est en train de tourner à droite
- * Si right = true --> normal
- * Si right = false --> tourne à droite, tout le monde s'arrête*/
-uint8_t get_right(void);
+ * Si left = false --> tourne à gauche, tout le monde s'arrête*/
+uint8_t get_record(void);
 uint8_t get_left(void);
 uint8_t get_red(void);
 uint8_t get_green(void);

@@ -12,7 +12,10 @@
 #include "noise_detection.h"
 
 #include "sensors/VL53L0X/VL53L0X.h"
+/*pour obtenir le avoid*/
+#include "proximity_detection.h"
 
+#include <leds.h>
 
 
 
@@ -106,41 +109,48 @@ static THD_FUNCTION(PiRegulator, arg) {
 
     volatile int16_t speed = 0;
     int16_t measure = 0;
-    uint8_t run = 0;
+    uint8_t stop = 0, avoid = 0;
     uint8_t left=0;
 
 
     while(1){
-    	 	run = get_run();
+		avoid = get_avoid();
+		//si il est en manoeuvre d'évitement, pas besoin d'entrer dans ce thread
+    		while(!avoid){
+				stop = get_stop_fsm();
 
-    		time = chVTGetSystemTime();//pour le sleep Window d'en dessous
+				time = chVTGetSystemTime();//pour le sleep Window d'en dessous
 
-    		left=get_left(); //si !left --> alors il tourne à gauche donc ne doit pas avancer ou être arrêté
+				left=get_left(); //si !left --> alors il tourne à gauche donc ne doit pas avancer ou être arrêté
 
-    		//si il est en mouvement est n'a pas vu de bleu
-    	 	if(run && left){
-    	 		//mesure de la distance à un obstacle pour réguler la vitesse grâce au PI
-			measure	= VL53L0X_get_dist_mm();
-			speed = pi_regulator(measure);
+				//si il est en mouvement est n'a pas vu de bleu
+				if(!stop){
+					//mesure de la distance à un obstacle pour réguler la vitesse grâce au PI
+				measure	= VL53L0X_get_dist_mm();
+				speed = pi_regulator(measure);
 
-			//applique la vitesse calculée aux moteurs
-			right_motor_set_speed(speed);
-			left_motor_set_speed(speed);
+				//applique la vitesse calculée aux moteurs
+				right_motor_set_speed(speed);
+				left_motor_set_speed(speed);
+				set_front_led(OFF);
 
-		//s'il doit être arrêté
-    	 	}else if(!run){
-    	 		right_motor_set_speed(0);
-    	 		left_motor_set_speed(0);
+			//s'il doit être arrêté --> on remet les conditions avec left par sécurité même si déjà contrôlées dans la fsm
+				}else if(stop && left){
+					right_motor_set_speed(0);
+					left_motor_set_speed(0);
+					set_front_led(ON);
 
-    	 	//s'il a vu du bleu
-    	 	}else if(run && !left){
-    	 		turn(PI/2);
-    	 		chThdSleepMilliseconds(500);
-    	 		done_l = false;
-    	 	}
+				//s'il a vu du bleu
+				}else if(stop && !left){
+					turn(PI/2);
+					chThdSleepMilliseconds(500);
+					done_l = false;
+					set_front_led(OFF);
+				}
 
-        //100Hz
-        chThdSleepUntilWindowed(time, time + MS2ST(10));
+			//100Hz
+			chThdSleepUntilWindowed(time, time + MS2ST(10));
+		}
     }
 }
 

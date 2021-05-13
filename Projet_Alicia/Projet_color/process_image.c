@@ -41,7 +41,7 @@ static uint8_t blue_rgb=false;
 /*Thread CHECKER LA CAMERA*/
 static THD_WORKING_AREA(waRecord, 2046);//tentative de 256 à 1024
 static THD_FUNCTION(Record, arg){
-	uint16_t measure=0;
+	uint16_t measure=0, record_allowed=0;
 
 
 
@@ -49,14 +49,16 @@ static THD_FUNCTION(Record, arg){
 /*L'idée ensuite c'est de faire une fonction qui récuoère les mesures dans pi et qui return 1 ou 0 directement pour ici!*/
 		measure = VL53L0X_get_dist_mm();
 //		chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", measure);
+		record_allowed = get_record_allowed_fsm();
 
 		if (measure<130){
 			record = true;
-			set_front_led(ON);
 		}else{
 			record = false;
-//			record = true;
-			set_front_led(OFF);
+		}
+		//vérifier que le record est autorisé par la fsm
+		if(!record_allowed){
+			record = false;
 		}
 		chThdSleepMilliseconds(500);
 	}
@@ -193,12 +195,7 @@ void process_image_start(void){
 	chThdCreateStatic(waRecord, sizeof(waRecord),NORMALPRIO+1, Record, NULL);
 }
 
-//Si right = true --> normal
-//Si right = false --> tourne à droite, tout le monde s'arrête
-uint8_t get_right(void){
-
-	return right;
-}
+//Si left = false --> tourne à droite, tout le monde s'arrête
 uint8_t get_left(void){
 
 	return left;
@@ -214,5 +211,8 @@ uint8_t get_green(void){
 uint8_t get_blue(void){
 
 	return blue_rgb;
+}
+uint8_t get_record(void){
+	return record;
 }
 

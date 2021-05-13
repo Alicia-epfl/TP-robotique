@@ -29,9 +29,16 @@
 #include <audio/play_melody.h>
 /*============================*/
 #include "sensors/VL53L0X/VL53L0X.h"
-//#include <i2c_bus.h>
+/*Besoin d'eux pour la fsm*/
+#include "proximity_detection.h"
 
 #define SEND_FROM_MIC
+
+/*Définition des statiques pour la FSM*/
+static uint8_t stop =false;		//définit si le robot doit avancer ou non
+static uint8_t record_allowed = true;	//définiit si on peut enclencher la caméra ou non
+static uint8_t avoid_allowed = true;	//définit si on peut faire une manoeuvre d'évitement
+
 
 /*BUS pour proximity*/
 messagebus_t bus;
@@ -41,26 +48,81 @@ CONDVAR_DECL(bus_condvar);
 /*
  * THREADS
  */
+/*Thread pour la gestion de la FSM
+ * Thread de gestion générale de nos états*/
+static THD_WORKING_AREA(wafsm, 256);
+static THD_FUNCTION(fsm, arg) {
+
+	 chRegSetThreadName(__FUNCTION__);
+	  (void)arg;
+
+uint8_t run = 0, left=0, avoid = 0, record;
+
+  while (1){
+
+/*Gestion des moteurs*/
+	  run = 1;//get_run();
+	  record = get_record();
+	  avoid = get_avoid();
+	  left = get_left();
+
+	  if(run){
+		  if(record){
+			  //garder record à 1 pour activer les caméras
+
+			  //Si on doit tourner à gauche
+			  if(!left){
+				  stop = true;
+				  avoid_allowed = false;
+			  }else{
+				  stop = !run;
+				  avoid_allowed = true;
+			  }//left
+		  }else if(left && !avoid){
+			  stop = !run;
+			  avoid_allowed = true;
+		  }//record
+		  //si il est en évitement et qu'il n'est pas en train de tourner à gauche
+		  if(avoid && left){
+			  stop = true;
+			  record_allowed = false;
+		  }else{
+			  record_allowed = true;
+		  }//avoid
+	//si run = 0
+	  }else{
+		  stop = true;
+		  avoid_allowed = false;
+	  }//run
+	  chThdSleepMilliseconds(250);
+
+/*Fin de gestion des moteurs*/
+
+	  /*s'occuper du game over*/
+
+  }//while(1)
+}//thread
+/*Fin du thread de fsm*/
+
 /*Thread pour le clignotement de BODY LED*/
 static THD_WORKING_AREA(waBlinker, 256);//128 mais 256 juste pour le printf
 static THD_FUNCTION(Blinker, arg) {
 
 	 chRegSetThreadName(__FUNCTION__);
 	  (void)arg;
-uint8_t toggle = 0, right=0, left=0;
+uint8_t toggle = 0, left=0;
 uint8_t red_rgb =0, green_rgb=0, blue_rgb=0;
 
-  while (!chThdShouldTerminateX()) {
+  while (1) {
     /* Toggling LEDs while the main thread is busy   .*/
-//    set_body_led(TOGGLE);
-	  right = get_right();
 	  left=get_left();
+
 	  red_rgb=get_red();
 	  green_rgb=get_green();
 	  blue_rgb=get_blue();
 
 //	  chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", right);
-	  if((!right)||(!left)){
+	  if(!left){
 		  set_rgb_led(LED6, red_rgb, green_rgb, blue_rgb);
 		  set_rgb_led(LED2, red_rgb, green_rgb, blue_rgb);
 		  set_rgb_led(LED4, red_rgb, green_rgb, blue_rgb);
@@ -146,6 +208,17 @@ void readyAnimation(void) {
 	set_body_led(OFF);
 }
 
+/*fonctions qui renvoient les valeurs dictées par la fsm*/
+uint8_t get_stop_fsm(void){
+	return stop;
+}
+uint8_t get_record_allowed_fsm(void){
+	return record_allowed;
+}
+uint8_t get_avoid_allowed_fsm(void){
+	return avoid_allowed;
+}
+
 /*
  * MAIN
  */
@@ -195,6 +268,9 @@ int main(void)
 
 	//Clignotement BODY LED --> appel du thread
 	 chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
+
+	 //Lancement du thread fsm
+	 chThdCreateStatic(wafsm, sizeof(wafsm), NORMALPRIO, fsm, NULL);
 
 	//Démarre le thread des melodies
 	playMelodyStart();

@@ -55,7 +55,12 @@ extern parameter_namespace_t parameter_root;
 /*Ces fonctions permettent la communication avec le terminal via screen pour des uint8_t ou des floats*/
 void SendUint8ToComputer(uint8_t* data, uint16_t size);
 void SendFloatToComputer(BaseSequentialStream* out, float* data, uint16_t size);
-//void readyAnimation(void);
+
+/*fonction des variables renvoyées par la fsm*/
+uint8_t get_stop_fsm(void);
+uint8_t get_record_allowed_fsm(void);
+uint8_t get_avoid_allowed_fsm(void);
+
 
 #ifdef __cplusplus
 }
