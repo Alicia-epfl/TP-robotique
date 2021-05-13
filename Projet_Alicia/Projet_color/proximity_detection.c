@@ -43,9 +43,7 @@ static THD_FUNCTION(Proximity, arg) {
 			if((get_prox(0)>AXIS_THRESHOLD) || (get_prox(7)>AXIS_THRESHOLD)){
 				//indique qu'on est en processus d'évitement
 				avoid = true;
-				//le robot s'arrete avant de chercher son chemin
-				right_motor_set_speed(0);
-				left_motor_set_speed(0);
+
 
 				//OBSTACLE DEVANT + A DROITE
 				if(get_prox(2)>AXIS_THRESHOLD){
@@ -79,13 +77,14 @@ static THD_FUNCTION(Proximity, arg) {
 				}else{
 					//tourne à droite
 					turn(-PI/2);
-					set_body_led(ON);
+
 					//libère run
 					chThdSleepMilliseconds(100);
 //					avoid = false;
 				}
 			}else{
-				avoid = false;
+//				avoid = false;
+				set_body_led(ON);
 			}//if obstacle devant
 			/*===========================*/
 

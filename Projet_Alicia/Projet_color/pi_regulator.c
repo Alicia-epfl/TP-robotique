@@ -109,14 +109,14 @@ static THD_FUNCTION(PiRegulator, arg) {
 
     volatile int16_t speed = 0;
     int16_t measure = 0;
-    uint8_t stop = 0, avoid = 0;
-    uint8_t left=0;
+    uint8_t stop = 0, left= 0;
+    volatile uint8_t avoid=0;
 
 
     while(1){
 		avoid = get_avoid();
 		//si il est en manoeuvre d'évitement, pas besoin d'entrer dans ce thread
-    		while(!avoid){
+    		if(!avoid){
 				stop = get_stop_fsm();
 
 				time = chVTGetSystemTime();//pour le sleep Window d'en dessous

@@ -56,21 +56,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  17 .comment      0000007e  00000000  00000000  00031529  2**0
                   CONTENTS, READONLY
- 18 .debug_info   00112171  00000000  00000000  000315a7  2**0
+ 18 .debug_info   00112136  00000000  00000000  000315a7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .debug_abbrev 00012560  00000000  00000000  00143718  2**0
+ 19 .debug_abbrev 00012560  00000000  00000000  001436dd  2**0
                   CONTENTS, READONLY, DEBUGGING
- 20 .debug_loc    0002127d  00000000  00000000  00155c78  2**0
+ 20 .debug_loc    00021254  00000000  00000000  00155c3d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 21 .debug_aranges 00002280  00000000  00000000  00176ef5  2**0
+ 21 .debug_aranges 00002280  00000000  00000000  00176e91  2**0
                   CONTENTS, READONLY, DEBUGGING
- 22 .debug_ranges 00004800  00000000  00000000  00179175  2**0
+ 22 .debug_ranges 00004808  00000000  00000000  00179111  2**0
                   CONTENTS, READONLY, DEBUGGING
- 23 .debug_line   00030d23  00000000  00000000  0017d975  2**0
+ 23 .debug_line   00030d1e  00000000  00000000  0017d919  2**0
                   CONTENTS, READONLY, DEBUGGING
- 24 .debug_str    0000bbad  00000000  00000000  001ae698  2**0
+ 24 .debug_str    0000bbad  00000000  00000000  001ae637  2**0
                   CONTENTS, READONLY, DEBUGGING
- 25 .debug_frame  0000a330  00000000  00000000  001ba248  2**2
+ 25 .debug_frame  0000a32c  00000000  00000000  001ba1e4  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -136,7 +136,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 08015710 l     O .text	00000004 __FUNCTION__.15612
 08015720 l     O .text	00000008 __FUNCTION__.15622
 00000000 l    df *ABS*	00000000 pi_regulator.c
-08001840 l     F .text	000000f8 PiRegulator
+08001840 l     F .text	00000108 PiRegulator
 200019f8 l     O .bss	00000001 done_l
 200019fc l     O .bss	00000004 sum_error
 20001a00 l     O .bss	00000004 sum_error_rot
@@ -144,9 +144,9 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 08015750 l     O .text	0000000c __FUNCTION__.13459
 08015760 l     O .text	0000000c __func__.7153
 00000000 l    df *ABS*	00000000 process_image.c
-080019b0 l     F .text	0000003c Record
-080019f0 l     F .text	00000214 ProcessImage
-08001c10 l     F .text	000000a4 CaptureImage
+080019c0 l     F .text	0000003c Record
+08001a00 l     F .text	00000214 ProcessImage
+08001c20 l     F .text	000000a4 CaptureImage
 20001f80 l     O .bss	00000001 blue_rgb
 20001f81 l     O .bss	00000001 green_rgb
 20001f82 l     O .bss	00000001 red_rgb
@@ -160,7 +160,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 08015780 l     O .text	0000000d __FUNCTION__.12978
 08015790 l     O .text	0000000c __func__.7153
 00000000 l    df *ABS*	00000000 proximity_detection.c
-08001e20 l     F .text	000000d8 Proximity
+08001e30 l     F .text	000000cc Proximity
 200030f0 l     O .bss	00000001 avoid
 200030f8 l     O .bss	00000578 waProximity
 080157a0 l     O .text	0000000a __FUNCTION__.12357
@@ -551,7 +551,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 08009d50 g     F .text	0000003c chOQResetI
 10000000 g       startup	00000000 __ram4_start__
 20000810 g     O .data	00000014 bus_lock
-08001d60 g     F .text	00000028 get_red
+08001d70 g     F .text	00000028 get_red
 0800de50 g     F .text	00000048 Vector5C
 080080f0 g     F .text	00000040 _dbg_check_unlock
 08011090 g     F .text	00000030 spi_lld_select
@@ -576,7 +576,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 08009a90 g     F .text	00000038 chIQObjectInit
 08008fa0 g     F .text	0000002c chTMStartMeasurementX
 08010890 g     F .text	0000005c usb_lld_prepare_receive
-08001dc0 g     F .text	00000028 get_blue
+08001dd0 g     F .text	00000028 get_blue
 08011280 g     F .text	000000d0 gpt_lld_start
 200077fc g     O .bss	00000010 GPTD6
 08003f90 g     F .text	000000a0 proximity_start
@@ -635,7 +635,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 0800d2d0 g     F .text	0000004c Vector120
 080089f0 g     F .text	00000074 chThdCreateI
 08010d90 g     F .text	00000034 usb_lld_clear_out
-08001980 g     F .text	00000028 get_done_left
+08001990 g     F .text	00000028 get_done_left
 0800fc60 g     F .text	000000a8 i2c_lld_stop
 08004810 g     F .text	0000007c VL53L0X_SetLimitCheckValue
 0800116c g     F .text	00000010 .hidden __aeabi_cdcmple
@@ -867,7 +867,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 20003958 g     O .bss	00000018 left_motor
 0800f040 g     F .text	0000006c dac_lld_put_channel
 0800c470 g     F .text	00000030 spiObjectInit
-08001d90 g     F .text	00000028 get_green
+08001da0 g     F .text	00000028 get_green
 20007860 g     O .bss	0000001c PWMD5
 200077b4 g     O .bss	00000034 SPID1
 080011cc g     F .text	00000012 .hidden __aeabi_dcmpgt
@@ -898,7 +898,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 080076b0 g     F .text	00000034 VL53L0X_write_word
 00000000 g       *ABS*	00000000 __ram7_size__
 08007e70  w    F .text	0000001c Vector1B4
-08001d30 g     F .text	00000028 get_left
+08001d40 g     F .text	00000028 get_left
 0800060c g     F .text	0000006a .hidden __floatundidf
 2000780c g     O .bss	0000001c PWMD2
 0800f270 g     F .text	00000068 dac_lld_stop_conversion
@@ -941,7 +941,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 00000000 g       startup	00000000 __ram7_start__
 0800ab40 g     F .text	0000004c gptStopTimerI
 0800a020 g     F .text	00000088 chCoreAlloc
-08001940 g     F .text	00000038 pi_regulator_start
+08001950 g     F .text	00000038 pi_regulator_start
 080005a4 g     F .text	00000022 .hidden __aeabi_i2d
 080082a0 g     F .text	00000048 chDbgCheckClassS
 08007e70  w    F .text	0000001c VectorF0
@@ -1014,7 +1014,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 0800d190 g     F .text	0000004c Vector7C
 08007e70  w    F .text	0000001c VectorC4
 08003b80 g     F .text	0000002c right_motor_set_pos
-08001df0 g     F .text	00000028 get_record
+08001e00 g     F .text	00000028 get_record
 08007e70  w    F .text	0000001c Vector180
 0800d690 g     F .text	00000080 dmaStreamRelease
 08002280 g     F .text	00000044 dcmi_lld_start_oneshot
@@ -1236,6 +1236,6 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 08014b70 g     F .text	00000012 _Bfree
 080038d0 g     F .text	0000002c left_motor_disable_power_save
 08007e70  w    F .text	0000001c Vector174
-08001cc0 g     F .text	00000068 process_image_start
+08001cd0 g     F .text	00000068 process_image_start
 
 
