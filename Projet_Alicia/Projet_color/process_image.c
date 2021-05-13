@@ -152,16 +152,16 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 			/*RED*/
 			if((mean_red_filtered > 1.5*mean_blue_filtered) && (mean_red_filtered > 1.5*mean_green_filtered)){// RED --> GAME OVER
-//				playMelody(MARIO_DEATH, ML_SIMPLE_PLAY, NULL);
+				playMelody(MARIO_DEATH, ML_SIMPLE_PLAY, NULL);
 				left_motor_set_speed(0);
-				right_motor_set_speed(0);// --> mettre RUN à off
+				right_motor_set_speed(0);// --> mettre game_over à ON
 			}
 
 			/*GREEN*/
 			if((mean_green_filtered > mean_blue_filtered) && (mean_green_filtered > 1.5*mean_red_filtered)){// GREEN --> SUCESS
-//				playMelody(SEVEN_NATION_ARMY, ML_SIMPLE_PLAY, NULL);
+				playMelody(SEVEN_NATION_ARMY, ML_SIMPLE_PLAY, NULL);
 				left_motor_set_speed(0);
-				right_motor_set_speed(0);// --> mettre RUN à off
+				right_motor_set_speed(0);// --> mettre WIN à ON
 			}
 
 			/*BLUE*/
@@ -180,8 +180,10 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 				/*Lancer la rotation*/
 				left = false;
-
+				turn(PI/2);
 				chThdSleepMilliseconds(600);
+			}else{
+				left = true;
 			}//blue
     		}//record
     }//while

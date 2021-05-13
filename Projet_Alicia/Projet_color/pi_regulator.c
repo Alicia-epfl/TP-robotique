@@ -141,12 +141,13 @@ static THD_FUNCTION(PiRegulator, arg) {
 					set_front_led(ON);
 
 				//s'il a vu du bleu
-				}else if(stop && !left){
-					turn(PI/2);
-					chThdSleepMilliseconds(500);
-					done_l = false;
-					set_front_led(OFF);
 				}
+//				else if(stop && !left){
+//					turn(PI/2);
+//					chThdSleepMilliseconds(500);
+//					done_l = false;
+//					set_front_led(OFF);
+//				}
 
 			//100Hz
 			chThdSleepUntilWindowed(time, time + MS2ST(10));
@@ -180,7 +181,7 @@ void turn(float alpha){
 			left_motor_set_speed(speed);
 		}
 	}
-	done_l = true;
+//	done_l = true;
 	right_motor_set_speed(0);
 	left_motor_set_speed(0);
 }
