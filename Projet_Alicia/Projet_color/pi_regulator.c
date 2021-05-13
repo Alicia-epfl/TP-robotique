@@ -76,7 +76,7 @@ int16_t pi_rotator(uint16_t position, int32_t nstep){
 	//disables the PI regulator if the error is to small
 	//this avoids to always move as we cannot exactly be where we want and
 	//the camera is a bit noisy
-	if((error) < ERROR_THRE_ROT){
+	if(abs(error) < ERROR_THRE_ROT){
 			return 200;//faible vitesse pour finir correctement le tour
 	}
 

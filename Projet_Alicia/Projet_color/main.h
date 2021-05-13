@@ -43,6 +43,9 @@ extern "C" {
 #define	RED_MAUVE				31
 #define	GREEN_MAUVE				30
 #define	BLUE_MAUVE				31
+#define	RED_ORANGE				31
+#define	GREEN_ORANGE				51
+#define	BLUE_ORANGE				0
 //PROXIMITY
 #define	THRESHOLD				100//1000 s'actionne au touché
 #define AXIS_THRESHOLD			200// POURQUOI ELLE S'APPELLE COMME CA?????????????????????

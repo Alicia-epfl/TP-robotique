@@ -113,12 +113,13 @@ static THD_FUNCTION(Blinker, arg) {
 
 	 chRegSetThreadName(__FUNCTION__);
 	  (void)arg;
-uint8_t toggle = 0, left=0;
+uint8_t toggle = 0, left=0, avoid = 0;
 uint8_t red_rgb =0, green_rgb=0, blue_rgb=0;
 
   while (1) {
     /* Toggling LEDs while the main thread is busy   .*/
 	  left=get_left();
+	  avoid = get_avoid();
 
 	  red_rgb=get_red();
 	  green_rgb=get_green();
@@ -131,6 +132,11 @@ uint8_t red_rgb =0, green_rgb=0, blue_rgb=0;
 		  set_rgb_led(LED4, red_rgb, green_rgb, blue_rgb);
 		  set_rgb_led(LED8, red_rgb, green_rgb, blue_rgb);
 
+	  }else if(avoid){
+			set_rgb_led(LED6, RED_ORANGE, GREEN_ORANGE, BLUE_ORANGE);
+			set_rgb_led(LED2, RED_ORANGE, GREEN_ORANGE, BLUE_ORANGE);
+			set_rgb_led(LED4, RED_ORANGE, GREEN_ORANGE, BLUE_ORANGE);
+			set_rgb_led(LED8, RED_ORANGE, GREEN_ORANGE, BLUE_ORANGE);
 	  }else{
 		if(toggle){
 			set_rgb_led(LED6, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
