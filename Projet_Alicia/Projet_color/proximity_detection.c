@@ -83,8 +83,8 @@ static THD_FUNCTION(Proximity, arg) {
 //					avoid = false;
 				}
 			}else{
-//				avoid = false;
-				set_body_led(ON);
+				avoid = false;
+//				set_body_led(ON);
 			}//if obstacle devant
 			/*===========================*/
 

@@ -2509,10 +2509,10 @@ Disassembly of section .text:
 08001e30 <Proximity>:
  8001e30:	b510      	push	{r4, lr}
  8001e32:	ed2d 8b04 	vpush	{d8-d9}
- 8001e36:	4a2a      	ldr	r2, [pc, #168]	; (8001ee0 <Proximity+0xb0>)
- 8001e38:	4b2a      	ldr	r3, [pc, #168]	; (8001ee4 <Proximity+0xb4>)
+ 8001e36:	4a29      	ldr	r2, [pc, #164]	; (8001edc <Proximity+0xac>)
+ 8001e38:	4b29      	ldr	r3, [pc, #164]	; (8001ee0 <Proximity+0xb0>)
  8001e3a:	6992      	ldr	r2, [r2, #24]
- 8001e3c:	492a      	ldr	r1, [pc, #168]	; (8001ee8 <Proximity+0xb8>)
+ 8001e3c:	4929      	ldr	r1, [pc, #164]	; (8001ee4 <Proximity+0xb4>)
  8001e3e:	681b      	ldr	r3, [r3, #0]
  8001e40:	6191      	str	r1, [r2, #24]
  8001e42:	b082      	sub	sp, #8
@@ -2520,66 +2520,65 @@ Disassembly of section .text:
  8001e46:	f7ff fb1b 	bl	8001480 <get_avoid_allowed_fsm>
  8001e4a:	2800      	cmp	r0, #0
  8001e4c:	d0fb      	beq.n	8001e46 <Proximity+0x16>
- 8001e4e:	4c27      	ldr	r4, [pc, #156]	; (8001eec <Proximity+0xbc>)
- 8001e50:	ed9f 8a27 	vldr	s16, [pc, #156]	; 8001ef0 <Proximity+0xc0>
- 8001e54:	eddf 8a27 	vldr	s17, [pc, #156]	; 8001ef4 <Proximity+0xc4>
- 8001e58:	ed9f 9a27 	vldr	s18, [pc, #156]	; 8001ef8 <Proximity+0xc8>
- 8001e5c:	e00d      	b.n	8001e7a <Proximity+0x4a>
- 8001e5e:	2005      	movs	r0, #5
+ 8001e4e:	4c26      	ldr	r4, [pc, #152]	; (8001ee8 <Proximity+0xb8>)
+ 8001e50:	ed9f 8a26 	vldr	s16, [pc, #152]	; 8001eec <Proximity+0xbc>
+ 8001e54:	eddf 8a26 	vldr	s17, [pc, #152]	; 8001ef0 <Proximity+0xc0>
+ 8001e58:	ed9f 9a26 	vldr	s18, [pc, #152]	; 8001ef4 <Proximity+0xc4>
+ 8001e5c:	e00a      	b.n	8001e74 <Proximity+0x44>
+ 8001e5e:	2007      	movs	r0, #7
  8001e60:	f002 f906 	bl	8004070 <get_prox>
- 8001e64:	2846      	cmp	r0, #70	; 0x46
- 8001e66:	dd21      	ble.n	8001eac <Proximity+0x7c>
- 8001e68:	2003      	movs	r0, #3
- 8001e6a:	f002 f901 	bl	8004070 <get_prox>
- 8001e6e:	2846      	cmp	r0, #70	; 0x46
- 8001e70:	dd28      	ble.n	8001ec4 <Proximity+0x94>
- 8001e72:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
- 8001e76:	f006 fe53 	bl	8008b20 <chThdSleep>
- 8001e7a:	2000      	movs	r0, #0
- 8001e7c:	f002 f8f8 	bl	8004070 <get_prox>
- 8001e80:	2846      	cmp	r0, #70	; 0x46
- 8001e82:	dc04      	bgt.n	8001e8e <Proximity+0x5e>
- 8001e84:	2007      	movs	r0, #7
- 8001e86:	f002 f8f3 	bl	8004070 <get_prox>
- 8001e8a:	2846      	cmp	r0, #70	; 0x46
- 8001e8c:	dd16      	ble.n	8001ebc <Proximity+0x8c>
- 8001e8e:	2301      	movs	r3, #1
- 8001e90:	2002      	movs	r0, #2
- 8001e92:	7023      	strb	r3, [r4, #0]
- 8001e94:	f002 f8ec 	bl	8004070 <get_prox>
- 8001e98:	2846      	cmp	r0, #70	; 0x46
- 8001e9a:	dce0      	bgt.n	8001e5e <Proximity+0x2e>
- 8001e9c:	eeb0 0a48 	vmov.f32	s0, s16
- 8001ea0:	f7ff fc3e 	bl	8001720 <turn>
- 8001ea4:	2064      	movs	r0, #100	; 0x64
- 8001ea6:	f006 fe3b 	bl	8008b20 <chThdSleep>
- 8001eaa:	e7e2      	b.n	8001e72 <Proximity+0x42>
- 8001eac:	eeb0 0a68 	vmov.f32	s0, s17
- 8001eb0:	f7ff fc36 	bl	8001720 <turn>
- 8001eb4:	2064      	movs	r0, #100	; 0x64
- 8001eb6:	f006 fe33 	bl	8008b20 <chThdSleep>
- 8001eba:	e7da      	b.n	8001e72 <Proximity+0x42>
- 8001ebc:	2001      	movs	r0, #1
- 8001ebe:	f001 fa87 	bl	80033d0 <set_body_led>
- 8001ec2:	e7d6      	b.n	8001e72 <Proximity+0x42>
- 8001ec4:	2004      	movs	r0, #4
- 8001ec6:	f002 f8d3 	bl	8004070 <get_prox>
- 8001eca:	2846      	cmp	r0, #70	; 0x46
- 8001ecc:	dcd1      	bgt.n	8001e72 <Proximity+0x42>
- 8001ece:	eeb0 0a49 	vmov.f32	s0, s18
- 8001ed2:	f7ff fc25 	bl	8001720 <turn>
- 8001ed6:	2064      	movs	r0, #100	; 0x64
- 8001ed8:	f006 fe22 	bl	8008b20 <chThdSleep>
- 8001edc:	e7c9      	b.n	8001e72 <Proximity+0x42>
- 8001ede:	bf00      	nop
- 8001ee0:	20006a58 	.word	0x20006a58
- 8001ee4:	20000800 	.word	0x20000800
- 8001ee8:	080157a0 	.word	0x080157a0
- 8001eec:	200030f0 	.word	0x200030f0
- 8001ef0:	bfc8f5c3 	.word	0xbfc8f5c3
- 8001ef4:	3fc8f5c3 	.word	0x3fc8f5c3
- 8001ef8:	4048f5c3 	.word	0x4048f5c3
- 8001efc:	00000000 	.word	0x00000000
+ 8001e64:	28c8      	cmp	r0, #200	; 0xc8
+ 8001e66:	dc0a      	bgt.n	8001e7e <Proximity+0x4e>
+ 8001e68:	2300      	movs	r3, #0
+ 8001e6a:	7023      	strb	r3, [r4, #0]
+ 8001e6c:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
+ 8001e70:	f006 fe56 	bl	8008b20 <chThdSleep>
+ 8001e74:	2000      	movs	r0, #0
+ 8001e76:	f002 f8fb 	bl	8004070 <get_prox>
+ 8001e7a:	28c8      	cmp	r0, #200	; 0xc8
+ 8001e7c:	ddef      	ble.n	8001e5e <Proximity+0x2e>
+ 8001e7e:	2301      	movs	r3, #1
+ 8001e80:	2002      	movs	r0, #2
+ 8001e82:	7023      	strb	r3, [r4, #0]
+ 8001e84:	f002 f8f4 	bl	8004070 <get_prox>
+ 8001e88:	28c8      	cmp	r0, #200	; 0xc8
+ 8001e8a:	dd16      	ble.n	8001eba <Proximity+0x8a>
+ 8001e8c:	2005      	movs	r0, #5
+ 8001e8e:	f002 f8ef 	bl	8004070 <get_prox>
+ 8001e92:	28c8      	cmp	r0, #200	; 0xc8
+ 8001e94:	dd19      	ble.n	8001eca <Proximity+0x9a>
+ 8001e96:	2003      	movs	r0, #3
+ 8001e98:	f002 f8ea 	bl	8004070 <get_prox>
+ 8001e9c:	28c8      	cmp	r0, #200	; 0xc8
+ 8001e9e:	dce5      	bgt.n	8001e6c <Proximity+0x3c>
+ 8001ea0:	2004      	movs	r0, #4
+ 8001ea2:	f002 f8e5 	bl	8004070 <get_prox>
+ 8001ea6:	28c8      	cmp	r0, #200	; 0xc8
+ 8001ea8:	dce0      	bgt.n	8001e6c <Proximity+0x3c>
+ 8001eaa:	eeb0 0a49 	vmov.f32	s0, s18
+ 8001eae:	f7ff fc37 	bl	8001720 <turn>
+ 8001eb2:	2064      	movs	r0, #100	; 0x64
+ 8001eb4:	f006 fe34 	bl	8008b20 <chThdSleep>
+ 8001eb8:	e7d8      	b.n	8001e6c <Proximity+0x3c>
+ 8001eba:	eeb0 0a48 	vmov.f32	s0, s16
+ 8001ebe:	f7ff fc2f 	bl	8001720 <turn>
+ 8001ec2:	2064      	movs	r0, #100	; 0x64
+ 8001ec4:	f006 fe2c 	bl	8008b20 <chThdSleep>
+ 8001ec8:	e7d0      	b.n	8001e6c <Proximity+0x3c>
+ 8001eca:	eeb0 0a68 	vmov.f32	s0, s17
+ 8001ece:	f7ff fc27 	bl	8001720 <turn>
+ 8001ed2:	2064      	movs	r0, #100	; 0x64
+ 8001ed4:	f006 fe24 	bl	8008b20 <chThdSleep>
+ 8001ed8:	e7c8      	b.n	8001e6c <Proximity+0x3c>
+ 8001eda:	bf00      	nop
+ 8001edc:	20006a58 	.word	0x20006a58
+ 8001ee0:	20000800 	.word	0x20000800
+ 8001ee4:	080157a0 	.word	0x080157a0
+ 8001ee8:	200030f0 	.word	0x200030f0
+ 8001eec:	bfc8f5c3 	.word	0xbfc8f5c3
+ 8001ef0:	3fc8f5c3 	.word	0x3fc8f5c3
+ 8001ef4:	4048f5c3 	.word	0x4048f5c3
+	...
 
 08001f00 <proxi_start>:
  8001f00:	b510      	push	{r4, lr}
