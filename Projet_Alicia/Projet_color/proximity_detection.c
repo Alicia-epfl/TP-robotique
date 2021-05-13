@@ -33,7 +33,7 @@ static THD_FUNCTION(Proximity, arg) {
 
 	  uint8_t avoid_allowed;
 
-	while (0){
+	while (1){
 		avoid_allowed = get_avoid_allowed_fsm();
 
 		while(avoid_allowed){
@@ -63,7 +63,7 @@ static THD_FUNCTION(Proximity, arg) {
 							//effectue un demi-tour
 							turn(PI);
 							//libère run
-							avoid = false;
+//							avoid = false;
 							chThdSleepMilliseconds(100);
 						}
 
@@ -72,18 +72,21 @@ static THD_FUNCTION(Proximity, arg) {
 						//tourne à gauche
 						turn(PI/2);
 						//libère run
-						avoid = false;
+//						avoid = false;
 						chThdSleepMilliseconds(100);
 					}
 				//OBSTACLE DEVANT
 				}else{
 					//tourne à droite
 					turn(-PI/2);
+					set_body_led(ON);
 					//libère run
-					avoid = false;
 					chThdSleepMilliseconds(100);
+//					avoid = false;
 				}
-			}
+			}else{
+				avoid = false;
+			}//if obstacle devant
 			/*===========================*/
 
 			/* Delai de 500 millisecondes.*/

@@ -82,6 +82,7 @@ uint8_t run = 0, left=0, avoid = 0, record;
 			  stop = !run;
 			  avoid_allowed = true;
 		  }//record
+
 		  //si il est en évitement et qu'il n'est pas en train de tourner à gauche
 		  if(avoid && left){
 			  stop = true;
@@ -89,11 +90,13 @@ uint8_t run = 0, left=0, avoid = 0, record;
 		  }else{
 			  record_allowed = true;
 		  }//avoid
+
 	//si run = 0
 	  }else{
 		  stop = true;
 		  avoid_allowed = false;
 	  }//run
+
 	  chThdSleepMilliseconds(250);
 
 /*Fin de gestion des moteurs*/
