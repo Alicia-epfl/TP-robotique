@@ -57,13 +57,13 @@ static THD_FUNCTION(fsm, arg) {
 	 chRegSetThreadName(__FUNCTION__);
 	  (void)arg;
 
-volatile uint8_t run = 0, left=0, avoid = 0, record;
+volatile uint8_t run = 1, left=0, avoid = 0, record;
 uint8_t game_over = 0, win = 0;
 
   while (1){
 
 /*Gestion des moteurs*/
-	  run = 1;//get_run();
+//	  run = get_run();
 	  record = get_record();
 	  avoid = get_avoid();
 	  left = get_left();

@@ -66,11 +66,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  22 .debug_ranges 00004cb0  00000000  00000000  0019ab78  2**0
                   CONTENTS, READONLY, DEBUGGING
- 23 .debug_line   00036231  00000000  00000000  0019f828  2**0
+ 23 .debug_line   00036222  00000000  00000000  0019f828  2**0
                   CONTENTS, READONLY, DEBUGGING
- 24 .debug_str    0000ce19  00000000  00000000  001d5a59  2**0
+ 24 .debug_str    0000ce19  00000000  00000000  001d5a4a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 25 .debug_frame  0000ae4c  00000000  00000000  001e2874  2**2
+ 25 .debug_frame  0000ae4c  00000000  00000000  001e2864  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -131,7 +131,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 00000000 l    df *ABS*	00000000 _arm_cmpdf2.o
 00000000 l    df *ABS*	00000000 _arm_unorddf2.o
 00000000 l    df *ABS*	00000000 main.c
-08002120 l     F .text	000000fc fsm
+08002120 l     F .text	000000f8 fsm
 08002220 l     F .text	0000019c Blinker
 200018b0 l     O .bss	00000001 stop
 200018b8 l     O .bss	00000278 waBlinker

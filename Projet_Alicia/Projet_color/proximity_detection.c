@@ -36,7 +36,7 @@ static THD_FUNCTION(Proximity, arg) {
 	while (1){
 		avoid_allowed = get_avoid_allowed_fsm();
 
-		while(avoid_allowed){
+		if(avoid_allowed){
 			/*Fonction d'évitement*/
 
 			//OBSTACLE DEVANT
