@@ -38,6 +38,7 @@
 static uint8_t stop =false;		//définit si le robot doit avancer ou non
 static uint8_t record_allowed = true;	//définiit si on peut enclencher la caméra ou non
 static uint8_t avoid_allowed = true;	//définit si on peut faire une manoeuvre d'évitement
+static uint8_t sound_allowed = true;//définit si on peut utiliser le son
 
 
 /*BUS pour proximity*/
@@ -57,6 +58,7 @@ static THD_FUNCTION(fsm, arg) {
 	  (void)arg;
 
 uint8_t run = 0, left=0, avoid = 0, record;
+uint8_t game_over = 0, win = 0;
 
   while (1){
 
@@ -67,22 +69,15 @@ uint8_t run = 0, left=0, avoid = 0, record;
 	  left = get_left();
 
 	  if(run){
-		  if(record){
-			  //garder record à 1 pour activer les caméras
-
-			  //Si on doit tourner à gauche
-			  if(!left){
-				  avoid_allowed = false;
-			  }else{
-				  stop = !run;
-				  avoid_allowed = true;
-			  }//left
-		  }else if(left && !avoid){
+		  //s'il a vu du bleu --> pas d'évitement
+		  if(!left){
+			  avoid_allowed = false;
+		  }else{
 			  stop = !run;
 			  avoid_allowed = true;
-		  }//record
+		 }//left
 
-		  //si il est en évitement
+		  //si il est en évitement --> pas de check des couleurs
 		  if(avoid){
 			  record_allowed = false;
 		  }else{
@@ -93,6 +88,7 @@ uint8_t run = 0, left=0, avoid = 0, record;
 	  }else{
 		  stop = true;
 		  avoid_allowed = false;
+		  record_allowed = false;
 	  }//run
 
 	  chThdSleepMilliseconds(250);
@@ -100,6 +96,21 @@ uint8_t run = 0, left=0, avoid = 0, record;
 /*Fin de gestion des moteurs*/
 
 	  /*s'occuper du game over*/
+	  game_over = get_game_over();
+	  win = get_win();
+
+	  if(win || game_over){
+		  stop=true;
+		  avoid_allowed = false;
+		  record_allowed = false;
+		  sound_allowed = false;//à mettre dans le son aussi!!!!
+		  //wait 1 ou 2 secondes et ensuite relancer le tout?
+	  }else{
+		  stop = !run;
+		  avoid_allowed = true;
+		  record_allowed = true;
+		  sound_allowed = true;
+	  }
 
   }//while(1)
 }//thread
@@ -113,6 +124,7 @@ static THD_FUNCTION(Blinker, arg) {
 	  (void)arg;
 uint8_t toggle = 0, left=0, avoid = 0;
 uint8_t red_rgb =0, green_rgb=0, blue_rgb=0;
+uint8_t game_over = 0, win = 0;
 
   while (1) {
     /* Toggling LEDs while the main thread is busy   .*/
@@ -123,7 +135,9 @@ uint8_t red_rgb =0, green_rgb=0, blue_rgb=0;
 	  green_rgb=get_green();
 	  blue_rgb=get_blue();
 
-//	  chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", right);
+	  game_over = get_game_over();
+	  win = get_win();
+
 	  if(!left){
 		  set_rgb_led(LED6, red_rgb, green_rgb, blue_rgb);
 		  set_rgb_led(LED2, red_rgb, green_rgb, blue_rgb);
@@ -135,6 +149,19 @@ uint8_t red_rgb =0, green_rgb=0, blue_rgb=0;
 			set_rgb_led(LED2, RED_ORANGE, GREEN_ORANGE, BLUE_ORANGE);
 			set_rgb_led(LED4, RED_ORANGE, GREEN_ORANGE, BLUE_ORANGE);
 			set_rgb_led(LED8, RED_ORANGE, GREEN_ORANGE, BLUE_ORANGE);
+
+	  }else if(win){
+			set_rgb_led(LED6, NULL, GREEN, NULL);
+			set_rgb_led(LED2, NULL, GREEN, NULL);
+			set_rgb_led(LED4, NULL, GREEN, NULL);
+			set_rgb_led(LED8, NULL, GREEN, NULL);
+
+	  }else if(game_over){
+			set_rgb_led(LED6, RED, NULL, NULL);
+			set_rgb_led(LED2, RED, NULL, NULL);
+			set_rgb_led(LED4, RED, NULL, NULL);
+			set_rgb_led(LED8, RED, NULL, NULL);
+
 	  }else{
 		if(toggle){
 			set_rgb_led(LED6, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
@@ -224,6 +251,9 @@ uint8_t get_record_allowed_fsm(void){
 }
 uint8_t get_avoid_allowed_fsm(void){
 	return avoid_allowed;
+}
+uint8_t get_sound_allowed_fsm(void){
+	return sound_allowed;
 }
 
 /*

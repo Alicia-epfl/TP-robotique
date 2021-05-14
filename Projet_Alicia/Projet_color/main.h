@@ -46,6 +46,9 @@ extern "C" {
 #define	RED_ORANGE				31
 #define	GREEN_ORANGE				51
 #define	BLUE_ORANGE				0
+#define GREEN					63
+#define RED						31
+#define NULL						0
 //PROXIMITY
 #define	THRESHOLD				100//1000 s'actionne au touché
 #define AXIS_THRESHOLD			200// POURQUOI ELLE S'APPELLE COMME CA?????????????????????
@@ -63,6 +66,7 @@ void SendFloatToComputer(BaseSequentialStream* out, float* data, uint16_t size);
 uint8_t get_stop_fsm(void);
 uint8_t get_record_allowed_fsm(void);
 uint8_t get_avoid_allowed_fsm(void);
+uint8_t get_sound_allowed_fsm(void);
 
 
 #ifdef __cplusplus

@@ -26,14 +26,18 @@
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
 
+//commande de la caméra et du quart de tour pour le bleu
 static uint8_t record = true;
-
-static uint8_t  right = true;
 static uint8_t left=true;
 
+//variables pour afficher sur les leds la couleur que le robot a détecté sur la caméra
 static uint8_t red_rgb=false;
 static uint8_t green_rgb=false;
 static uint8_t blue_rgb=false;
+
+//variables de game_over et win
+static uint8_t game_over = false;
+static uint8_t win = false;
 
 //===================
 //=====THREADS======
@@ -114,11 +118,6 @@ static THD_FUNCTION(ProcessImage, arg) {
 			mean_blue=0;
 			mean_green=0;
 
-			/*Si e-puck devait tourner et qu'il l'a fait --> remettre le static initial*/
-			if(!left && (get_done_left())){
-				left=true;
-			}
-
 	//		uint32_t mean_red = 0, mean_blue=0, mean_green=0;
 		if(record){
 			//insertion de l'image capturée dans le tableau "image"
@@ -153,15 +152,13 @@ static THD_FUNCTION(ProcessImage, arg) {
 			/*RED*/
 			if((mean_red_filtered > 1.5*mean_blue_filtered) && (mean_red_filtered > 1.5*mean_green_filtered)){// RED --> GAME OVER
 				playMelody(MARIO_DEATH, ML_SIMPLE_PLAY, NULL);
-				left_motor_set_speed(0);
-				right_motor_set_speed(0);// --> mettre game_over à ON
+				game_over = true;
 			}
 
 			/*GREEN*/
 			if((mean_green_filtered > mean_blue_filtered) && (mean_green_filtered > 1.5*mean_red_filtered)){// GREEN --> SUCESS
 				playMelody(SEVEN_NATION_ARMY, ML_SIMPLE_PLAY, NULL);
-				left_motor_set_speed(0);
-				right_motor_set_speed(0);// --> mettre WIN à ON
+				win = true;
 			}
 
 			/*BLUE*/
@@ -202,6 +199,7 @@ uint8_t get_left(void){
 
 	return left;
 }
+//fonctions pour transmettre les couleurs à afficher sur les leds RGB
 uint8_t get_red(void){
 
 	return red_rgb;
@@ -214,7 +212,16 @@ uint8_t get_blue(void){
 
 	return blue_rgb;
 }
+//fonction qui indique si on utilise la caméra
 uint8_t get_record(void){
 	return record;
 }
 
+//fonctions qui indiquent la fin de la partie
+uint8_t get_game_over(void){
+	return game_over;
+}
+
+uint8_t get_win(void){
+	return win;
+}

@@ -122,13 +122,14 @@ static THD_FUNCTION(PiRegulator, arg) {
 
     while(1){
 		avoid = get_avoid();
+		left=get_left(); //si !left --> alors il tourne à gauche donc ne doit pas avancer ou être arrêté
 		//si il est en manoeuvre d'évitement, pas besoin d'entrer dans ce thread
-    		if(!avoid){
+    		if(!avoid && left){
 				stop = get_stop_fsm();
 
 				time = chVTGetSystemTime();//pour le sleep Window d'en dessous
 
-				left=get_left(); //si !left --> alors il tourne à gauche donc ne doit pas avancer ou être arrêté
+
 
 				//si il est en mouvement est n'a pas vu de bleu
 				if(!stop){
@@ -140,12 +141,10 @@ static THD_FUNCTION(PiRegulator, arg) {
 				right_motor_set_speed(speed);
 				left_motor_set_speed(speed);
 
-			//s'il doit être arrêté --> on remet les conditions avec left par sécurité même si déjà contrôlées dans la fsm
-				}else if(stop && left){
+				}else{
 					right_motor_set_speed(0);
 					left_motor_set_speed(0);
 				}
-
 
 			//100Hz
 			chThdSleepUntilWindowed(time, time + MS2ST(10));

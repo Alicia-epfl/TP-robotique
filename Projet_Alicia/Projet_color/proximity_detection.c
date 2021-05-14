@@ -46,13 +46,13 @@ static THD_FUNCTION(Proximity, arg) {
 
 
 				//OBSTACLE DEVANT + A DROITE
-				if(get_prox(2)>AXIS_THRESHOLD){
+				if(get_prox(2)>10){//ATTENTION MAGIC NUMBER
 
 				//OBSTACLE DEVANT + A DROITE + A GAUCHE
 					if(get_prox(5)>AXIS_THRESHOLD){
 
 				//OBSTACLE PARTOUT --> ENCERCLE
-						if((get_prox(3)>AXIS_THRESHOLD) || (get_prox(4)>AXIS_THRESHOLD)){
+						if((get_prox(3)>10) || (get_prox(4)>10)){
 							//Le jeu est perdu --> game over
 							game_over = true;
 						}
