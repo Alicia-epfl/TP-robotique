@@ -57,7 +57,7 @@ static THD_FUNCTION(fsm, arg) {
 	 chRegSetThreadName(__FUNCTION__);
 	  (void)arg;
 
-uint8_t run = 0, left=0, avoid = 0, record;
+volatile uint8_t run = 0, left=0, avoid = 0, record;
 uint8_t game_over = 0, win = 0;
 
   while (1){
@@ -91,8 +91,6 @@ uint8_t game_over = 0, win = 0;
 		  record_allowed = false;
 	  }//run
 
-	  chThdSleepMilliseconds(250);
-
 /*Fin de gestion des moteurs*/
 
 	  /*s'occuper du game over*/
@@ -104,6 +102,7 @@ uint8_t game_over = 0, win = 0;
 		  avoid_allowed = false;
 		  record_allowed = false;
 		  sound_allowed = false;//à mettre dans le son aussi!!!!
+
 		  //wait 1 ou 2 secondes et ensuite relancer le tout?
 	  }else{
 		  stop = !run;
@@ -111,6 +110,7 @@ uint8_t game_over = 0, win = 0;
 		  record_allowed = true;
 		  sound_allowed = true;
 	  }
+	  chThdSleepMilliseconds(250);
 
   }//while(1)
 }//thread

@@ -126,10 +126,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 		//si il est en manoeuvre d'évitement, pas besoin d'entrer dans ce thread
     		if(!avoid && left){
 				stop = get_stop_fsm();
-
 				time = chVTGetSystemTime();//pour le sleep Window d'en dessous
-
-
 
 				//si il est en mouvement est n'a pas vu de bleu
 				if(!stop){
@@ -173,9 +170,6 @@ void turn(float alpha){
 			right_motor_set_speed(speed);
 			left_motor_set_speed(-speed);
 	}
-
-	right_motor_set_speed(0);
-	left_motor_set_speed(0);
 }
 
 void pi_regulator_start(void){

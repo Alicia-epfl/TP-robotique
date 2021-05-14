@@ -178,11 +178,10 @@ static THD_FUNCTION(ProcessImage, arg) {
 				/*Lancer la rotation*/
 				left = false;
 				turn(PI/2);
-				chThdSleepMilliseconds(600);
-			}else{
 				left = true;
-			}//blue
+			}//color
     		}//record
+		chThdSleepMilliseconds(250);
     }//while
 }//thread
 
