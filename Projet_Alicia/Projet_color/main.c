@@ -72,7 +72,6 @@ uint8_t run = 0, left=0, avoid = 0, record;
 
 			  //Si on doit tourner à gauche
 			  if(!left){
-				  stop = true;
 				  avoid_allowed = false;
 			  }else{
 				  stop = !run;
@@ -83,9 +82,8 @@ uint8_t run = 0, left=0, avoid = 0, record;
 			  avoid_allowed = true;
 		  }//record
 
-		  //si il est en évitement et qu'il n'est pas en train de tourner à gauche
-		  if(avoid && left){
-			  stop = true;
+		  //si il est en évitement
+		  if(avoid){
 			  record_allowed = false;
 		  }else{
 			  record_allowed = true;

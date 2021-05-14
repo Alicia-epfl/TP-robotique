@@ -76,8 +76,15 @@ int16_t pi_rotator(uint16_t position, int32_t nstep){
 	//disables the PI regulator if the error is to small
 	//this avoids to always move as we cannot exactly be where we want and
 	//the camera is a bit noisy
+
+
 	if(abs(error) < ERROR_THRE_ROT){
-			return 200;//faible vitesse pour finir correctement le tour
+		//faible vitesse pour finir correctement le tour
+		if(error>0){
+			return 200;
+		}else{
+			return -200;
+		}
 	}
 
 	sum_error_rot += error;
@@ -132,22 +139,13 @@ static THD_FUNCTION(PiRegulator, arg) {
 				//applique la vitesse calculée aux moteurs
 				right_motor_set_speed(speed);
 				left_motor_set_speed(speed);
-				set_front_led(OFF);
 
 			//s'il doit être arrêté --> on remet les conditions avec left par sécurité même si déjà contrôlées dans la fsm
 				}else if(stop && left){
 					right_motor_set_speed(0);
 					left_motor_set_speed(0);
-					set_front_led(ON);
-
-				//s'il a vu du bleu
 				}
-//				else if(stop && !left){
-//					turn(PI/2);
-//					chThdSleepMilliseconds(500);
-//					done_l = false;
-//					set_front_led(OFF);
-//				}
+
 
 			//100Hz
 			chThdSleepUntilWindowed(time, time + MS2ST(10));
@@ -173,15 +171,10 @@ void turn(float alpha){
 
 		speed = pi_rotator(right_pos, nstep);
 
-		if(alpha > 0){//gauche
 			right_motor_set_speed(speed);
 			left_motor_set_speed(-speed);
-		}else{//droite
-			right_motor_set_speed(-speed);
-			left_motor_set_speed(speed);
-		}
 	}
-//	done_l = true;
+
 	right_motor_set_speed(0);
 	left_motor_set_speed(0);
 }
@@ -189,7 +182,4 @@ void turn(float alpha){
 void pi_regulator_start(void){
 	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO, PiRegulator, NULL);
 }
-uint8_t get_done_left(void){
 
-	return done_l;
-}
