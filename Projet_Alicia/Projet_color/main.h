@@ -48,11 +48,12 @@ extern "C" {
 #define	BLUE_ORANGE				0
 #define GREEN					63
 #define RED						31
-#define NULL						0
+#define NO_COL					0
 //PROXIMITY
-#define	THRESHOLD				100//1000 s'actionne au touché
-#define AXIS_THRESHOLD			200// POURQUOI ELLE S'APPELLE COMME CA?????????????????????
-#define RECORD_THRES				100 //threshold pour demander à la caméra d'arrêter de checker du bleu car trop proche
+#define IR_THRESHOLD				500// Distance à laquelle les capteurs IR détectent un obstacle
+#define IR_TRES_SIDE				30//capteurs sur les côté pour voir un peu plus loin qu'ils vont être bloqués
+#define RECORD_THRES				200 //threshold des capteurs IR pour demander à la caméra d'arrêter de checker du bleu car trop proche
+#define TOF_RECORD				150//distance du Time-of-Flight pour activer la détection des couleurs
 
 /** Robot wide IPC bus. */
 extern messagebus_t bus;

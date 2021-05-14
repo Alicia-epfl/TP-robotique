@@ -152,16 +152,16 @@ uint8_t game_over = 0, win = 0;
 			set_rgb_led(LED8, RED_ORANGE, GREEN_ORANGE, BLUE_ORANGE);
 
 	  }else if(win){
-			set_rgb_led(LED6, NULL, GREEN, NULL);
-			set_rgb_led(LED2, NULL, GREEN, NULL);
-			set_rgb_led(LED4, NULL, GREEN, NULL);
-			set_rgb_led(LED8, NULL, GREEN, NULL);
+			set_rgb_led(LED6, NO_COL, GREEN, NO_COL);
+			set_rgb_led(LED2, NO_COL, GREEN, NO_COL);
+			set_rgb_led(LED4, NO_COL, GREEN, NO_COL);
+			set_rgb_led(LED8, NO_COL, GREEN, NO_COL);
 
 	  }else if(game_over){
-			set_rgb_led(LED6, RED, NULL, NULL);
-			set_rgb_led(LED2, RED, NULL, NULL);
-			set_rgb_led(LED4, RED, NULL, NULL);
-			set_rgb_led(LED8, RED, NULL, NULL);
+			set_rgb_led(LED6, RED, NO_COL, NO_COL);
+			set_rgb_led(LED2, RED, NO_COL, NO_COL);
+			set_rgb_led(LED4, RED, NO_COL, NO_COL);
+			set_rgb_led(LED8, RED, NO_COL, NO_COL);
 
 	  }else{
 		if(toggle){

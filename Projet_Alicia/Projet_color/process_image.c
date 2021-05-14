@@ -51,12 +51,11 @@ static THD_FUNCTION(Record, arg){
 
 	while(1){
 /*L'idée ensuite c'est de faire une fonction qui récuoère les mesures dans pi et qui return 1 ou 0 directement pour ici!*/
-		measure = VL53L0X_get_dist_mm();
+		measure = VL53L0X_get_dist_mm();//unité en [mm]
 
-//		chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", measure);
 		record_allowed = get_record_allowed_fsm();
 
-		if (measure<130){
+		if (measure<TOF_RECORD){
 			record = true;
 		}else{
 			record = false;
@@ -66,7 +65,7 @@ static THD_FUNCTION(Record, arg){
 			record = false;
 		}
 		//protection pour éviter que le robot détecte du bleu en même temps qu'il veuille éviter un obstacle
-		if((get_prox(0)>AXIS_THRESHOLD) || (get_prox(7)>AXIS_THRESHOLD)){
+		if((get_prox(0)>RECORD_THRES) || (get_prox(7)>RECORD_THRES)){
 					record = false;
 		}
 		//sleep de 250 milisecondes
@@ -124,7 +123,6 @@ static THD_FUNCTION(ProcessImage, arg) {
 			mean_blue=0;
 			mean_green=0;
 
-	//		uint32_t mean_red = 0, mean_blue=0, mean_green=0;
 		if(record){
 			//insertion de l'image capturée dans le tableau "image"
 			for(uint16_t i = 0 ; i < (2*IMAGE_BUFFER_SIZE) ; i+=4){// +4 pour essayer de prendre moins de pixels pour éviter un dépassement mais aucun effet
@@ -139,8 +137,6 @@ static THD_FUNCTION(ProcessImage, arg) {
 				mean_red += red_image;
 				mean_green += green_image;
 				mean_blue += blue_image;
-
-	//			set_led(LED1, ON);//vérifier qu'on passe bien dans cette boucle
 			}
 			mean_red /= (IMAGE_BUFFER_SIZE/2);
 			mean_green /= (IMAGE_BUFFER_SIZE);

@@ -40,19 +40,19 @@ static THD_FUNCTION(Proximity, arg) {
 			/*Fonction d'évitement*/
 
 			//OBSTACLE DEVANT
-			if((get_prox(0)>RECORD_THRES) || (get_prox(7)>RECORD_THRES)){
+			if(((get_prox(0))>IR_THRESHOLD) || ((get_prox(7))>IR_THRESHOLD)){
 				//indique qu'on est en processus d'évitement
 				avoid = true;
 
 
 				//OBSTACLE DEVANT + A DROITE
-				if(get_prox(2)>AXIS_THRESHOLD){//ATTENTION MAGIC NUMBER
+				if(get_prox(2)>IR_TRES_SIDE){
 
 				//OBSTACLE DEVANT + A DROITE + A GAUCHE
-					if(get_prox(5)>AXIS_THRESHOLD){
+					if(get_prox(5)>IR_TRES_SIDE){
 
 				//OBSTACLE PARTOUT --> ENCERCLE
-						if((get_prox(3)>AXIS_THRESHOLD) || (get_prox(4)>AXIS_THRESHOLD)){
+						if((get_prox(3)>IR_TRES_SIDE) || (get_prox(4)>IR_TRES_SIDE)){
 							//Le jeu est perdu --> game over
 							game_over = true;
 						}
