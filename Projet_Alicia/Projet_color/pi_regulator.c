@@ -29,6 +29,7 @@ static float sum_error = 0;//pour le pi
 static float sum_error_rot = 0;//pour le pi de rotation
 static uint8_t done_l = false;//pour indiquer à process image que la rotation a bien été effectuée
 
+/*::::::::::PI REGULATOR:::::::::::::*/
 //simple PI regulator implementation
 int16_t pi_regulator(uint16_t distance){
 
@@ -63,6 +64,7 @@ int16_t pi_regulator(uint16_t distance){
 
 }
 
+/*:::::::::::ROTATION::::::::::::::::::::::::*/
 //simple PI regulator for rotation implementation
 int16_t pi_rotator(uint16_t position, int32_t nstep){
 
@@ -106,6 +108,8 @@ int16_t pi_rotator(uint16_t position, int32_t nstep){
 
 }
 
+/*:::::::::THREAD:::::::::::*/
+
 static THD_WORKING_AREA(waPiRegulator,1024);
 static THD_FUNCTION(PiRegulator, arg) {
 
@@ -128,7 +132,6 @@ static THD_FUNCTION(PiRegulator, arg) {
 				stop = get_stop_fsm();
 				time = chVTGetSystemTime();//pour le sleep Window d'en dessous
 
-				//si il est en mouvement est n'a pas vu de bleu
 				if(!stop){
 					//mesure de la distance à un obstacle pour réguler la vitesse grâce au PI
 				measure	= VL53L0X_get_dist_mm();
@@ -149,6 +152,7 @@ static THD_FUNCTION(PiRegulator, arg) {
     }
 }
 
+/*:::::::::::::TOURNER::::::::::::::*/
 void turn(float alpha){
 	int32_t nstep = 0;
 	volatile float speed = 0;

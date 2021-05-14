@@ -23,9 +23,9 @@ extern "C" {
 //PI
 #define ROTATION_THRESHOLD		10//no need
 #define ROTATION_COEFF			2 //no need
-#define GOAL_DISTANCE 			20//probablement à mettre en dessous de la détection des capteurs IR
+#define GOAL_DISTANCE 			5//[mm] Distance d'un objet à laquelle la vitesse va approcher zéro
 #define MAX_DISTANCE 			25
-#define ERROR_THRESHOLD			20	//[cm] because of the noise of the camera
+#define ERROR_THRESHOLD			5	//[mm]
 #define KP						3
 #define KI 						0.1	//must not be zero
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)

@@ -3220,11 +3220,11 @@ Disassembly of section .text:
 
 080025e0 <pi_regulator>:
  80025e0:	b500      	push	{lr}
- 80025e2:	3814      	subs	r0, #20
+ 80025e2:	3805      	subs	r0, #5
  80025e4:	ee07 0a90 	vmov	s15, r0
  80025e8:	eeb8 7ae7 	vcvt.f32.s32	s14, s15
  80025ec:	4b22      	ldr	r3, [pc, #136]	; (8002678 <pi_regulator+0x98>)
- 80025ee:	eef3 7a04 	vmov.f32	s15, #52	; 0x41a00000  20.0
+ 80025ee:	eef1 7a04 	vmov.f32	s15, #20	; 0x40a00000  5.0
  80025f2:	b083      	sub	sp, #12
  80025f4:	eeb4 7ae7 	vcmpe.f32	s14, s15
  80025f8:	681a      	ldr	r2, [r3, #0]
