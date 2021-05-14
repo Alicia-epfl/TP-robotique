@@ -52,6 +52,7 @@ static THD_FUNCTION(Record, arg){
 	while(1){
 /*L'idée ensuite c'est de faire une fonction qui récuoère les mesures dans pi et qui return 1 ou 0 directement pour ici!*/
 		measure = VL53L0X_get_dist_mm();
+
 //		chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r", measure);
 		record_allowed = get_record_allowed_fsm();
 
@@ -64,7 +65,12 @@ static THD_FUNCTION(Record, arg){
 		if(!record_allowed){
 			record = false;
 		}
-		chThdSleepMilliseconds(500);
+		//protection pour éviter que le robot détecte du bleu en même temps qu'il veuille éviter un obstacle
+		if((get_prox(0)>AXIS_THRESHOLD) || (get_prox(7)>AXIS_THRESHOLD)){
+					record = false;
+		}
+		//sleep de 250 milisecondes
+		chThdSleepMilliseconds(250);
 	}
 }
 

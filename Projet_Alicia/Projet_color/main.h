@@ -52,6 +52,7 @@ extern "C" {
 //PROXIMITY
 #define	THRESHOLD				100//1000 s'actionne au touché
 #define AXIS_THRESHOLD			200// POURQUOI ELLE S'APPELLE COMME CA?????????????????????
+#define RECORD_THRES				100 //threshold pour demander à la caméra d'arrêter de checker du bleu car trop proche
 
 /** Robot wide IPC bus. */
 extern messagebus_t bus;

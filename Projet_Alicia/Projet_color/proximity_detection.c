@@ -40,19 +40,19 @@ static THD_FUNCTION(Proximity, arg) {
 			/*Fonction d'évitement*/
 
 			//OBSTACLE DEVANT
-			if((get_prox(0)>AXIS_THRESHOLD) || (get_prox(7)>AXIS_THRESHOLD)){
+			if((get_prox(0)>RECORD_THRES) || (get_prox(7)>RECORD_THRES)){
 				//indique qu'on est en processus d'évitement
 				avoid = true;
 
 
 				//OBSTACLE DEVANT + A DROITE
-				if(get_prox(2)>10){//ATTENTION MAGIC NUMBER
+				if(get_prox(2)>AXIS_THRESHOLD){//ATTENTION MAGIC NUMBER
 
 				//OBSTACLE DEVANT + A DROITE + A GAUCHE
 					if(get_prox(5)>AXIS_THRESHOLD){
 
 				//OBSTACLE PARTOUT --> ENCERCLE
-						if((get_prox(3)>10) || (get_prox(4)>10)){
+						if((get_prox(3)>AXIS_THRESHOLD) || (get_prox(4)>AXIS_THRESHOLD)){
 							//Le jeu est perdu --> game over
 							game_over = true;
 						}
@@ -61,8 +61,7 @@ static THD_FUNCTION(Proximity, arg) {
 							//effectue un demi-tour
 							turn(PI);
 							//libère run
-//							avoid = false;
-							chThdSleepMilliseconds(100);
+							avoid = false;
 						}
 
 					//OBSTACLE DEVANT + A DROITE
@@ -70,26 +69,21 @@ static THD_FUNCTION(Proximity, arg) {
 						//tourne à gauche
 						turn(PI/2);
 						//libère run
-//						avoid = false;
-						chThdSleepMilliseconds(100);
+						avoid = false;
 					}
 				//OBSTACLE DEVANT
 				}else{
 					//tourne à droite
 					turn(-PI/2);
-					set_body_led(ON);
 					//libère run
-					chThdSleepMilliseconds(100);
-//					avoid = false;
-				}
-			}else{
-				avoid = false;
-//				set_body_led(ON);
-			}//if obstacle devant
+					avoid = false;
+
+				}//if obstacle devant
+			}//if obstacle
 			/*===========================*/
 
-			/* Delai de 500 millisecondes.*/
-			chThdSleepMilliseconds(500);
+			/* Delai de 250 millisecondes.*/
+			chThdSleepMilliseconds(250);
 		}//while(run)
 	}//while(1)
 }//thread

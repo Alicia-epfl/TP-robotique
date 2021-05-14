@@ -86,6 +86,7 @@ uint8_t game_over = 0, win = 0;
 
 	//si run = 0
 	  }else{
+		  run = 0;
 		  stop = true;
 		  avoid_allowed = false;
 		  record_allowed = false;
