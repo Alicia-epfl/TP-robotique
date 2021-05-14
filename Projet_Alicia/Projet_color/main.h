@@ -15,8 +15,6 @@ extern "C" {
 //CAMERA
 #define IMAGE_BUFFER_SIZE		640
 //PI
-#define ROTATION_THRESHOLD		10//no need
-#define ROTATION_COEFF			2 //no need
 #define GOAL_DISTANCE 			5//[mm] Distance d'un objet à laquelle la vitesse va approcher zéro
 #define MAX_DISTANCE 			25
 #define ERROR_THRESHOLD			5	//[mm]
@@ -26,7 +24,12 @@ extern "C" {
 //PI rotation
 #define ERROR_THRE_ROT			40// nb de steps pour π/16 radians
 //PI alignment
-#define ERROR_THRE_AL			30//seuil de différence entre les capteurs IR de côté
+#define ERROR_THRE_AL			30//seuil de différence entre les capteurs IR de côt
+#define ROT_COEF					2
+//PI diagonales (pas un vrai PI mais dans le même fichier.c)
+#define DIAG_DETECT				1000//valeur à laquelle le robot réagit
+#define DIAG_SPEED				400 //vitesse constante donnée au robot s'il rencontre un obstacle en diagonale
+#define NO_SPEED					0
 //LEDS
 #define TOGGLE					2
 #define ON						1

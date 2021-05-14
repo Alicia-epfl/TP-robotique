@@ -90,7 +90,7 @@ int16_t pi_alignment(int right, int left){
 		sum_error_al = -MAX_SUM_ERROR;
 	}
 
-	speed = (KP * error + KI * sum_error_al)/2;
+	speed = KP * error + KI * sum_error_al;
 
 
 	return (int16_t)speed;
@@ -148,7 +148,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 
     systime_t time;
 
-    volatile int16_t speed = 0, cor_speed = 0;//cor_speed est la vitesse à corriger pour s'aligner (dans la même idée qu'une Tesla sur la route)
+    volatile int16_t speed = 0, cor_speed = 0, diag_speed = 0;//cor_speed est la vitesse à corriger pour s'aligner (dans la même idée qu'une Tesla sur la route)
     int16_t measure = 0;
     uint8_t stop = 0, left= 0;
     volatile uint8_t avoid=0;
@@ -171,11 +171,23 @@ static THD_FUNCTION(PiRegulator, arg) {
 				if((get_prox(IR3)>IR_TRES_SIDE) && (get_prox(IR6)>IR_TRES_SIDE)){
 					cor_speed = pi_alignment(get_prox(IR3), get_prox(IR6));
 				}else{
-					cor_speed = 0;
+					cor_speed = NO_SPEED;
 				}
+
+				//dans le cas où le robot arrive de diagonale contre un objet
+				if((get_prox(IR2)>DIAG_DETECT) || (get_prox(IR7)>DIAG_DETECT)){
+					if(get_prox(IR2) > get_prox(IR7)){ //celui de droite plus proche d'un mur que celui de gauche
+						diag_speed = DIAG_SPEED;
+					}else{
+						diag_speed = -DIAG_SPEED;					//FAIRE UN PI!!!!!!!!
+					}
+				}else{
+					diag_speed = NO_SPEED;
+				}
+
 				//applique la vitesse calculée aux moteurs
-				right_motor_set_speed(speed + cor_speed);
-				left_motor_set_speed(speed - cor_speed);
+				right_motor_set_speed(speed + ROT_COEF*cor_speed + diag_speed);
+				left_motor_set_speed(speed - ROT_COEF*cor_speed - diag_speed);
 
 				}else{
 					right_motor_set_speed(0);
