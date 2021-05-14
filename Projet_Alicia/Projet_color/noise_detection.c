@@ -19,35 +19,37 @@
 #include "proximity_detection.h"
 
 
+/*======================== Repris du TP5, en enlevant les analyses sur les micros unutilisés =====================*/
 
-//2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)
+//2 fois FFT_SIZE car ce tableau contient des nombres complexes (Réel + Imaginaire)
 static float micLeft_cmplx_input[2 * FFT_SIZE];
 
-//Arrays containing the computed magnitude of the complex numbers
+//Tableau contenant le module des nombres complexes
 static float micLeft_output[FFT_SIZE];
-
-static uint8_t freq_found = false;
-static int8_t led_on = false;
-static int16_t successive_freq_counter = 0;//pourquoi un int? NICO
-
 
 #define MIN_VALUE_THRESHOLD	10000
 #define MAX_MIC_INPUT_COUNTER 10
 
 
-#define L_FREQ 90
-#define M_FREQ 110
+#define L_FREQ 240 //1400Hz
+#define M_FREQ 270 //1700Hz
+
+/*======================== Fin des int/defines du TP5 ================================================*/
+
+static uint8_t successive_freq_counter = 0; // compte le nombre de detections successive de la fréquence cible
+
 
 /*
-*	Simple function used to detect the highest value in a buffer
-*	and to execute a motor command depending on it
+*	Fonction détectant la valeur maximale dans un buffer
+*	et incrémentant un compteur en conséquence
+*	Si le compteur dépasse une valeur seuil, on effectue une commande
+*
 */
 void sound_remote(float* data){
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
-	//uint8_t right =0, left=0;
 
-	//search for the highest peak
+	//Cherche le pic le plus haut
 	for(uint16_t i = L_FREQ ; i <= M_FREQ ; i++){
 		if(data[i] > max_norm){
 			max_norm = data[i];
@@ -55,14 +57,18 @@ void sound_remote(float* data){
 		}
 	}
 
-	if(max_norm_index >= L_FREQ && max_norm_index <= M_FREQ){
-		freq_found = true;
+	if(successive_freq_counter > MAX_MIC_INPUT_COUNTER) //si la fréquence choisie est détectée à répétition, effectue une commande
+	{
+		set_led(LED3, TOGGLE);
+		successive_freq_counter=0;
+	}
+	else if(max_norm_index >= L_FREQ && max_norm_index <= M_FREQ){
+		successive_freq_counter ++;
 	}
 	else
 	{
-		freq_found = false;
+		successive_freq_counter = 0;
 	}
-
 }
 
 /*
@@ -70,17 +76,16 @@ void sound_remote(float* data){
 *	We get 160 samples per mic every 10ms (16kHz)
 *
 *	params :
-*	int16_t *data			Buffer containing 4 times 160 samples. the samples are sorted by micro
-*							so we have [micRight1, micLeft1, micBack1, micFront1, micRight2, etc...]
-*	uint16_t num_samples	Tells how many data we get in total (should always be 640)
+*	int16_t *data			Buffer contenant 4 fois 160 échantillons. Les échantillons sont triés par micro
+*							on a donc [micRight1, micLeft1, micBack1, micFront1, micRight2, etc...]
+*	uint16_t num_samples	Donne le nombre d'échantillons total que nous avons (devrait toujours être à 640)
 */
 void processAudioData(int16_t *data, uint16_t num_samples){
 
 	/*
-	*
-	*	We get 160 samples per mic every 10ms
-	*	So we fill the samples buffers to reach
-	*	1024 samples, then we compute the FFTs.
+	*	On obtiens 160 échantillons par micro toutes les 10ms
+	*	Donc on remplis les buffers d'échantillons pour atteindre 1024 échantillons
+	*	Puis on calcule les FFT
 	*
 	*/
 
@@ -127,35 +132,10 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		nb_samples = 0;
 //		chprintf((BaseSequentialStream *)&SDU1, "compteur=%3d\r",successive_freq_counter);
 		sound_remote(micLeft_output);
-		if(successive_freq_counter > MAX_MIC_INPUT_COUNTER) //environs 1/2 secondes
-		{
-			if(led_on)
-			{
-				set_led(LED3, OFF);
-				led_on = false;
-			}
-			else if(!led_on)
-			{
-				set_led(LED3, ON);
-				led_on = true;
-			}
-			successive_freq_counter=0;
-		}
-		else if(freq_found)
-		{
-			successive_freq_counter++;
-			freq_found = false;
-		}
-		else
-		{
-			successive_freq_counter = 0;
-		}
+
 	}
 }
 
-//void wait_send_to_computer(void){
-//	chBSemWait(&sendToComputer_sem);
-//}
 
 float* get_audio_buffer_ptr(BUFFER_NAME_t name){
 	if(name == LEFT_CMPLX_INPUT){

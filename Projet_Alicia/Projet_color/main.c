@@ -266,7 +266,7 @@ int main(void)
 	VL53L0X_start();
 
 	//Démarre les micro
-//	mic_start(&processAudioData);
+	mic_start(&processAudioData);
 
 	//Démarre les threads pour le régulateur pi et le image processing
 	pi_regulator_start();
