@@ -14,12 +14,6 @@ extern "C" {
 #define PI					3.14f// f pour float
 //CAMERA
 #define IMAGE_BUFFER_SIZE		640
-#define WIDTH_SLOPE				10
-#define WALL						15
-#define RED_VALUE				10
-#define GREEN_VALUE				19
-#define BLUE_VALUE				10
-#define MIN_LINE_WIDTH			40
 //PI
 #define ROTATION_THRESHOLD		10//no need
 #define ROTATION_COEFF			2 //no need
@@ -27,7 +21,7 @@ extern "C" {
 #define MAX_DISTANCE 			25
 #define ERROR_THRESHOLD			5	//[mm]
 #define KP						3
-#define KI 						0.1	//must not be zero
+#define KI 						0.1	//ne doit pas être à zéro
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
 //PI rotation
 #define ERROR_THRE_ROT			40// nb de steps pour π/16 radians
@@ -48,7 +42,7 @@ extern "C" {
 #define	BLUE_ORANGE				0
 #define GREEN					63
 #define RED						31
-#define NO_COL					0
+#define NO_COL					0//pas de cette composante de couleur
 //PROXIMITY
 #define IR_THRESHOLD				500// Distance à laquelle les capteurs IR détectent un obstacle
 #define IR_TRES_SIDE				30//capteurs sur les côté pour voir un peu plus loin qu'ils vont être bloqués

@@ -47,7 +47,7 @@ MUTEX_DECL(bus_lock);
 CONDVAR_DECL(bus_condvar);
 
 /*
- * THREADS
+ * :::::::::THREADS::::::::::::::::
  */
 /*Thread pour la gestion de la FSM
  * Thread de gestion générale de nos états*/
@@ -57,14 +57,13 @@ static THD_FUNCTION(fsm, arg) {
 	 chRegSetThreadName(__FUNCTION__);
 	  (void)arg;
 
-volatile uint8_t run = 1, left=0, avoid = 0, record;
+volatile uint8_t run = 1, left=0, avoid = 0;
 uint8_t game_over = 0, win = 0;
 
   while (1){
 
 /*Gestion des moteurs*/
 //	  run = get_run();
-	  record = get_record();
 	  avoid = get_avoid();
 	  left = get_left();
 
@@ -187,9 +186,9 @@ uint8_t game_over = 0, win = 0;
 
 
 /*
- * FUNCTIONS
+ * ::::::::::::FUNCTIONS::::::::::::::::::::
  */
-// Init function required by __libc_init_array
+// Initialise les fonctions requisent par __libc_init_array
 void _init(void) {}
 
 /*Permet la communication USB et Bluetooth*/
@@ -258,7 +257,7 @@ uint8_t get_sound_allowed_fsm(void){
 }
 
 /*
- * MAIN
+ * ::::::::MAIN::::::::::
  */
 int main(void)
 {
@@ -313,8 +312,8 @@ int main(void)
 	//Démarre le thread des melodies
 	playMelodyStart();
 
-    /* Infinite loop. */
-    while (1) {
+    /* Boucle INFINIE. */
+    while (1){
     	//Attend 1 seconde
     	chThdSleepMilliseconds(1000);
     }
