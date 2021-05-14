@@ -43,7 +43,7 @@ static uint8_t win = false;
 //=====THREADS======
 
 /*Thread CHECKER LA CAMERA*/
-static THD_WORKING_AREA(waRecord, 2046);//tentative de 256 à 1024
+static THD_WORKING_AREA(waRecord, 2046);
 static THD_FUNCTION(Record, arg){
 	uint16_t measure=0, record_allowed=0;
 
@@ -65,7 +65,7 @@ static THD_FUNCTION(Record, arg){
 			record = false;
 		}
 		//protection pour éviter que le robot détecte du bleu en même temps qu'il veuille éviter un obstacle
-		if((get_prox(0)>RECORD_THRES) || (get_prox(7)>RECORD_THRES)){
+		if((get_prox(IR1)>RECORD_THRES) || (get_prox(IR8)>RECORD_THRES)){
 					record = false;
 		}
 		//sleep de 250 milisecondes

@@ -4,7 +4,7 @@
 #include "hal.h"
 #include <usbcfg.h>
 #include <chprintf.h>
-#include "sensors/proximity.h"
+
 #include <main.h>
 #include <proximity_detection.h>
 
@@ -40,19 +40,19 @@ static THD_FUNCTION(Proximity, arg) {
 			/*Fonction d'évitement*/
 
 			//OBSTACLE DEVANT
-			if(((get_prox(0))>IR_THRESHOLD) || ((get_prox(7))>IR_THRESHOLD)){
+			if(((get_prox(IR1))>IR_THRESHOLD) || ((get_prox(IR8))>IR_THRESHOLD)){
 				//indique qu'on est en processus d'évitement
 				avoid = true;
 
 
 				//OBSTACLE DEVANT + A DROITE
-				if(get_prox(2)>IR_TRES_SIDE){
+				if(get_prox(IR3)>IR_TRES_SIDE){
 
 				//OBSTACLE DEVANT + A DROITE + A GAUCHE
-					if(get_prox(5)>IR_TRES_SIDE){
+					if(get_prox(IR6)>IR_TRES_SIDE){
 
 				//OBSTACLE PARTOUT --> ENCERCLE
-						if((get_prox(3)>IR_TRES_SIDE) || (get_prox(4)>IR_TRES_SIDE)){
+						if((get_prox(IR4)>IR_TRES_SIDE) || (get_prox(IR5)>IR_TRES_SIDE)){
 							//Le jeu est perdu --> game over
 							game_over = true;
 						}

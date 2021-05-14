@@ -14,6 +14,7 @@
 #include "sensors/VL53L0X/VL53L0X.h"
 /*pour obtenir le avoid*/
 #include "proximity_detection.h"
+#include <sensors/proximity.h>
 
 #include <leds.h>
 
@@ -27,7 +28,8 @@
 /*Initialisation des statics*/
 static float sum_error = 0;//pour le pi
 static float sum_error_rot = 0;//pour le pi de rotation
-static uint8_t done_l = false;//pour indiquer à process image que la rotation a bien été effectuée
+static float sum_error_al = 0;//pour le pi d'alignement
+
 
 /*::::::::::PI REGULATOR:::::::::::::*/
 //simple PI regulator implementation
@@ -40,9 +42,8 @@ int16_t pi_regulator(uint16_t distance){
 
 	error = distance - GOAL_DISTANCE;
 
-	//disables the PI regulator if the error is to small
-	//this avoids to always move as we cannot exactly be where we want and 
-	//the camera is a bit noisy
+	//désactive le régulateur PI si l'erreur est trop faible
+	//ça évite de toujours bouger étant donné qu'onne peut pas être parfaitement précis
 	if(error < ERROR_THRESHOLD){
 			return 0;
 	}
@@ -64,6 +65,38 @@ int16_t pi_regulator(uint16_t distance){
 
 }
 
+/*::::::::::PI ALIGNEMENT:::::::::::::*/
+//implémentation d'un régulateur PI pour l'alignement
+int16_t pi_alignment(int right, int left){
+
+	float error = 0;
+	float speed = 0;
+
+	error = right - left;
+
+	//désactive le régulateur PI si l'erreur est trop faible
+	//ça évite de toujours bouger étant donné qu'onne peut pas être parfaitement précis
+	if(error < ERROR_THRE_AL){
+			return 0;
+	}
+
+	sum_error_al += error;
+	sum_error_al = 0.5*sum_error;
+
+	//On pose un maximum et un minimum à la somme pour éviter une ascension incontrolée
+	if(sum_error_al > MAX_SUM_ERROR){
+		sum_error_al = MAX_SUM_ERROR;
+	}else if(sum_error_al < -MAX_SUM_ERROR){
+		sum_error_al = -MAX_SUM_ERROR;
+	}
+
+	speed = (KP * error + KI * sum_error_al)/2;
+
+
+	return (int16_t)speed;
+
+}
+
 /*:::::::::::ROTATION::::::::::::::::::::::::*/
 //simple PI regulator for rotation implementation
 int16_t pi_rotator(uint16_t position, int32_t nstep){
@@ -75,11 +108,8 @@ int16_t pi_rotator(uint16_t position, int32_t nstep){
 
 	error = nstep - position;
 
-	//disables the PI regulator if the error is to small
-	//this avoids to always move as we cannot exactly be where we want and
-	//the camera is a bit noisy
-
-
+	//désactive le régulateur PI si l'erreur est trop faible
+	//ça évite de toujours bouger étant donné qu'onne peut pas être parfaitement précis
 	if(abs(error) < ERROR_THRE_ROT){
 		//faible vitesse pour finir correctement le tour
 		if(error>0){
@@ -118,7 +148,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 
     systime_t time;
 
-    volatile int16_t speed = 0;
+    volatile int16_t speed = 0, cor_speed = 0;//cor_speed est la vitesse à corriger pour s'aligner (dans la même idée qu'une Tesla sur la route)
     int16_t measure = 0;
     uint8_t stop = 0, left= 0;
     volatile uint8_t avoid=0;
@@ -137,9 +167,15 @@ static THD_FUNCTION(PiRegulator, arg) {
 				measure	= VL53L0X_get_dist_mm();
 				speed = pi_regulator(measure);
 
+				//dans le cas où le robot détecte un mur des 2 côtés --> il s'aligne
+				if((get_prox(IR3)>IR_TRES_SIDE) && (get_prox(IR6)>IR_TRES_SIDE)){
+					cor_speed = pi_alignment(get_prox(IR3), get_prox(IR6));
+				}else{
+					cor_speed = 0;
+				}
 				//applique la vitesse calculée aux moteurs
-				right_motor_set_speed(speed);
-				left_motor_set_speed(speed);
+				right_motor_set_speed(speed + cor_speed);
+				left_motor_set_speed(speed - cor_speed);
 
 				}else{
 					right_motor_set_speed(0);

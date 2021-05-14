@@ -25,7 +25,8 @@ extern "C" {
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
 //PI rotation
 #define ERROR_THRE_ROT			40// nb de steps pour π/16 radians
-
+//PI alignment
+#define ERROR_THRE_AL			30//seuil de différence entre les capteurs IR de côté
 //LEDS
 #define TOGGLE					2
 #define ON						1
@@ -48,6 +49,16 @@ extern "C" {
 #define IR_TRES_SIDE				30//capteurs sur les côté pour voir un peu plus loin qu'ils vont être bloqués
 #define RECORD_THRES				200 //threshold des capteurs IR pour demander à la caméra d'arrêter de checker du bleu car trop proche
 #define TOF_RECORD				150//distance du Time-of-Flight pour activer la détection des couleurs
+//CAPTEURS IR --> numérotation
+#define IR1						0//capteur IR1: avant droite
+#define IR2						1//capteur IR2: avant diagonale droite
+#define IR3						2//capteur IR3: droite
+#define IR4						3//capteur IR4: arrière droite
+#define IR5						4//capteur IR5: arrière gauche
+#define IR6						5//capteur IR6: gauche
+#define IR7						6//capteur IR7: avant diagonale gauche
+#define IR8						7//capteur IR8: avant gauche
+
 
 /** Robot wide IPC bus. */
 extern messagebus_t bus;
