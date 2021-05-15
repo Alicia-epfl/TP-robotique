@@ -3265,7 +3265,7 @@ Disassembly of section .text:
  8002664:	e7d9      	b.n	800261a <pi_regulator+0x4a>
  8002666:	2000      	movs	r0, #0
  8002668:	e7ea      	b.n	8002640 <pi_regulator+0x70>
- 800266a:	f44f 7016 	mov.w	r0, #600	; 0x258
+ 800266a:	f44f 7061 	mov.w	r0, #900	; 0x384
  800266e:	e7e7      	b.n	8002640 <pi_regulator+0x70>
  8002670:	eddf 6a10 	vldr	s13, [pc, #64]	; 80026b4 <pi_regulator+0xe4>
  8002674:	edc2 7a00 	vstr	s15, [r2]
@@ -3281,9 +3281,9 @@ Disassembly of section .text:
  8002694:	20001da8 	.word	0x20001da8
  8002698:	462be000 	.word	0x462be000
  800269c:	44898000 	.word	0x44898000
- 80026a0:	44160000 	.word	0x44160000
- 80026a4:	c4160000 	.word	0xc4160000
- 80026a8:	fffffda8 	.word	0xfffffda8
+ 80026a0:	44610000 	.word	0x44610000
+ 80026a4:	c4610000 	.word	0xc4610000
+ 80026a8:	fffffc7c 	.word	0xfffffc7c
  80026ac:	c62be000 	.word	0xc62be000
  80026b0:	c4898000 	.word	0xc4898000
  80026b4:	3dcccccd 	.word	0x3dcccccd
@@ -3341,7 +3341,7 @@ Disassembly of section .text:
  8002754:	e7d8      	b.n	8002708 <pi_alignment+0x48>
  8002756:	2000      	movs	r0, #0
  8002758:	e7e9      	b.n	800272e <pi_alignment+0x6e>
- 800275a:	f44f 7016 	mov.w	r0, #600	; 0x258
+ 800275a:	f44f 7061 	mov.w	r0, #900	; 0x384
  800275e:	e7e6      	b.n	800272e <pi_alignment+0x6e>
  8002760:	eddf 6a11 	vldr	s13, [pc, #68]	; 80027a8 <pi_alignment+0xe8>
  8002764:	edc3 7a00 	vstr	s15, [r3]
@@ -3358,9 +3358,9 @@ Disassembly of section .text:
  8002788:	462be000 	.word	0x462be000
  800278c:	20001dac 	.word	0x20001dac
  8002790:	44898000 	.word	0x44898000
- 8002794:	44160000 	.word	0x44160000
- 8002798:	c4160000 	.word	0xc4160000
- 800279c:	fffffda8 	.word	0xfffffda8
+ 8002794:	44610000 	.word	0x44610000
+ 8002798:	c4610000 	.word	0xc4610000
+ 800279c:	fffffc7c 	.word	0xfffffc7c
  80027a0:	c62be000 	.word	0xc62be000
  80027a4:	c4898000 	.word	0xc4898000
  80027a8:	3dcccccd 	.word	0x3dcccccd
@@ -3368,70 +3368,71 @@ Disassembly of section .text:
 
 080027b0 <pi_diagonal>:
  80027b0:	b500      	push	{lr}
- 80027b2:	f5a0 7096 	sub.w	r0, r0, #300	; 0x12c
+ 80027b2:	f5a0 70c8 	sub.w	r0, r0, #400	; 0x190
  80027b6:	ee07 0a10 	vmov	s14, r0
- 80027ba:	eddf 7a29 	vldr	s15, [pc, #164]	; 8002860 <pi_diagonal+0xb0>
- 80027be:	4b29      	ldr	r3, [pc, #164]	; (8002864 <pi_diagonal+0xb4>)
+ 80027ba:	eddf 7a2a 	vldr	s15, [pc, #168]	; 8002864 <pi_diagonal+0xb4>
+ 80027be:	4b2a      	ldr	r3, [pc, #168]	; (8002868 <pi_diagonal+0xb8>)
  80027c0:	eeb8 7ac7 	vcvt.f32.s32	s14, s14
  80027c4:	b083      	sub	sp, #12
  80027c6:	eeb4 7ae7 	vcmpe.f32	s14, s15
  80027ca:	681a      	ldr	r2, [r3, #0]
  80027cc:	9201      	str	r2, [sp, #4]
  80027ce:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 80027d2:	d438      	bmi.n	8002846 <pi_diagonal+0x96>
- 80027d4:	4a24      	ldr	r2, [pc, #144]	; (8002868 <pi_diagonal+0xb8>)
- 80027d6:	4925      	ldr	r1, [pc, #148]	; (800286c <pi_diagonal+0xbc>)
+ 80027d2:	d43a      	bmi.n	800284a <pi_diagonal+0x9a>
+ 80027d4:	4a25      	ldr	r2, [pc, #148]	; (800286c <pi_diagonal+0xbc>)
+ 80027d6:	4926      	ldr	r1, [pc, #152]	; (8002870 <pi_diagonal+0xc0>)
  80027d8:	edd2 6a00 	vldr	s13, [r2]
- 80027dc:	ed9f 6a24 	vldr	s12, [pc, #144]	; 8002870 <pi_diagonal+0xc0>
+ 80027dc:	ed9f 6a25 	vldr	s12, [pc, #148]	; 8002874 <pi_diagonal+0xc4>
  80027e0:	edd1 7a00 	vldr	s15, [r1]
  80027e4:	eef4 6ac6 	vcmpe.f32	s13, s12
  80027e8:	eef6 5a00 	vmov.f32	s11, #96	; 0x3f000000  0.5
  80027ec:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
  80027f0:	ee67 7aa5 	vmul.f32	s15, s15, s11
- 80027f4:	dd1f      	ble.n	8002836 <pi_diagonal+0x86>
+ 80027f4:	dd21      	ble.n	800283a <pi_diagonal+0x8a>
  80027f6:	ed82 6a00 	vstr	s12, [r2]
- 80027fa:	ed9f 6a1e 	vldr	s12, [pc, #120]	; 8002874 <pi_diagonal+0xc4>
- 80027fe:	eddf 6a1e 	vldr	s13, [pc, #120]	; 8002878 <pi_diagonal+0xc8>
+ 80027fa:	ed9f 6a1f 	vldr	s12, [pc, #124]	; 8002878 <pi_diagonal+0xc8>
+ 80027fe:	eddf 6a1f 	vldr	s13, [pc, #124]	; 800287c <pi_diagonal+0xcc>
  8002802:	ee67 7a86 	vmul.f32	s15, s15, s12
  8002806:	eeb0 6a08 	vmov.f32	s12, #8	; 0x40400000  3.0
  800280a:	eee7 7a06 	vfma.f32	s15, s14, s12
  800280e:	eef4 7ae6 	vcmpe.f32	s15, s13
  8002812:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 8002816:	dc18      	bgt.n	800284a <pi_diagonal+0x9a>
- 8002818:	ed9f 7a18 	vldr	s14, [pc, #96]	; 800287c <pi_diagonal+0xcc>
+ 8002816:	dc1a      	bgt.n	800284e <pi_diagonal+0x9e>
+ 8002818:	ed9f 7a19 	vldr	s14, [pc, #100]	; 8002880 <pi_diagonal+0xd0>
  800281c:	eef4 7ac7 	vcmpe.f32	s15, s14
  8002820:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 8002824:	d516      	bpl.n	8002854 <pi_diagonal+0xa4>
- 8002826:	4816      	ldr	r0, [pc, #88]	; (8002880 <pi_diagonal+0xd0>)
- 8002828:	9a01      	ldr	r2, [sp, #4]
- 800282a:	681b      	ldr	r3, [r3, #0]
- 800282c:	429a      	cmp	r2, r3
- 800282e:	d10f      	bne.n	8002850 <pi_diagonal+0xa0>
- 8002830:	b003      	add	sp, #12
- 8002832:	f85d fb04 	ldr.w	pc, [sp], #4
- 8002836:	ed9f 6a13 	vldr	s12, [pc, #76]	; 8002884 <pi_diagonal+0xd4>
- 800283a:	eef4 6ac6 	vcmpe.f32	s13, s12
- 800283e:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 8002842:	d5da      	bpl.n	80027fa <pi_diagonal+0x4a>
- 8002844:	e7d7      	b.n	80027f6 <pi_diagonal+0x46>
- 8002846:	2000      	movs	r0, #0
- 8002848:	e7ee      	b.n	8002828 <pi_diagonal+0x78>
- 800284a:	f44f 7016 	mov.w	r0, #600	; 0x258
- 800284e:	e7eb      	b.n	8002828 <pi_diagonal+0x78>
- 8002850:	f7ff fea6 	bl	80025a0 <__stack_chk_fail>
- 8002854:	eefd 7ae7 	vcvt.s32.f32	s15, s15
- 8002858:	ee17 2a90 	vmov	r2, s15
- 800285c:	b210      	sxth	r0, r2
- 800285e:	e7e3      	b.n	8002828 <pi_diagonal+0x78>
- 8002860:	42480000 	.word	0x42480000
- 8002864:	20000b00 	.word	0x20000b00
- 8002868:	20001dac 	.word	0x20001dac
- 800286c:	20001da8 	.word	0x20001da8
- 8002870:	462be000 	.word	0x462be000
- 8002874:	3dcccccd 	.word	0x3dcccccd
- 8002878:	44160000 	.word	0x44160000
- 800287c:	c4160000 	.word	0xc4160000
- 8002880:	fffffda8 	.word	0xfffffda8
+ 8002824:	bf48      	it	mi
+ 8002826:	f06f 00c7 	mvnmi.w	r0, #199	; 0xc7
+ 800282a:	d514      	bpl.n	8002856 <pi_diagonal+0xa6>
+ 800282c:	9a01      	ldr	r2, [sp, #4]
+ 800282e:	681b      	ldr	r3, [r3, #0]
+ 8002830:	429a      	cmp	r2, r3
+ 8002832:	d10e      	bne.n	8002852 <pi_diagonal+0xa2>
+ 8002834:	b003      	add	sp, #12
+ 8002836:	f85d fb04 	ldr.w	pc, [sp], #4
+ 800283a:	ed9f 6a12 	vldr	s12, [pc, #72]	; 8002884 <pi_diagonal+0xd4>
+ 800283e:	eef4 6ac6 	vcmpe.f32	s13, s12
+ 8002842:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 8002846:	d5d8      	bpl.n	80027fa <pi_diagonal+0x4a>
+ 8002848:	e7d5      	b.n	80027f6 <pi_diagonal+0x46>
+ 800284a:	2000      	movs	r0, #0
+ 800284c:	e7ee      	b.n	800282c <pi_diagonal+0x7c>
+ 800284e:	20c8      	movs	r0, #200	; 0xc8
+ 8002850:	e7ec      	b.n	800282c <pi_diagonal+0x7c>
+ 8002852:	f7ff fea5 	bl	80025a0 <__stack_chk_fail>
+ 8002856:	eefd 7ae7 	vcvt.s32.f32	s15, s15
+ 800285a:	ee17 2a90 	vmov	r2, s15
+ 800285e:	b210      	sxth	r0, r2
+ 8002860:	e7e4      	b.n	800282c <pi_diagonal+0x7c>
+ 8002862:	bf00      	nop
+ 8002864:	42480000 	.word	0x42480000
+ 8002868:	20000b00 	.word	0x20000b00
+ 800286c:	20001dac 	.word	0x20001dac
+ 8002870:	20001da8 	.word	0x20001da8
+ 8002874:	462be000 	.word	0x462be000
+ 8002878:	3dcccccd 	.word	0x3dcccccd
+ 800287c:	43480000 	.word	0x43480000
+ 8002880:	c3480000 	.word	0xc3480000
  8002884:	c62be000 	.word	0xc62be000
 	...
 
@@ -3493,11 +3494,11 @@ Disassembly of section .text:
  800292a:	f8ad 6008 	strh.w	r6, [sp, #8]
  800292e:	2001      	movs	r0, #1
  8002930:	f003 fbd6 	bl	80060e0 <get_prox>
- 8002934:	f5b0 7f48 	cmp.w	r0, #800	; 0x320
+ 8002934:	f5b0 7f16 	cmp.w	r0, #600	; 0x258
  8002938:	dc30      	bgt.n	800299c <PiRegulator+0x10c>
  800293a:	2006      	movs	r0, #6
  800293c:	f003 fbd0 	bl	80060e0 <get_prox>
- 8002940:	f5b0 7f48 	cmp.w	r0, #800	; 0x320
+ 8002940:	f5b0 7f16 	cmp.w	r0, #600	; 0x258
  8002944:	dc2a      	bgt.n	800299c <PiRegulator+0x10c>
  8002946:	f8ad 600a 	strh.w	r6, [sp, #10]
  800294a:	f8bd 3006 	ldrh.w	r3, [sp, #6]
@@ -3620,7 +3621,7 @@ Disassembly of section .text:
  8002aae:	eddf 7a13 	vldr	s15, [pc, #76]	; 8002afc <pi_rotator+0xec>
  8002ab2:	edc3 6a00 	vstr	s13, [r3]
  8002ab6:	e7df      	b.n	8002a78 <pi_rotator+0x68>
- 8002ab8:	f44f 7016 	mov.w	r0, #600	; 0x258
+ 8002ab8:	f44f 7061 	mov.w	r0, #900	; 0x384
  8002abc:	e7c1      	b.n	8002a42 <pi_rotator+0x32>
  8002abe:	eddf 6a10 	vldr	s13, [pc, #64]	; 8002b00 <pi_rotator+0xf0>
  8002ac2:	edc3 7a00 	vstr	s15, [r3]
@@ -3635,9 +3636,9 @@ Disassembly of section .text:
  8002ae0:	20001db0 	.word	0x20001db0
  8002ae4:	462be000 	.word	0x462be000
  8002ae8:	44898000 	.word	0x44898000
- 8002aec:	44160000 	.word	0x44160000
- 8002af0:	c4160000 	.word	0xc4160000
- 8002af4:	fffffda8 	.word	0xfffffda8
+ 8002aec:	44610000 	.word	0x44610000
+ 8002af0:	c4610000 	.word	0xc4610000
+ 8002af4:	fffffc7c 	.word	0xfffffc7c
  8002af8:	c62be000 	.word	0xc62be000
  8002afc:	c4898000 	.word	0xc4898000
  8002b00:	3dcccccd 	.word	0x3dcccccd
@@ -4357,11 +4358,11 @@ Disassembly of section .text:
  80032ca:	d0fb      	beq.n	80032c4 <Proximity+0x24>
  80032cc:	2000      	movs	r0, #0
  80032ce:	f002 ff07 	bl	80060e0 <get_prox>
- 80032d2:	f5b0 7f16 	cmp.w	r0, #600	; 0x258
+ 80032d2:	f5b0 7f2f 	cmp.w	r0, #700	; 0x2bc
  80032d6:	dc05      	bgt.n	80032e4 <Proximity+0x44>
  80032d8:	2007      	movs	r0, #7
  80032da:	f002 ff01 	bl	80060e0 <get_prox>
- 80032de:	f5b0 7f16 	cmp.w	r0, #600	; 0x258
+ 80032de:	f5b0 7f2f 	cmp.w	r0, #700	; 0x2bc
  80032e2:	dd10      	ble.n	8003306 <Proximity+0x66>
  80032e4:	2301      	movs	r3, #1
  80032e6:	2002      	movs	r0, #2

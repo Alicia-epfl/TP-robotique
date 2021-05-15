@@ -115,7 +115,7 @@ int16_t pi_diagonal(int position){
 	//désactive le régulateur PI si l'erreur est trop faible
 	//ça évite de toujours bouger étant donné qu'onne peut pas être parfaitement précis
 	if(error < ERROR_THRE_DIAG){
-			return 0;
+			return NO_SPEED;
 	}
 
 	sum_error_diag += error;
@@ -130,8 +130,8 @@ int16_t pi_diagonal(int position){
 
 	speed = KP * error + KI * sum_error_diag;
 
-	if(speed>MAX_SPEED){speed = MAX_SPEED;}
-	if(speed<(-MAX_SPEED)){speed = -MAX_SPEED;}
+	if(speed>MID_SPEED){speed = MID_SPEED;}
+	if(speed<(-MID_SPEED)){speed = -MID_SPEED;}
 
 	return (int16_t)speed;
 

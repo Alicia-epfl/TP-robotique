@@ -12,9 +12,10 @@ extern "C" {
 
 //constants for the differents parts of the project
 #define PI					3.14f// f pour float
-#define NO_SPEED					0
-#define MAX_SPEED				600
-#define MID_SPEED				200
+#define NO_SPEED					0// minimale
+#define MAX_SPEED				900//maximale
+#define HIGH_SPEED				400 //haute
+#define MID_SPEED				200//moyenne
 //CAMERA
 #define IMAGE_BUFFER_SIZE		640
 //PI
@@ -30,8 +31,8 @@ extern "C" {
 #define ERROR_THRE_AL			30//seuil de différence entre les capteurs IR de côt
 #define ROT_COEF					2
 //PI diagonales
-#define DIAG_DETECT				800//valeur à laquelle le robot réagit
-#define GOAL_DIAG				300//Valeur estimée grâce à ce que renvoie le capteur dans le terminal
+#define DIAG_DETECT				600//valeur à laquelle le robot réagit
+#define GOAL_DIAG				400//Valeur estimée grâce à ce que renvoie le capteur dans le terminal
 #define ERROR_THRE_DIAG			50
 //LEDS
 #define TOGGLE					2
@@ -51,8 +52,8 @@ extern "C" {
 #define RED						31
 #define NO_COL					0//pas de cette composante de couleur
 //PROXIMITY
-#define IR_THRESHOLD				600// Distance à laquelle les capteurs IR détectent un obstacle
-#define IR_TRES_SIDE				100//capteurs sur les côté pour voir un peu plus loin qu'ils vont être bloqués   30 avant
+#define IR_THRESHOLD				700// Distance à laquelle les capteurs IR détectent un obstacle
+#define IR_TRES_SIDE				100//capteurs sur les côté pour voir un peu plus loin qu'ils vont être bloqués
 #define RECORD_THRES				300 //threshold des capteurs IR pour demander à la caméra d'arrêter de checker du bleu car trop proche
 #define TOF_RECORD				150//distance du Time-of-Flight pour activer la détection des couleurs
 //CAPTEURS IR --> numérotation
