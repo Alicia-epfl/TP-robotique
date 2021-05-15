@@ -99,6 +99,7 @@ uint8_t game_over = 0, win = 0;
 	  win = get_win();
 
 	  if(win || game_over){
+		  run =0;
 		  stop=true;
 		  avoid_allowed = false;
 		  record_allowed = false;

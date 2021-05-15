@@ -45,7 +45,7 @@ int16_t pi_regulator(uint16_t distance){
 
 	//désactive le régulateur PI si l'erreur est trop faible
 	//ça évite de toujours bouger étant donné qu'onne peut pas être parfaitement précis
-	if(error < ERROR_THRESHOLD){
+	if(error < ERROR_THRESHOLD){//pas de valeur absolue car on n'a pas besoin de le faire reculer pour être parfaitement précis
 			return NO_SPEED;
 	}
 
@@ -190,8 +190,8 @@ static THD_FUNCTION(PiRegulator, arg) {
     systime_t time;
 
     volatile int16_t speed = 0, cor_speed = 0, diag_speed = 0;//cor_speed est la vitesse à corriger pour s'aligner (dans la même idée qu'une Tesla sur la route)
-    int16_t measure = 0;
-    uint8_t stop = 0, left= 0;
+    uint16_t measure = 0;
+    uint8_t stop = 0, left= 0, win = 0, game_over = 0;
     volatile uint8_t avoid=0;
 
 
@@ -199,6 +199,16 @@ static THD_FUNCTION(PiRegulator, arg) {
 		avoid = get_avoid();
 		left=get_left(); //si !left --> alors il tourne à gauche donc ne doit pas avancer ou être arrêté
 		//si il est en manoeuvre d'évitement, pas besoin d'entrer dans ce thread
+		game_over = get_game_over();
+		win = get_win();
+
+		//Vérifier qu'on passe bien dans la boucle si on a fini le jeu
+		if(win || game_over){
+			set_body_led(ON);
+			avoid = false;
+			left = true;
+			stop = true;
+		}
     		if(!avoid && left){
 				stop = get_stop_fsm();
 				time = chVTGetSystemTime();//pour le sleep Window d'en dessous
@@ -206,6 +216,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 				if(!stop){
 					//mesure de la distance à un obstacle pour réguler la vitesse grâce au PI
 				measure	= VL53L0X_get_dist_mm();
+//				chprintf((BaseSequentialStream *)&SDU1, "measure=%3d\r", measure);
 				speed = pi_regulator(measure);
 
 				//dans le cas où le robot détecte un mur des 2 côtés --> il s'aligne
@@ -232,8 +243,8 @@ static THD_FUNCTION(PiRegulator, arg) {
 				left_motor_set_speed(speed - ROT_COEF*cor_speed - diag_speed);
 
 				}else{
-					right_motor_set_speed(0);
-					left_motor_set_speed(0);
+					right_motor_set_speed(NO_SPEED);
+					left_motor_set_speed(NO_SPEED);
 				}
 
 			//100Hz
