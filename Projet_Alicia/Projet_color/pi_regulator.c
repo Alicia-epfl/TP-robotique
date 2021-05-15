@@ -46,7 +46,7 @@ int16_t pi_regulator(uint16_t distance){
 	//désactive le régulateur PI si l'erreur est trop faible
 	//ça évite de toujours bouger étant donné qu'onne peut pas être parfaitement précis
 	if(error < ERROR_THRESHOLD){
-			return 0;
+			return NO_SPEED;
 	}
 
 	sum_error += error;
@@ -61,6 +61,8 @@ int16_t pi_regulator(uint16_t distance){
 
 	speed = KP * error + KI * sum_error;
 
+	if(speed>MAX_SPEED){speed = MAX_SPEED;}
+	if(speed<(-MAX_SPEED)){speed = -MAX_SPEED;}
 
 	return (int16_t)speed;
 
@@ -77,8 +79,8 @@ int16_t pi_alignment(int right, int left){
 
 	//désactive le régulateur PI si l'erreur est trop faible
 	//ça évite de toujours bouger étant donné qu'onne peut pas être parfaitement précis
-	if(error < ERROR_THRE_AL){
-			return 0;
+	if(abs(error) < ERROR_THRE_AL){
+			return NO_SPEED;
 	}
 
 	sum_error_al += error;
@@ -93,6 +95,8 @@ int16_t pi_alignment(int right, int left){
 
 	speed = KP * error + KI * sum_error_al;
 
+	if(speed>MAX_SPEED){speed = MAX_SPEED;}
+	if(speed<(-MAX_SPEED)){speed = -MAX_SPEED;}
 
 	return (int16_t)speed;
 
@@ -126,6 +130,8 @@ int16_t pi_diagonal(int position){
 
 	speed = KP * error + KI * sum_error_diag;
 
+	if(speed>MAX_SPEED){speed = MAX_SPEED;}
+	if(speed<(-MAX_SPEED)){speed = -MAX_SPEED;}
 
 	return (int16_t)speed;
 
@@ -147,9 +153,9 @@ int16_t pi_rotator(uint16_t position, int32_t nstep){
 	if(abs(error) < ERROR_THRE_ROT){
 		//faible vitesse pour finir correctement le tour
 		if(error>0){
-			return 200;
+			return MID_SPEED;
 		}else{
-			return -200;
+			return -MID_SPEED;
 		}
 	}
 
@@ -165,7 +171,8 @@ int16_t pi_rotator(uint16_t position, int32_t nstep){
 
 	speed = KP * error + KI * sum_error_rot;
 
-
+	if(speed>MAX_SPEED){speed = MAX_SPEED;}
+	if(speed<(-MAX_SPEED)){speed = -MAX_SPEED;}
 
 	return (int16_t)speed;
 
@@ -218,6 +225,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 				}else{
 					diag_speed = NO_SPEED;
 				}
+//				chprintf((BaseSequentialStream *)&SDU1, "speed=%3d, cor_speed=%3d, diag_speed=%3d\r\n\n", speed, ROT_COEF*cor_speed, diag_speed);
 
 				//applique la vitesse calculée aux moteurs
 				right_motor_set_speed(speed + ROT_COEF*cor_speed + diag_speed);

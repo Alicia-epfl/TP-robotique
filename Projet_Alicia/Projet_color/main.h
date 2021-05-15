@@ -14,6 +14,7 @@ extern "C" {
 #define PI					3.14f// f pour float
 #define NO_SPEED					0
 #define MAX_SPEED				600
+#define MID_SPEED				200
 //CAMERA
 #define IMAGE_BUFFER_SIZE		640
 //PI
@@ -27,7 +28,7 @@ extern "C" {
 #define ERROR_THRE_ROT			40// nb de steps pour π/16 radians
 //PI alignment
 #define ERROR_THRE_AL			30//seuil de différence entre les capteurs IR de côt
-#define ROT_COEF					4
+#define ROT_COEF					2
 //PI diagonales
 #define DIAG_DETECT				800//valeur à laquelle le robot réagit
 #define GOAL_DIAG				300//Valeur estimée grâce à ce que renvoie le capteur dans le terminal

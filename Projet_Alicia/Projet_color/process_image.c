@@ -102,7 +102,7 @@ static THD_FUNCTION(CaptureImage, arg) {
 
 
 
-static THD_WORKING_AREA(waProcessImage, 1024); //Je suis montée de 1024 à 4096 pour voir si ça réglait le problème
+static THD_WORKING_AREA(waProcessImage, 1024);
 static THD_FUNCTION(ProcessImage, arg) {
 
     chRegSetThreadName(__FUNCTION__);
