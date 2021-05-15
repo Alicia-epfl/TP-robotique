@@ -79,6 +79,7 @@ uint8_t game_over = 0, win = 0;
 		  //si il est en évitement --> pas de check des couleurs
 		  if(avoid){
 			  record_allowed = false;
+			  chThdSleepMilliseconds(50);
 		  }else{
 			  record_allowed = true;
 		  }//avoid

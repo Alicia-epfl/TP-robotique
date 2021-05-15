@@ -29,6 +29,7 @@
 static float sum_error = 0;//pour le pi
 static float sum_error_rot = 0;//pour le pi de rotation
 static float sum_error_al = 0;//pour le pi d'alignement
+static float sum_error_diag = 0;//pour le pi qui évite les collisions en diagonale
 
 
 /*::::::::::PI REGULATOR:::::::::::::*/
@@ -82,6 +83,39 @@ int16_t pi_alignment(int right, int left){
 
 	sum_error_al += error;
 	sum_error_al = 0.5*sum_error;
+
+	//On pose un maximum et un minimum à la somme pour éviter une ascension incontrolée
+	if(sum_error_al > MAX_SUM_ERROR){
+		sum_error_al = MAX_SUM_ERROR;
+	}else if(sum_error_al < -MAX_SUM_ERROR){
+		sum_error_al = -MAX_SUM_ERROR;
+	}
+
+	speed = KP * error + KI * sum_error_al;
+
+
+	return (int16_t)speed;
+
+}
+
+/*::::::::::PI DIAGONALES:::::::::::::*/
+//implémentation d'un régulateur PI pour éviter les obstacles
+//apparaissant dans les capteurs diagonaux IR2 et IR7
+int16_t pi_diagonal(int position){
+
+	float error = 0;
+	float speed = 0;
+
+	error = position - GOAL_DIAG;
+
+	//désactive le régulateur PI si l'erreur est trop faible
+	//ça évite de toujours bouger étant donné qu'onne peut pas être parfaitement précis
+	if(error < ERROR_THRE_DIAG){
+			return 0;
+	}
+
+	sum_error_diag += error;
+	sum_error_diag = 0.5*sum_error;
 
 	//On pose un maximum et un minimum à la somme pour éviter une ascension incontrolée
 	if(sum_error_al > MAX_SUM_ERROR){
@@ -174,12 +208,12 @@ static THD_FUNCTION(PiRegulator, arg) {
 					cor_speed = NO_SPEED;
 				}
 
-				//dans le cas où le robot arrive de diagonale contre un objet
+//				//dans le cas où le robot arrive de diagonale contre un objet
 				if((get_prox(IR2)>DIAG_DETECT) || (get_prox(IR7)>DIAG_DETECT)){
 					if(get_prox(IR2) > get_prox(IR7)){ //celui de droite plus proche d'un mur que celui de gauche
-						diag_speed = DIAG_SPEED;
+						diag_speed = pi_diagonal(get_prox(IR2));
 					}else{
-						diag_speed = -DIAG_SPEED;					//FAIRE UN PI!!!!!!!!
+						diag_speed = -pi_diagonal(get_prox(IR7));
 					}
 				}else{
 					diag_speed = NO_SPEED;
