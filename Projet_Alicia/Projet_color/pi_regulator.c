@@ -93,10 +93,10 @@ int16_t pi_alignment(int right, int left){
 		sum_error_al = -MAX_SUM_ERROR;
 	}
 
-	speed = KP * error + KI * sum_error_al;
+	speed = KP_AL * error + KI_AL * sum_error_al;
 
-	if(speed>MAX_SPEED){speed = MAX_SPEED;}
-	if(speed<(-MAX_SPEED)){speed = -MAX_SPEED;}
+	if(speed>MID_SPEED){speed = MID_SPEED;}
+	if(speed<(-MID_SPEED)){speed = -MID_SPEED;}
 
 	return (int16_t)speed;
 
@@ -122,10 +122,10 @@ int16_t pi_diagonal(int position){
 	sum_error_diag = 0.5*sum_error;
 
 	//On pose un maximum et un minimum à la somme pour éviter une ascension incontrolée
-	if(sum_error_al > MAX_SUM_ERROR){
-		sum_error_al = MAX_SUM_ERROR;
-	}else if(sum_error_al < -MAX_SUM_ERROR){
-		sum_error_al = -MAX_SUM_ERROR;
+	if(sum_error_diag > MAX_SUM_ERROR){
+		sum_error_diag = MAX_SUM_ERROR;
+	}else if(sum_error_diag < -MAX_SUM_ERROR){
+		sum_error_diag = -MAX_SUM_ERROR;
 	}
 
 	speed = KP * error + KI * sum_error_diag;
@@ -224,18 +224,19 @@ static THD_FUNCTION(PiRegulator, arg) {
 					cor_speed = pi_alignment(get_prox(IR3), get_prox(IR6));
 				}else{
 					cor_speed = NO_SPEED;
+					//dans le cas où le robot arrive de diagonale contre un objet
+					if((get_prox(IR2)>DIAG_DETECT) || (get_prox(IR7)>DIAG_DETECT)){
+						if(get_prox(IR2) > get_prox(IR7)){ //celui de droite plus proche d'un mur que celui de gauche
+							diag_speed = pi_diagonal(get_prox(IR2));
+						}else{
+							diag_speed = -pi_diagonal(get_prox(IR7));
+						}
+					}else{
+							diag_speed = NO_SPEED;
+					}
 				}
 
-//				//dans le cas où le robot arrive de diagonale contre un objet
-				if((get_prox(IR2)>DIAG_DETECT) || (get_prox(IR7)>DIAG_DETECT)){
-					if(get_prox(IR2) > get_prox(IR7)){ //celui de droite plus proche d'un mur que celui de gauche
-						diag_speed = pi_diagonal(get_prox(IR2));
-					}else{
-						diag_speed = -pi_diagonal(get_prox(IR7));
-					}
-				}else{
-					diag_speed = NO_SPEED;
-				}
+//
 //				chprintf((BaseSequentialStream *)&SDU1, "speed=%3d, cor_speed=%3d, diag_speed=%3d\r\n\n", speed, ROT_COEF*cor_speed, diag_speed);
 
 				//applique la vitesse calculée aux moteurs
