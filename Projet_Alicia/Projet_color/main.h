@@ -29,9 +29,9 @@ extern "C" {
 #define ERROR_THRE_ROT			40// nb de steps pour π/16 radians
 //PI alignment
 #define ERROR_THRE_AL			50//seuil de différence entre les capteurs IR de côt
-#define ROT_COEF					1
-#define KP_AL					2
-#define KI_AL					0.1
+#define ROT_COEF					0.5
+#define KP_AL					0.15
+#define KI_AL					0.08
 //PI diagonales
 #define DIAG_DETECT				600//valeur à laquelle le robot réagit
 #define GOAL_DIAG				400//Valeur estimée grâce à ce que renvoie le capteur dans le terminal

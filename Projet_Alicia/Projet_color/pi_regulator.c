@@ -95,8 +95,9 @@ int16_t pi_alignment(int right, int left){
 
 	speed = KP_AL * error + KI_AL * sum_error_al;
 
-	if(speed>MID_SPEED){speed = MID_SPEED;}
-	if(speed<(-MID_SPEED)){speed = -MID_SPEED;}
+	if(speed > MID_SPEED){speed = MID_SPEED;}
+	if(speed < (-MID_SPEED)){speed = -MID_SPEED;}
+
 
 	return (int16_t)speed;
 
@@ -132,6 +133,7 @@ int16_t pi_diagonal(int position){
 
 	if(speed>MID_SPEED){speed = MID_SPEED;}
 	if(speed<(-MID_SPEED)){speed = -MID_SPEED;}
+
 
 	return (int16_t)speed;
 
@@ -189,7 +191,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 
     systime_t time;
 
-    volatile int16_t speed = 0, cor_speed = 0, diag_speed = 0;//cor_speed est la vitesse à corriger pour s'aligner (dans la même idée qu'une Tesla sur la route)
+    int16_t speed = 0, cor_speed = 0, diag_speed = 0;//cor_speed est la vitesse à corriger pour s'aligner (dans la même idée qu'une Tesla sur la route)
     uint16_t measure = 0;
     uint8_t stop = 0, left= 0, win = 0, game_over = 0;
     volatile uint8_t avoid=0;
@@ -224,7 +226,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 					cor_speed = pi_alignment(get_prox(IR3), get_prox(IR6));
 				}else{
 					cor_speed = NO_SPEED;
-					//dans le cas où le robot arrive de diagonale contre un objet
+					//dans le cas où le robot arrive de diagonale contre un objet (1 seul mur)
 					if((get_prox(IR2)>DIAG_DETECT) || (get_prox(IR7)>DIAG_DETECT)){
 						if(get_prox(IR2) > get_prox(IR7)){ //celui de droite plus proche d'un mur que celui de gauche
 							diag_speed = pi_diagonal(get_prox(IR2));
@@ -236,7 +238,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 					}
 				}
 
-//
+
 //				chprintf((BaseSequentialStream *)&SDU1, "speed=%3d, cor_speed=%3d, diag_speed=%3d\r\n\n", speed, ROT_COEF*cor_speed, diag_speed);
 
 				//applique la vitesse calculée aux moteurs
