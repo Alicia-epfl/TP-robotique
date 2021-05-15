@@ -60,17 +60,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  19 .debug_abbrev 00014036  00000000  00000000  0015fd57  2**0
                   CONTENTS, READONLY, DEBUGGING
- 20 .debug_loc    00024fb1  00000000  00000000  00173d8d  2**0
+ 20 .debug_loc    00024fe8  00000000  00000000  00173d8d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 21 .debug_aranges 00002540  00000000  00000000  00198d40  2**3
+ 21 .debug_aranges 00002540  00000000  00000000  00198d78  2**3
                   CONTENTS, READONLY, DEBUGGING
- 22 .debug_ranges 00004c78  00000000  00000000  0019b280  2**0
+ 22 .debug_ranges 00004c78  00000000  00000000  0019b2b8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 23 .debug_line   0003633a  00000000  00000000  0019fef8  2**0
+ 23 .debug_line   00036338  00000000  00000000  0019ff30  2**0
                   CONTENTS, READONLY, DEBUGGING
- 24 .debug_str    0000ce58  00000000  00000000  001d6232  2**0
+ 24 .debug_str    0000ce58  00000000  00000000  001d6268  2**0
                   CONTENTS, READONLY, DEBUGGING
- 25 .debug_frame  0000aea4  00000000  00000000  001e308c  2**2
+ 25 .debug_frame  0000aea4  00000000  00000000  001e30c0  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -952,7 +952,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 080033c0 g     F .text	00000038 proxi_start
 2000b74c g     O .bss	00000038 ADCD2
 2000b714 g     O .bss	00000038 ADCD1
-080026d0 g     F .text	000000e8 pi_alignment
+080026d0 g     F .text	000000e4 pi_alignment
 08006200 g     F .text	00000048 spi_comm_start
 40024000 g       .ram5	00000000 __ram5_free__
 08009f40  w    F .text	0000001c VectorD8

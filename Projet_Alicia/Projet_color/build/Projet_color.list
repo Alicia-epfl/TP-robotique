@@ -3316,13 +3316,13 @@ Disassembly of section .text:
  8002710:	dd1f      	ble.n	8002752 <pi_alignment+0x82>
  8002712:	eddf 7a22 	vldr	s15, [pc, #136]	; 800279c <pi_alignment+0xcc>
  8002716:	edc3 6a00 	vstr	s13, [r3]
- 800271a:	ed9f 6a21 	vldr	s12, [pc, #132]	; 80027a0 <pi_alignment+0xd0>
- 800271e:	eddf 6a21 	vldr	s13, [pc, #132]	; 80027a4 <pi_alignment+0xd4>
- 8002722:	eee7 7a06 	vfma.f32	s15, s14, s12
- 8002726:	eef4 7ae6 	vcmpe.f32	s15, s13
+ 800271a:	eef0 6a00 	vmov.f32	s13, #0	; 0x40000000  2.0
+ 800271e:	eee7 7a26 	vfma.f32	s15, s14, s13
+ 8002722:	ed9f 7a1f 	vldr	s14, [pc, #124]	; 80027a0 <pi_alignment+0xd0>
+ 8002726:	eef4 7ac7 	vcmpe.f32	s15, s14
  800272a:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
  800272e:	dc1e      	bgt.n	800276e <pi_alignment+0x9e>
- 8002730:	ed9f 7a1d 	vldr	s14, [pc, #116]	; 80027a8 <pi_alignment+0xd8>
+ 8002730:	ed9f 7a1c 	vldr	s14, [pc, #112]	; 80027a4 <pi_alignment+0xd4>
  8002734:	eef4 7ac7 	vcmpe.f32	s15, s14
  8002738:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
  800273c:	bf48      	it	mi
@@ -3334,18 +3334,18 @@ Disassembly of section .text:
  800274a:	d119      	bne.n	8002780 <pi_alignment+0xb0>
  800274c:	b003      	add	sp, #12
  800274e:	f85d fb04 	ldr.w	pc, [sp], #4
- 8002752:	eddf 6a16 	vldr	s13, [pc, #88]	; 80027ac <pi_alignment+0xdc>
+ 8002752:	eddf 6a15 	vldr	s13, [pc, #84]	; 80027a8 <pi_alignment+0xd8>
  8002756:	eef4 7ae6 	vcmpe.f32	s15, s13
  800275a:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
  800275e:	d508      	bpl.n	8002772 <pi_alignment+0xa2>
- 8002760:	eddf 7a13 	vldr	s15, [pc, #76]	; 80027b0 <pi_alignment+0xe0>
+ 8002760:	eddf 7a12 	vldr	s15, [pc, #72]	; 80027ac <pi_alignment+0xdc>
  8002764:	edc3 6a00 	vstr	s13, [r3]
  8002768:	e7d7      	b.n	800271a <pi_alignment+0x4a>
  800276a:	2000      	movs	r0, #0
  800276c:	e7ea      	b.n	8002744 <pi_alignment+0x74>
  800276e:	20c8      	movs	r0, #200	; 0xc8
  8002770:	e7e8      	b.n	8002744 <pi_alignment+0x74>
- 8002772:	eddf 6a10 	vldr	s13, [pc, #64]	; 80027b4 <pi_alignment+0xe4>
+ 8002772:	eddf 6a0f 	vldr	s13, [pc, #60]	; 80027b0 <pi_alignment+0xe0>
  8002776:	edc3 7a00 	vstr	s15, [r3]
  800277a:	ee67 7aa6 	vmul.f32	s15, s15, s13
  800277e:	e7cc      	b.n	800271a <pi_alignment+0x4a>
@@ -3357,13 +3357,12 @@ Disassembly of section .text:
  8002790:	20000b00 	.word	0x20000b00
  8002794:	20001dac 	.word	0x20001dac
  8002798:	462be000 	.word	0x462be000
- 800279c:	445c0000 	.word	0x445c0000
- 80027a0:	3e19999a 	.word	0x3e19999a
- 80027a4:	43480000 	.word	0x43480000
- 80027a8:	c3480000 	.word	0xc3480000
- 80027ac:	c62be000 	.word	0xc62be000
- 80027b0:	c45c0000 	.word	0xc45c0000
- 80027b4:	3da3d70a 	.word	0x3da3d70a
+ 800279c:	44898000 	.word	0x44898000
+ 80027a0:	43480000 	.word	0x43480000
+ 80027a4:	c3480000 	.word	0xc3480000
+ 80027a8:	c62be000 	.word	0xc62be000
+ 80027ac:	c4898000 	.word	0xc4898000
+ 80027b0:	3dcccccd 	.word	0x3dcccccd
 	...
 
 080027c0 <pi_diagonal>:

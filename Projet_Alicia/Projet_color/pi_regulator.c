@@ -223,6 +223,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 
 				//dans le cas où le robot détecte un mur des 2 côtés --> il s'aligne
 				if((get_prox(IR3)>IR_TRES_SIDE) && (get_prox(IR6)>IR_TRES_SIDE)){
+
 					cor_speed = pi_alignment(get_prox(IR3), get_prox(IR6));
 				}else{
 					cor_speed = NO_SPEED;
@@ -239,7 +240,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 				}
 
 
-//				chprintf((BaseSequentialStream *)&SDU1, "speed=%3d, cor_speed=%3d, diag_speed=%3d\r\n\n", speed, ROT_COEF*cor_speed, diag_speed);
+//				chprintf((BaseSequentialStream *)&SDU1, "speed=%3d, cor_speed=%3d, diag_speed=%3d\r\n\n", speed, cor_speed, diag_speed);
 
 				//applique la vitesse calculée aux moteurs
 				right_motor_set_speed(speed + ROT_COEF*cor_speed + diag_speed);
