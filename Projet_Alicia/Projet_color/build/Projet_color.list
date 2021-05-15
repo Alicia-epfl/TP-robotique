@@ -3308,65 +3308,63 @@ Disassembly of section .text:
  80026f2:	4b28      	ldr	r3, [pc, #160]	; (8002794 <pi_alignment+0xc4>)
  80026f4:	eddf 6a28 	vldr	s13, [pc, #160]	; 8002798 <pi_alignment+0xc8>
  80026f8:	edd3 7a00 	vldr	s15, [r3]
- 80026fc:	eeb6 6a00 	vmov.f32	s12, #96	; 0x3f000000  0.5
- 8002700:	ee67 7a86 	vmul.f32	s15, s15, s12
- 8002704:	eef4 7ae6 	vcmpe.f32	s15, s13
- 8002708:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 800270c:	dd20      	ble.n	8002750 <pi_alignment+0x80>
- 800270e:	4b23      	ldr	r3, [pc, #140]	; (800279c <pi_alignment+0xcc>)
- 8002710:	eddf 7a23 	vldr	s15, [pc, #140]	; 80027a0 <pi_alignment+0xd0>
- 8002714:	edc3 6a00 	vstr	s13, [r3]
- 8002718:	ed9f 6a22 	vldr	s12, [pc, #136]	; 80027a4 <pi_alignment+0xd4>
- 800271c:	eddf 6a22 	vldr	s13, [pc, #136]	; 80027a8 <pi_alignment+0xd8>
- 8002720:	eee7 7a06 	vfma.f32	s15, s14, s12
- 8002724:	eef4 7ae6 	vcmpe.f32	s15, s13
- 8002728:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 800272c:	dc1f      	bgt.n	800276e <pi_alignment+0x9e>
- 800272e:	ed9f 7a1f 	vldr	s14, [pc, #124]	; 80027ac <pi_alignment+0xdc>
- 8002732:	eef4 7ac7 	vcmpe.f32	s15, s14
- 8002736:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 800273a:	bf48      	it	mi
- 800273c:	f06f 00c7 	mvnmi.w	r0, #199	; 0xc7
- 8002740:	d520      	bpl.n	8002784 <pi_alignment+0xb4>
- 8002742:	9901      	ldr	r1, [sp, #4]
- 8002744:	6813      	ldr	r3, [r2, #0]
- 8002746:	4299      	cmp	r1, r3
- 8002748:	d11a      	bne.n	8002780 <pi_alignment+0xb0>
- 800274a:	b003      	add	sp, #12
- 800274c:	f85d fb04 	ldr.w	pc, [sp], #4
- 8002750:	eddf 6a17 	vldr	s13, [pc, #92]	; 80027b0 <pi_alignment+0xe0>
- 8002754:	4b11      	ldr	r3, [pc, #68]	; (800279c <pi_alignment+0xcc>)
+ 80026fc:	ee77 7a27 	vadd.f32	s15, s14, s15
+ 8002700:	eeb6 6a00 	vmov.f32	s12, #96	; 0x3f000000  0.5
+ 8002704:	ee67 7a86 	vmul.f32	s15, s15, s12
+ 8002708:	eef4 7ae6 	vcmpe.f32	s15, s13
+ 800270c:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 8002710:	dd1f      	ble.n	8002752 <pi_alignment+0x82>
+ 8002712:	eddf 7a22 	vldr	s15, [pc, #136]	; 800279c <pi_alignment+0xcc>
+ 8002716:	edc3 6a00 	vstr	s13, [r3]
+ 800271a:	ed9f 6a21 	vldr	s12, [pc, #132]	; 80027a0 <pi_alignment+0xd0>
+ 800271e:	eddf 6a21 	vldr	s13, [pc, #132]	; 80027a4 <pi_alignment+0xd4>
+ 8002722:	eee7 7a06 	vfma.f32	s15, s14, s12
+ 8002726:	eef4 7ae6 	vcmpe.f32	s15, s13
+ 800272a:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 800272e:	dc1e      	bgt.n	800276e <pi_alignment+0x9e>
+ 8002730:	ed9f 7a1d 	vldr	s14, [pc, #116]	; 80027a8 <pi_alignment+0xd8>
+ 8002734:	eef4 7ac7 	vcmpe.f32	s15, s14
+ 8002738:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 800273c:	bf48      	it	mi
+ 800273e:	f06f 00c7 	mvnmi.w	r0, #199	; 0xc7
+ 8002742:	d51f      	bpl.n	8002784 <pi_alignment+0xb4>
+ 8002744:	9901      	ldr	r1, [sp, #4]
+ 8002746:	6813      	ldr	r3, [r2, #0]
+ 8002748:	4299      	cmp	r1, r3
+ 800274a:	d119      	bne.n	8002780 <pi_alignment+0xb0>
+ 800274c:	b003      	add	sp, #12
+ 800274e:	f85d fb04 	ldr.w	pc, [sp], #4
+ 8002752:	eddf 6a16 	vldr	s13, [pc, #88]	; 80027ac <pi_alignment+0xdc>
  8002756:	eef4 7ae6 	vcmpe.f32	s15, s13
  800275a:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
  800275e:	d508      	bpl.n	8002772 <pi_alignment+0xa2>
- 8002760:	eddf 7a14 	vldr	s15, [pc, #80]	; 80027b4 <pi_alignment+0xe4>
+ 8002760:	eddf 7a13 	vldr	s15, [pc, #76]	; 80027b0 <pi_alignment+0xe0>
  8002764:	edc3 6a00 	vstr	s13, [r3]
- 8002768:	e7d6      	b.n	8002718 <pi_alignment+0x48>
+ 8002768:	e7d7      	b.n	800271a <pi_alignment+0x4a>
  800276a:	2000      	movs	r0, #0
- 800276c:	e7e9      	b.n	8002742 <pi_alignment+0x72>
+ 800276c:	e7ea      	b.n	8002744 <pi_alignment+0x74>
  800276e:	20c8      	movs	r0, #200	; 0xc8
- 8002770:	e7e7      	b.n	8002742 <pi_alignment+0x72>
- 8002772:	eddf 6a11 	vldr	s13, [pc, #68]	; 80027b8 <pi_alignment+0xe8>
+ 8002770:	e7e8      	b.n	8002744 <pi_alignment+0x74>
+ 8002772:	eddf 6a10 	vldr	s13, [pc, #64]	; 80027b4 <pi_alignment+0xe4>
  8002776:	edc3 7a00 	vstr	s15, [r3]
  800277a:	ee67 7aa6 	vmul.f32	s15, s15, s13
- 800277e:	e7cb      	b.n	8002718 <pi_alignment+0x48>
+ 800277e:	e7cc      	b.n	800271a <pi_alignment+0x4a>
  8002780:	f7ff ff16 	bl	80025b0 <__stack_chk_fail>
  8002784:	eefd 7ae7 	vcvt.s32.f32	s15, s15
  8002788:	ee17 3a90 	vmov	r3, s15
  800278c:	b218      	sxth	r0, r3
- 800278e:	e7d8      	b.n	8002742 <pi_alignment+0x72>
+ 800278e:	e7d9      	b.n	8002744 <pi_alignment+0x74>
  8002790:	20000b00 	.word	0x20000b00
- 8002794:	20001da8 	.word	0x20001da8
+ 8002794:	20001dac 	.word	0x20001dac
  8002798:	462be000 	.word	0x462be000
- 800279c:	20001dac 	.word	0x20001dac
- 80027a0:	445c0000 	.word	0x445c0000
- 80027a4:	3e19999a 	.word	0x3e19999a
- 80027a8:	43480000 	.word	0x43480000
- 80027ac:	c3480000 	.word	0xc3480000
- 80027b0:	c62be000 	.word	0xc62be000
- 80027b4:	c45c0000 	.word	0xc45c0000
- 80027b8:	3da3d70a 	.word	0x3da3d70a
- 80027bc:	00000000 	.word	0x00000000
+ 800279c:	445c0000 	.word	0x445c0000
+ 80027a0:	3e19999a 	.word	0x3e19999a
+ 80027a4:	43480000 	.word	0x43480000
+ 80027a8:	c3480000 	.word	0xc3480000
+ 80027ac:	c62be000 	.word	0xc62be000
+ 80027b0:	c45c0000 	.word	0xc45c0000
+ 80027b4:	3da3d70a 	.word	0x3da3d70a
+	...
 
 080027c0 <pi_diagonal>:
  80027c0:	b500      	push	{lr}

@@ -84,7 +84,7 @@ int16_t pi_alignment(int right, int left){
 	}
 
 	sum_error_al += error;
-	sum_error_al = 0.5*sum_error;
+	sum_error_al = 0.5*sum_error_al;
 
 	//On pose un maximum et un minimum à la somme pour éviter une ascension incontrolée
 	if(sum_error_al > MAX_SUM_ERROR){
