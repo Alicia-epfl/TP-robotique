@@ -35,7 +35,6 @@ static THD_FUNCTION(Proximity, arg) {
 
 	while (1){
 		avoid_allowed = get_avoid_allowed_fsm();
-		chprintf((BaseSequentialStream *)&SDU1, "D=%3d, G=%3d\r\n", get_prox(IR1), get_prox(IR8));
 
 		if(avoid_allowed){
 			/*Fonction d'évitement*/
@@ -76,6 +75,7 @@ static THD_FUNCTION(Proximity, arg) {
 				}else{
 					//tourne à droite
 					turn(-PI/2);
+					set_body_led(ON);
 					//libère run
 					avoid = false;
 

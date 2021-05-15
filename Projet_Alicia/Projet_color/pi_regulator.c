@@ -124,7 +124,7 @@ int16_t pi_diagonal(int position){
 		sum_error_al = -MAX_SUM_ERROR;
 	}
 
-	speed = KP * error + KI * sum_error_al;
+	speed = KP * error + KI * sum_error_diag;
 
 
 	return (int16_t)speed;

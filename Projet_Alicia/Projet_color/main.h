@@ -51,8 +51,8 @@ extern "C" {
 #define RED						31
 #define NO_COL					0//pas de cette composante de couleur
 //PROXIMITY
-#define IR_THRESHOLD				400// Distance à laquelle les capteurs IR détectent un obstacle
-#define IR_TRES_SIDE				30//capteurs sur les côté pour voir un peu plus loin qu'ils vont être bloqués
+#define IR_THRESHOLD				200// Distance à laquelle les capteurs IR détectent un obstacle   500 avant
+#define IR_TRES_SIDE				200//capteurs sur les côté pour voir un peu plus loin qu'ils vont être bloqués   30 avant
 #define RECORD_THRES				200 //threshold des capteurs IR pour demander à la caméra d'arrêter de checker du bleu car trop proche
 #define TOF_RECORD				150//distance du Time-of-Flight pour activer la détection des couleurs
 //CAPTEURS IR --> numérotation

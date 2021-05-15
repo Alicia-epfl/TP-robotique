@@ -12,6 +12,7 @@
 #include <process_image.h>
 #include <audio/play_melody.h>
 #include "sensors/VL53L0X/VL53L0X.h"
+#include <sensors/proximity.h>
 
 //MEMO
 //			r4 r3 r2 r1  r0 g5 g4 g3         g2 g1 g0 b4  b3 b2 b1 b0
@@ -43,7 +44,7 @@ static uint8_t win = false;
 //=====THREADS======
 
 /*Thread CHECKER LA CAMERA*/
-static THD_WORKING_AREA(waRecord, 2046);
+static THD_WORKING_AREA(waRecord, 128);
 static THD_FUNCTION(Record, arg){
 	uint16_t measure=0, record_allowed=0;
 
