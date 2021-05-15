@@ -56,21 +56,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  17 .comment      0000015e  00000000  00000000  000318d1  2**0
                   CONTENTS, READONLY
- 18 .debug_info   0012e2f4  00000000  00000000  00031a2f  2**0
+ 18 .debug_info   0012e2d5  00000000  00000000  00031a2f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .debug_abbrev 00014044  00000000  00000000  0015fd23  2**0
+ 19 .debug_abbrev 00014044  00000000  00000000  0015fd04  2**0
                   CONTENTS, READONLY, DEBUGGING
- 20 .debug_loc    00024c9b  00000000  00000000  00173d67  2**0
+ 20 .debug_loc    00024c9b  00000000  00000000  00173d48  2**0
                   CONTENTS, READONLY, DEBUGGING
- 21 .debug_aranges 00002540  00000000  00000000  00198a08  2**3
+ 21 .debug_aranges 00002540  00000000  00000000  001989e8  2**3
                   CONTENTS, READONLY, DEBUGGING
- 22 .debug_ranges 00004ca0  00000000  00000000  0019af48  2**0
+ 22 .debug_ranges 00004ca0  00000000  00000000  0019af28  2**0
                   CONTENTS, READONLY, DEBUGGING
- 23 .debug_line   00036340  00000000  00000000  0019fbe8  2**0
+ 23 .debug_line   00036336  00000000  00000000  0019fbc8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 24 .debug_str    0000ce58  00000000  00000000  001d5f28  2**0
+ 24 .debug_str    0000ce58  00000000  00000000  001d5efe  2**0
                   CONTENTS, READONLY, DEBUGGING
- 25 .debug_frame  0000aeb0  00000000  00000000  001e2d80  2**2
+ 25 .debug_frame  0000aeac  00000000  00000000  001e2d58  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -151,7 +151,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 08018a50 l     O .text	0000000c __FUNCTION__.13493
 08018a60 l     O .text	0000000c __func__.7153
 00000000 l    df *ABS*	00000000 process_image.c
-08002b50 l     F .text	00000054 Record
+08002b50 l     F .text	00000058 Record
 08002bb0 l     F .text	0000021c ProcessImage
 08002dd0 l     F .text	000000a4 CaptureImage
 20002330 l     O .bss	00000001 blue_rgb

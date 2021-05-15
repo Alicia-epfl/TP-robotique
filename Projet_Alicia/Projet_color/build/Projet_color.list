@@ -3275,7 +3275,7 @@ Disassembly of section .text:
 
 08002690 <pi_diagonal>:
  8002690:	b500      	push	{lr}
- 8002692:	f5a0 70af 	sub.w	r0, r0, #350	; 0x15e
+ 8002692:	f5a0 7096 	sub.w	r0, r0, #300	; 0x12c
  8002696:	ee07 0a10 	vmov	s14, r0
  800269a:	eddf 7a20 	vldr	s15, [pc, #128]	; 800271c <pi_diagonal+0x8c>
  800269e:	4b20      	ldr	r3, [pc, #128]	; (8002720 <pi_diagonal+0x90>)
@@ -3389,17 +3389,17 @@ Disassembly of section .text:
  80027ea:	2002      	movs	r0, #2
  80027ec:	f8ad 3006 	strh.w	r3, [sp, #6]
  80027f0:	f003 fc06 	bl	8006000 <get_prox>
- 80027f4:	28c8      	cmp	r0, #200	; 0xc8
+ 80027f4:	2864      	cmp	r0, #100	; 0x64
  80027f6:	dc55      	bgt.n	80028a4 <PiRegulator+0x164>
  80027f8:	2300      	movs	r3, #0
  80027fa:	f8ad 3008 	strh.w	r3, [sp, #8]
  80027fe:	2001      	movs	r0, #1
  8002800:	f003 fbfe 	bl	8006000 <get_prox>
- 8002804:	f5b0 7f7a 	cmp.w	r0, #1000	; 0x3e8
+ 8002804:	f5b0 7f48 	cmp.w	r0, #800	; 0x320
  8002808:	dc31      	bgt.n	800286e <PiRegulator+0x12e>
  800280a:	2006      	movs	r0, #6
  800280c:	f003 fbf8 	bl	8006000 <get_prox>
- 8002810:	f5b0 7f7a 	cmp.w	r0, #1000	; 0x3e8
+ 8002810:	f5b0 7f48 	cmp.w	r0, #800	; 0x320
  8002814:	dc2b      	bgt.n	800286e <PiRegulator+0x12e>
  8002816:	2300      	movs	r3, #0
  8002818:	f8ad 300a 	strh.w	r3, [sp, #10]
@@ -3408,7 +3408,7 @@ Disassembly of section .text:
  8002824:	f8bd 000a 	ldrh.w	r0, [sp, #10]
  8002828:	b212      	sxth	r2, r2
  800282a:	b21b      	sxth	r3, r3
- 800282c:	eb03 0342 	add.w	r3, r3, r2, lsl #1
+ 800282c:	eb03 0382 	add.w	r3, r3, r2, lsl #2
  8002830:	fa03 f080 	sxtah	r0, r3, r0
  8002834:	f003 f90c 	bl	8005a50 <right_motor_set_speed>
  8002838:	f8bd 3006 	ldrh.w	r3, [sp, #6]
@@ -3416,7 +3416,7 @@ Disassembly of section .text:
  8002840:	f8bd 000a 	ldrh.w	r0, [sp, #10]
  8002844:	b21b      	sxth	r3, r3
  8002846:	b212      	sxth	r2, r2
- 8002848:	eba3 0342 	sub.w	r3, r3, r2, lsl #1
+ 8002848:	eba3 0382 	sub.w	r3, r3, r2, lsl #2
  800284c:	b200      	sxth	r0, r0
  800284e:	1a18      	subs	r0, r3, r0
  8002850:	f003 f8e6 	bl	8005a20 <left_motor_set_speed>
@@ -3450,7 +3450,7 @@ Disassembly of section .text:
  80028a2:	e7bb      	b.n	800281c <PiRegulator+0xdc>
  80028a4:	2005      	movs	r0, #5
  80028a6:	f003 fbab 	bl	8006000 <get_prox>
- 80028aa:	28c8      	cmp	r0, #200	; 0xc8
+ 80028aa:	2864      	cmp	r0, #100	; 0x64
  80028ac:	dda4      	ble.n	80027f8 <PiRegulator+0xb8>
  80028ae:	2002      	movs	r0, #2
  80028b0:	f003 fba6 	bl	8006000 <get_prox>
@@ -3676,8 +3676,8 @@ Disassembly of section .text:
 
 08002b50 <Record>:
  8002b50:	b5f0      	push	{r4, r5, r6, r7, lr}
- 8002b52:	4b12      	ldr	r3, [pc, #72]	; (8002b9c <Record+0x4c>)
- 8002b54:	4c12      	ldr	r4, [pc, #72]	; (8002ba0 <Record+0x50>)
+ 8002b52:	4b13      	ldr	r3, [pc, #76]	; (8002ba0 <Record+0x50>)
+ 8002b54:	4c13      	ldr	r4, [pc, #76]	; (8002ba4 <Record+0x54>)
  8002b56:	681b      	ldr	r3, [r3, #0]
  8002b58:	b083      	sub	sp, #12
  8002b5a:	2600      	movs	r6, #0
@@ -3696,20 +3696,20 @@ Disassembly of section .text:
  8002b78:	b902      	cbnz	r2, 8002b7c <Record+0x2c>
  8002b7a:	7022      	strb	r2, [r4, #0]
  8002b7c:	f003 fa40 	bl	8006000 <get_prox>
- 8002b80:	28c8      	cmp	r0, #200	; 0xc8
- 8002b82:	dd04      	ble.n	8002b8e <Record+0x3e>
- 8002b84:	7026      	strb	r6, [r4, #0]
- 8002b86:	20fa      	movs	r0, #250	; 0xfa
- 8002b88:	f007 ff92 	bl	800aab0 <chThdSleep>
- 8002b8c:	e7e8      	b.n	8002b60 <Record+0x10>
- 8002b8e:	2007      	movs	r0, #7
- 8002b90:	f003 fa36 	bl	8006000 <get_prox>
- 8002b94:	28c8      	cmp	r0, #200	; 0xc8
- 8002b96:	dcf5      	bgt.n	8002b84 <Record+0x34>
- 8002b98:	e7f5      	b.n	8002b86 <Record+0x36>
- 8002b9a:	bf00      	nop
- 8002b9c:	20000b00 	.word	0x20000b00
- 8002ba0:	20000b45 	.word	0x20000b45
+ 8002b80:	f5b0 7f96 	cmp.w	r0, #300	; 0x12c
+ 8002b84:	dd04      	ble.n	8002b90 <Record+0x40>
+ 8002b86:	7026      	strb	r6, [r4, #0]
+ 8002b88:	20fa      	movs	r0, #250	; 0xfa
+ 8002b8a:	f007 ff91 	bl	800aab0 <chThdSleep>
+ 8002b8e:	e7e7      	b.n	8002b60 <Record+0x10>
+ 8002b90:	2007      	movs	r0, #7
+ 8002b92:	f003 fa35 	bl	8006000 <get_prox>
+ 8002b96:	f5b0 7f96 	cmp.w	r0, #300	; 0x12c
+ 8002b9a:	dcf4      	bgt.n	8002b86 <Record+0x36>
+ 8002b9c:	e7f4      	b.n	8002b88 <Record+0x38>
+ 8002b9e:	bf00      	nop
+ 8002ba0:	20000b00 	.word	0x20000b00
+ 8002ba4:	20000b45 	.word	0x20000b45
 	...
 
 08002bb0 <ProcessImage>:
@@ -4262,69 +4262,68 @@ Disassembly of section .text:
  80031bc:	00000000 	.word	0x00000000
 
 080031c0 <Proximity>:
- 80031c0:	b530      	push	{r4, r5, lr}
+ 80031c0:	b510      	push	{r4, lr}
  80031c2:	ed2d 8b04 	vpush	{d8-d9}
  80031c6:	4a27      	ldr	r2, [pc, #156]	; (8003264 <Proximity+0xa4>)
  80031c8:	4b27      	ldr	r3, [pc, #156]	; (8003268 <Proximity+0xa8>)
  80031ca:	6992      	ldr	r2, [r2, #24]
  80031cc:	4927      	ldr	r1, [pc, #156]	; (800326c <Proximity+0xac>)
  80031ce:	681b      	ldr	r3, [r3, #0]
- 80031d0:	4d27      	ldr	r5, [pc, #156]	; (8003270 <Proximity+0xb0>)
+ 80031d0:	4c27      	ldr	r4, [pc, #156]	; (8003270 <Proximity+0xb0>)
  80031d2:	ed9f 8a28 	vldr	s16, [pc, #160]	; 8003274 <Proximity+0xb4>
  80031d6:	eddf 8a28 	vldr	s17, [pc, #160]	; 8003278 <Proximity+0xb8>
  80031da:	ed9f 9a28 	vldr	s18, [pc, #160]	; 800327c <Proximity+0xbc>
  80031de:	6191      	str	r1, [r2, #24]
- 80031e0:	b083      	sub	sp, #12
+ 80031e0:	b082      	sub	sp, #8
  80031e2:	9301      	str	r3, [sp, #4]
  80031e4:	f7ff f964 	bl	80024b0 <get_avoid_allowed_fsm>
  80031e8:	2800      	cmp	r0, #0
  80031ea:	d0fb      	beq.n	80031e4 <Proximity+0x24>
  80031ec:	2000      	movs	r0, #0
  80031ee:	f002 ff07 	bl	8006000 <get_prox>
- 80031f2:	28c8      	cmp	r0, #200	; 0xc8
- 80031f4:	dc04      	bgt.n	8003200 <Proximity+0x40>
- 80031f6:	2007      	movs	r0, #7
- 80031f8:	f002 ff02 	bl	8006000 <get_prox>
- 80031fc:	28c8      	cmp	r0, #200	; 0xc8
- 80031fe:	dd10      	ble.n	8003222 <Proximity+0x62>
- 8003200:	2401      	movs	r4, #1
- 8003202:	2002      	movs	r0, #2
- 8003204:	702c      	strb	r4, [r5, #0]
- 8003206:	f002 fefb 	bl	8006000 <get_prox>
- 800320a:	28c8      	cmp	r0, #200	; 0xc8
- 800320c:	dd0d      	ble.n	800322a <Proximity+0x6a>
- 800320e:	2005      	movs	r0, #5
- 8003210:	f002 fef6 	bl	8006000 <get_prox>
- 8003214:	28c8      	cmp	r0, #200	; 0xc8
- 8003216:	dd12      	ble.n	800323e <Proximity+0x7e>
- 8003218:	2003      	movs	r0, #3
- 800321a:	f002 fef1 	bl	8006000 <get_prox>
- 800321e:	28c8      	cmp	r0, #200	; 0xc8
- 8003220:	dd14      	ble.n	800324c <Proximity+0x8c>
- 8003222:	20fa      	movs	r0, #250	; 0xfa
- 8003224:	f007 fc44 	bl	800aab0 <chThdSleep>
- 8003228:	e7dc      	b.n	80031e4 <Proximity+0x24>
- 800322a:	eeb0 0a48 	vmov.f32	s0, s16
- 800322e:	f7ff fbff 	bl	8002a30 <turn>
- 8003232:	4620      	mov	r0, r4
- 8003234:	f002 f8bc 	bl	80053b0 <set_body_led>
- 8003238:	2300      	movs	r3, #0
- 800323a:	702b      	strb	r3, [r5, #0]
- 800323c:	e7f1      	b.n	8003222 <Proximity+0x62>
- 800323e:	eeb0 0a68 	vmov.f32	s0, s17
- 8003242:	f7ff fbf5 	bl	8002a30 <turn>
- 8003246:	2300      	movs	r3, #0
- 8003248:	702b      	strb	r3, [r5, #0]
- 800324a:	e7ea      	b.n	8003222 <Proximity+0x62>
- 800324c:	2004      	movs	r0, #4
- 800324e:	f002 fed7 	bl	8006000 <get_prox>
- 8003252:	28c8      	cmp	r0, #200	; 0xc8
- 8003254:	dce5      	bgt.n	8003222 <Proximity+0x62>
- 8003256:	eeb0 0a49 	vmov.f32	s0, s18
- 800325a:	f7ff fbe9 	bl	8002a30 <turn>
- 800325e:	2300      	movs	r3, #0
- 8003260:	702b      	strb	r3, [r5, #0]
- 8003262:	e7de      	b.n	8003222 <Proximity+0x62>
+ 80031f2:	f5b0 7f16 	cmp.w	r0, #600	; 0x258
+ 80031f6:	dc05      	bgt.n	8003204 <Proximity+0x44>
+ 80031f8:	2007      	movs	r0, #7
+ 80031fa:	f002 ff01 	bl	8006000 <get_prox>
+ 80031fe:	f5b0 7f16 	cmp.w	r0, #600	; 0x258
+ 8003202:	dd10      	ble.n	8003226 <Proximity+0x66>
+ 8003204:	2301      	movs	r3, #1
+ 8003206:	2002      	movs	r0, #2
+ 8003208:	7023      	strb	r3, [r4, #0]
+ 800320a:	f002 fef9 	bl	8006000 <get_prox>
+ 800320e:	2864      	cmp	r0, #100	; 0x64
+ 8003210:	dd0d      	ble.n	800322e <Proximity+0x6e>
+ 8003212:	2005      	movs	r0, #5
+ 8003214:	f002 fef4 	bl	8006000 <get_prox>
+ 8003218:	2864      	cmp	r0, #100	; 0x64
+ 800321a:	dd0f      	ble.n	800323c <Proximity+0x7c>
+ 800321c:	2003      	movs	r0, #3
+ 800321e:	f002 feef 	bl	8006000 <get_prox>
+ 8003222:	2864      	cmp	r0, #100	; 0x64
+ 8003224:	dd11      	ble.n	800324a <Proximity+0x8a>
+ 8003226:	20fa      	movs	r0, #250	; 0xfa
+ 8003228:	f007 fc42 	bl	800aab0 <chThdSleep>
+ 800322c:	e7da      	b.n	80031e4 <Proximity+0x24>
+ 800322e:	eeb0 0a48 	vmov.f32	s0, s16
+ 8003232:	f7ff fbfd 	bl	8002a30 <turn>
+ 8003236:	2300      	movs	r3, #0
+ 8003238:	7023      	strb	r3, [r4, #0]
+ 800323a:	e7f4      	b.n	8003226 <Proximity+0x66>
+ 800323c:	eeb0 0a68 	vmov.f32	s0, s17
+ 8003240:	f7ff fbf6 	bl	8002a30 <turn>
+ 8003244:	2300      	movs	r3, #0
+ 8003246:	7023      	strb	r3, [r4, #0]
+ 8003248:	e7ed      	b.n	8003226 <Proximity+0x66>
+ 800324a:	2004      	movs	r0, #4
+ 800324c:	f002 fed8 	bl	8006000 <get_prox>
+ 8003250:	2864      	cmp	r0, #100	; 0x64
+ 8003252:	dce8      	bgt.n	8003226 <Proximity+0x66>
+ 8003254:	eeb0 0a49 	vmov.f32	s0, s18
+ 8003258:	f7ff fbea 	bl	8002a30 <turn>
+ 800325c:	2300      	movs	r3, #0
+ 800325e:	7023      	strb	r3, [r4, #0]
+ 8003260:	e7e1      	b.n	8003226 <Proximity+0x66>
+ 8003262:	bf00      	nop
  8003264:	2000aff0 	.word	0x2000aff0
  8003268:	20000b00 	.word	0x20000b00
  800326c:	08018ab0 	.word	0x08018ab0

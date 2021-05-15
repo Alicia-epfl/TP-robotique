@@ -27,11 +27,10 @@ extern "C" {
 #define ERROR_THRE_ROT			40// nb de steps pour π/16 radians
 //PI alignment
 #define ERROR_THRE_AL			30//seuil de différence entre les capteurs IR de côt
-#define ROT_COEF					2
+#define ROT_COEF					4
 //PI diagonales
-#define DIAG_DETECT				1000//valeur à laquelle le robot réagit
-#define DIAG_SPEED				400 //vitesse constante donnée au robot s'il rencontre un obstacle en diagonale
-#define GOAL_DIAG				350//Valeur estimée grâce à ce que renvoie le capteur dans le terminal
+#define DIAG_DETECT				800//valeur à laquelle le robot réagit
+#define GOAL_DIAG				300//Valeur estimée grâce à ce que renvoie le capteur dans le terminal
 #define ERROR_THRE_DIAG			50
 //LEDS
 #define TOGGLE					2
@@ -51,9 +50,9 @@ extern "C" {
 #define RED						31
 #define NO_COL					0//pas de cette composante de couleur
 //PROXIMITY
-#define IR_THRESHOLD				200// Distance à laquelle les capteurs IR détectent un obstacle   500 avant
-#define IR_TRES_SIDE				200//capteurs sur les côté pour voir un peu plus loin qu'ils vont être bloqués   30 avant
-#define RECORD_THRES				200 //threshold des capteurs IR pour demander à la caméra d'arrêter de checker du bleu car trop proche
+#define IR_THRESHOLD				600// Distance à laquelle les capteurs IR détectent un obstacle
+#define IR_TRES_SIDE				100//capteurs sur les côté pour voir un peu plus loin qu'ils vont être bloqués   30 avant
+#define RECORD_THRES				300 //threshold des capteurs IR pour demander à la caméra d'arrêter de checker du bleu car trop proche
 #define TOF_RECORD				150//distance du Time-of-Flight pour activer la détection des couleurs
 //CAPTEURS IR --> numérotation
 #define IR1						0//capteur IR1: avant droite

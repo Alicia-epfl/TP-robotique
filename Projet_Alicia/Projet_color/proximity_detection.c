@@ -75,7 +75,6 @@ static THD_FUNCTION(Proximity, arg) {
 				}else{
 					//tourne à droite
 					turn(-PI/2);
-					set_body_led(ON);
 					//libère run
 					avoid = false;
 
