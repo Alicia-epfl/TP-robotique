@@ -39,6 +39,8 @@ static uint8_t stop =false;		//définit si le robot doit avancer ou non
 static uint8_t record_allowed = true;	//définiit si on peut enclencher la caméra ou non
 static uint8_t avoid_allowed = true;	//définit si on peut faire une manoeuvre d'évitement
 static uint8_t sound_allowed = true;//définit si on peut utiliser le son
+static uint8_t run =false; //variable qui va déterminer si notre e-puck lance le jeu ou est en "pause"
+//cette variable s'active grâce au son!
 
 
 /*BUS pour proximity*/
@@ -57,13 +59,12 @@ static THD_FUNCTION(fsm, arg) {
 	 chRegSetThreadName(__FUNCTION__);
 	  (void)arg;
 
-volatile uint8_t run = 1, left=0, avoid = 0;
+volatile uint8_t left=0, avoid = 0;
 uint8_t game_over = 0, win = 0;
 
   while (1){
 
 /*Gestion des moteurs*/
-//	  run = get_run();
 	  avoid = get_avoid();
 	  left = get_left();
 
@@ -256,6 +257,13 @@ uint8_t get_avoid_allowed_fsm(void){
 }
 uint8_t get_sound_allowed_fsm(void){
 	return sound_allowed;
+}
+
+/*fonction de la gestion de run
+ * si run est activé, le jeu est lancé
+ * si run est à zéro, le robot est en "standbye"*/
+void toggle_run(void){
+		run = !run;
 }
 
 /*

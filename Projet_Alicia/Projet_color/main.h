@@ -83,6 +83,8 @@ uint8_t get_stop_fsm(void);
 uint8_t get_record_allowed_fsm(void);
 uint8_t get_avoid_allowed_fsm(void);
 uint8_t get_sound_allowed_fsm(void);
+/*gestion de run --> variable qui détermine si le robot est en jeu ou en pause*/
+void toggle_run(void);
 
 
 #ifdef __cplusplus

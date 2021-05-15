@@ -1,6 +1,6 @@
 #include "ch.h"
 #include "hal.h"
-#include <main.h>
+#include "main.h"
 #include <usbcfg.h>
 #include <chprintf.h>
 
@@ -19,7 +19,7 @@
 #include "proximity_detection.h"
 
 
-/*======================== Repris du TP5, en enlevant les analyses sur les micros unutilisés =====================*/
+/*======================== Repris du TP5, en enlevant les analyses sur les micros inutilisés =====================*/
 
 //2 fois FFT_SIZE car ce tableau contient des nombres complexes (Réel + Imaginaire)
 static float micLeft_cmplx_input[2 * FFT_SIZE];
@@ -60,6 +60,7 @@ void sound_remote(float* data){
 	if(successive_freq_counter > MAX_MIC_INPUT_COUNTER) //si la fréquence choisie est détectée à répétition, effectue une commande
 	{
 		set_led(LED3, TOGGLE);
+		toggle_run();//fonction qui change la variable run dans le main
 		successive_freq_counter=0;
 	}
 	else if(max_norm_index >= L_FREQ && max_norm_index <= M_FREQ){
