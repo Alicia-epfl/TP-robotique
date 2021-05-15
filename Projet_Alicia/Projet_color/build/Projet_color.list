@@ -3504,11 +3504,11 @@ Disassembly of section .text:
  800294e:	f8ad 7008 	strh.w	r7, [sp, #8]
  8002952:	2001      	movs	r0, #1
  8002954:	f003 fbdc 	bl	8006110 <get_prox>
- 8002958:	f5b0 7f48 	cmp.w	r0, #800	; 0x320
+ 8002958:	f5b0 7f16 	cmp.w	r0, #600	; 0x258
  800295c:	dc3a      	bgt.n	80029d4 <PiRegulator+0x134>
  800295e:	2006      	movs	r0, #6
  8002960:	f003 fbd6 	bl	8006110 <get_prox>
- 8002964:	f5b0 7f48 	cmp.w	r0, #800	; 0x320
+ 8002964:	f5b0 7f16 	cmp.w	r0, #600	; 0x258
  8002968:	dc34      	bgt.n	80029d4 <PiRegulator+0x134>
  800296a:	f8ad 700a 	strh.w	r7, [sp, #10]
  800296e:	f8bd 3006 	ldrh.w	r3, [sp, #6]

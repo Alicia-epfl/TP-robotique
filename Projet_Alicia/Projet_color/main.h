@@ -31,7 +31,7 @@ extern "C" {
 #define ERROR_THRE_AL			30//seuil de différence entre les capteurs IR de côt
 #define ROT_COEF					2
 //PI diagonales
-#define DIAG_DETECT				800//valeur à laquelle le robot réagit
+#define DIAG_DETECT				600//valeur à laquelle le robot réagit
 #define GOAL_DIAG				400//Valeur estimée grâce à ce que renvoie le capteur dans le terminal
 #define ERROR_THRE_DIAG			50
 //LEDS
