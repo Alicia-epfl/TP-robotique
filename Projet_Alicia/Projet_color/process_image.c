@@ -143,7 +143,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 			mean_green /= (IMAGE_BUFFER_SIZE);
 			mean_blue /= (IMAGE_BUFFER_SIZE/2);
 
-	//		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red, mean_green, mean_blue);//valeurs RGB moyennes
+
 	//		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, R_old=%3d\r\n", mean_red, mean_red_old);
 
 			/*Filtre passe-bas*/
@@ -151,22 +151,12 @@ static THD_FUNCTION(ProcessImage, arg) {
 			mean_green_filtered = 0.5*mean_green+0.5*mean_green_filtered;
 			mean_blue_filtered = 0.5*mean_blue+0.5*mean_blue_filtered;
 
+//			chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red_filtered, mean_green_filtered, mean_blue_filtered);//valeurs RGB moyennes
 
-			/*RED*/
-			if((mean_red_filtered > 1.5*mean_blue_filtered) && (mean_red_filtered > 1.5*mean_green_filtered)){// RED --> GAME OVER
-				playMelody(MARIO_DEATH, ML_SIMPLE_PLAY, NULL);
-				game_over = true;
-			}
 
-			/*GREEN*/
-			if((mean_green_filtered > mean_blue_filtered) && (mean_green_filtered > 1.5*mean_red_filtered)){// GREEN --> SUCESS
-				playMelody(SEVEN_NATION_ARMY, ML_SIMPLE_PLAY, NULL);
-				win = true;
-			}
-
-			/*BLUE*/
-			if((mean_blue_filtered > 1.5*mean_red_filtered) && (mean_blue_filtered > mean_green_filtered)){//--> pas le green car il est très élevé pour le bleu
-
+			/*BLUE
+			 * Tourner à gauche*/
+			if((mean_blue_filtered > FACT_B_R*mean_red_filtered) && (mean_blue_filtered > FACT_B_G*mean_green_filtered) && (mean_blue_filtered > TRES_BLUE)){
 				/*Pour afficher ce qu'il voit comme couleur*/
 				red_rgb=0.8*mean_red_filtered;
 
@@ -182,6 +172,17 @@ static THD_FUNCTION(ProcessImage, arg) {
 				left = false;
 				turn(PI/2);
 				left = true;
+
+			/*RED
+			 * Game Over*/
+			}else if((mean_red_filtered >FACT_R_B*mean_blue_filtered) && (mean_red_filtered > FACT_R_G*mean_green_filtered)){
+				playMelody(MARIO_DEATH, ML_SIMPLE_PLAY, NULL);
+								game_over = true;
+			/*GREEN
+			 * Gagnée*/
+			}else if((mean_green_filtered > FACT_G_B*mean_blue_filtered) && (mean_green_filtered > FACT_G_R*mean_red_filtered)){
+				playMelody(SEVEN_NATION_ARMY, ML_SIMPLE_PLAY, NULL);
+				win = true;
 			}//color
     		}//record
 		chThdSleepMilliseconds(250);
