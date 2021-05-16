@@ -1,3 +1,11 @@
+/**
+ * Fichier: noise_detection.c
+ * auteurs: TP5, modifié par Nicolas Nouel
+ *
+ * @brief
+ * Fichier qui gère les micro: indique si le son attendu a été détecté
+ */
+
 #include "ch.h"
 #include "hal.h"
 #include "main.h"
