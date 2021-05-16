@@ -18,6 +18,7 @@
 #include <camera/po8030.h>
 #include <motors.h>
 
+
 //pour activer/désactiver le traitement d'image
 #include "sensors/VL53L0X/VL53L0X.h"
 #include <sensors/proximity.h>
@@ -86,8 +87,8 @@ static THD_FUNCTION(CaptureImage, arg) {
     chRegSetThreadName(__FUNCTION__);
     (void)arg;
 
-    //Prends les pixels de 0 à IMAGE_BUFFER_SIZE de la ligne ligne 200 + 201 (minimum 2 lignes)
-	po8030_advanced_config(FORMAT_RGB565, 0, 200, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
+    //Prends les pixels de 0 à IMAGE_BUFFER_SIZE de la ligne ligne 100 + 101 (minimum 2 lignes)
+	po8030_advanced_config(FORMAT_RGB565, 0, 100, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
 	dcmi_enable_double_buffering();
 	dcmi_set_capture_mode(CAPTURE_ONE_SHOT);
 	dcmi_prepare();
@@ -156,7 +157,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 			/*BLUE
 			 * Tourner à gauche*/
-			if((mean_blue_filtered > FACT_B_R*mean_red_filtered) && (mean_blue_filtered > FACT_B_G*mean_green_filtered) && (mean_blue_filtered > TRES_BLUE)){
+ 			if((mean_blue_filtered > FACT_B_R*mean_red_filtered) && (mean_blue_filtered > FACT_B_G*mean_green_filtered) && (mean_blue_filtered > TRES_BLUE)){
 
 				/*Pour afficher ce qu'il voit comme couleur*/
 				red_rgb=0.8*mean_red_filtered;

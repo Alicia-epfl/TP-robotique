@@ -3857,174 +3857,177 @@ Disassembly of section .text:
 08002d40 <ProcessImage>:
  8002d40:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
  8002d44:	ed2d 8b08 	vpush	{d8-d11}
- 8002d48:	4a74      	ldr	r2, [pc, #464]	; (8002f1c <ProcessImage+0x1dc>)
- 8002d4a:	4b75      	ldr	r3, [pc, #468]	; (8002f20 <ProcessImage+0x1e0>)
- 8002d4c:	eddf 8a75 	vldr	s17, [pc, #468]	; 8002f24 <ProcessImage+0x1e4>
+ 8002d48:	4a78      	ldr	r2, [pc, #480]	; (8002f2c <ProcessImage+0x1ec>)
+ 8002d4a:	4b79      	ldr	r3, [pc, #484]	; (8002f30 <ProcessImage+0x1f0>)
+ 8002d4c:	eddf 8a79 	vldr	s17, [pc, #484]	; 8002f34 <ProcessImage+0x1f4>
  8002d50:	6992      	ldr	r2, [r2, #24]
- 8002d52:	4975      	ldr	r1, [pc, #468]	; (8002f28 <ProcessImage+0x1e8>)
+ 8002d52:	4979      	ldr	r1, [pc, #484]	; (8002f38 <ProcessImage+0x1f8>)
  8002d54:	681b      	ldr	r3, [r3, #0]
- 8002d56:	4d75      	ldr	r5, [pc, #468]	; (8002f2c <ProcessImage+0x1ec>)
- 8002d58:	f8df 9200 	ldr.w	r9, [pc, #512]	; 8002f5c <ProcessImage+0x21c>
- 8002d5c:	4f74      	ldr	r7, [pc, #464]	; (8002f30 <ProcessImage+0x1f0>)
- 8002d5e:	f8df 8200 	ldr.w	r8, [pc, #512]	; 8002f60 <ProcessImage+0x220>
- 8002d62:	4e74      	ldr	r6, [pc, #464]	; (8002f34 <ProcessImage+0x1f4>)
- 8002d64:	ed9f 9a74 	vldr	s18, [pc, #464]	; 8002f38 <ProcessImage+0x1f8>
- 8002d68:	ed9f ba74 	vldr	s22, [pc, #464]	; 8002f3c <ProcessImage+0x1fc>
- 8002d6c:	eddf aa74 	vldr	s21, [pc, #464]	; 8002f40 <ProcessImage+0x200>
- 8002d70:	ed9f aa74 	vldr	s20, [pc, #464]	; 8002f44 <ProcessImage+0x204>
- 8002d74:	eddf 9a74 	vldr	s19, [pc, #464]	; 8002f48 <ProcessImage+0x208>
- 8002d78:	6191      	str	r1, [r2, #24]
- 8002d7a:	b083      	sub	sp, #12
- 8002d7c:	eef0 ba68 	vmov.f32	s23, s17
- 8002d80:	eeb0 8a68 	vmov.f32	s16, s17
- 8002d84:	4c71      	ldr	r4, [pc, #452]	; (8002f4c <ProcessImage+0x20c>)
- 8002d86:	9301      	str	r3, [sp, #4]
- 8002d88:	e002      	b.n	8002d90 <ProcessImage+0x50>
- 8002d8a:	20fa      	movs	r0, #250	; 0xfa
- 8002d8c:	f007 ff28 	bl	800abe0 <chThdSleep>
- 8002d90:	4620      	mov	r0, r4
- 8002d92:	f008 fb55 	bl	800b440 <chSemWait>
- 8002d96:	f001 ff7b 	bl	8004c90 <dcmi_get_last_image_ptr>
- 8002d9a:	782b      	ldrb	r3, [r5, #0]
- 8002d9c:	2b00      	cmp	r3, #0
- 8002d9e:	d0f4      	beq.n	8002d8a <ProcessImage+0x4a>
- 8002da0:	2300      	movs	r3, #0
- 8002da2:	f500 6ea0 	add.w	lr, r0, #1280	; 0x500
- 8002da6:	469c      	mov	ip, r3
- 8002da8:	4619      	mov	r1, r3
- 8002daa:	f890 b000 	ldrb.w	fp, [r0]
- 8002dae:	7842      	ldrb	r2, [r0, #1]
- 8002db0:	ea4f 0acb 	mov.w	sl, fp, lsl #3
- 8002db4:	f00a 0a38 	and.w	sl, sl, #56	; 0x38
- 8002db8:	ea4a 1a52 	orr.w	sl, sl, r2, lsr #5
- 8002dbc:	3004      	adds	r0, #4
- 8002dbe:	f002 021f 	and.w	r2, r2, #31
- 8002dc2:	eb0c 0cdb 	add.w	ip, ip, fp, lsr #3
- 8002dc6:	4453      	add	r3, sl
- 8002dc8:	440a      	add	r2, r1
- 8002dca:	4586      	cmp	lr, r0
- 8002dcc:	fa1f fc8c 	uxth.w	ip, ip
- 8002dd0:	b29b      	uxth	r3, r3
- 8002dd2:	b291      	uxth	r1, r2
- 8002dd4:	d1e9      	bne.n	8002daa <ProcessImage+0x6a>
- 8002dd6:	460a      	mov	r2, r1
- 8002dd8:	495d      	ldr	r1, [pc, #372]	; (8002f50 <ProcessImage+0x210>)
- 8002dda:	fba1 0c0c 	umull	r0, ip, r1, ip
- 8002dde:	f3cc 2c0f 	ubfx	ip, ip, #8, #16
- 8002de2:	ee07 ca90 	vmov	s15, ip
- 8002de6:	eef6 6a00 	vmov.f32	s13, #96	; 0x3f000000  0.5
- 8002dea:	fba1 0202 	umull	r0, r2, r1, r2
- 8002dee:	eef8 7ae7 	vcvt.f32.s32	s15, s15
- 8002df2:	ee68 8aa6 	vmul.f32	s17, s17, s13
- 8002df6:	f3c2 220f 	ubfx	r2, r2, #8, #16
- 8002dfa:	eee7 8aa6 	vfma.f32	s17, s15, s13
- 8002dfe:	fba1 1303 	umull	r1, r3, r1, r3
- 8002e02:	f3c3 234f 	ubfx	r3, r3, #9, #16
- 8002e06:	ee07 2a90 	vmov	s15, r2
- 8002e0a:	ee28 8a26 	vmul.f32	s16, s16, s13
- 8002e0e:	eef8 7ae7 	vcvt.f32.s32	s15, s15
- 8002e12:	eebc 7ae8 	vcvt.u32.f32	s14, s17
- 8002e16:	eea7 8aa6 	vfma.f32	s16, s15, s13
- 8002e1a:	ee07 3a90 	vmov	s15, r3
- 8002e1e:	ee6b baa6 	vmul.f32	s23, s23, s13
- 8002e22:	eef8 7ae7 	vcvt.f32.s32	s15, s15
- 8002e26:	ee17 3a10 	vmov	r3, s14
- 8002e2a:	eee7 baa6 	vfma.f32	s23, s15, s13
- 8002e2e:	b29a      	uxth	r2, r3
- 8002e30:	eefc 7ac8 	vcvt.u32.f32	s15, s16
- 8002e34:	ee07 2a10 	vmov	s14, r2
- 8002e38:	ee17 3a90 	vmov	r3, s15
- 8002e3c:	b29b      	uxth	r3, r3
- 8002e3e:	eef8 8ac7 	vcvt.f32.s32	s17, s14
- 8002e42:	ee06 3a90 	vmov	s13, r3
- 8002e46:	eefc 7aeb 	vcvt.u32.f32	s15, s23
- 8002e4a:	ee28 7a89 	vmul.f32	s14, s17, s18
- 8002e4e:	eeb8 8ae6 	vcvt.f32.s32	s16, s13
- 8002e52:	ee17 1a90 	vmov	r1, s15
- 8002e56:	eeb4 8ac7 	vcmpe.f32	s16, s14
- 8002e5a:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 8002e5e:	fa1f fa81 	uxth.w	sl, r1
- 8002e62:	dd2b      	ble.n	8002ebc <ProcessImage+0x17c>
- 8002e64:	459a      	cmp	sl, r3
- 8002e66:	d229      	bcs.n	8002ebc <ProcessImage+0x17c>
- 8002e68:	2b07      	cmp	r3, #7
- 8002e6a:	d927      	bls.n	8002ebc <ProcessImage+0x17c>
- 8002e6c:	ee07 aa10 	vmov	s14, sl
- 8002e70:	ee68 7a8b 	vmul.f32	s15, s17, s22
- 8002e74:	eef8 bac7 	vcvt.f32.s32	s23, s14
- 8002e78:	eefc 7ae7 	vcvt.u32.f32	s15, s15
- 8002e7c:	eeb0 0a69 	vmov.f32	s0, s19
- 8002e80:	ee17 2a90 	vmov	r2, s15
- 8002e84:	ee6b 7aaa 	vmul.f32	s15, s23, s21
- 8002e88:	f889 2000 	strb.w	r2, [r9]
- 8002e8c:	eef4 7aca 	vcmpe.f32	s15, s20
- 8002e90:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 8002d56:	4e79      	ldr	r6, [pc, #484]	; (8002f3c <ProcessImage+0x1fc>)
+ 8002d58:	f8df 920c 	ldr.w	r9, [pc, #524]	; 8002f68 <ProcessImage+0x228>
+ 8002d5c:	f8df 820c 	ldr.w	r8, [pc, #524]	; 8002f6c <ProcessImage+0x22c>
+ 8002d60:	4f77      	ldr	r7, [pc, #476]	; (8002f40 <ProcessImage+0x200>)
+ 8002d62:	ed9f 9a78 	vldr	s18, [pc, #480]	; 8002f44 <ProcessImage+0x204>
+ 8002d66:	eddf aa78 	vldr	s21, [pc, #480]	; 8002f48 <ProcessImage+0x208>
+ 8002d6a:	ed9f aa78 	vldr	s20, [pc, #480]	; 8002f4c <ProcessImage+0x20c>
+ 8002d6e:	eddf 9a78 	vldr	s19, [pc, #480]	; 8002f50 <ProcessImage+0x210>
+ 8002d72:	6191      	str	r1, [r2, #24]
+ 8002d74:	b083      	sub	sp, #12
+ 8002d76:	eeb0 ba68 	vmov.f32	s22, s17
+ 8002d7a:	eeb0 8a68 	vmov.f32	s16, s17
+ 8002d7e:	4d75      	ldr	r5, [pc, #468]	; (8002f54 <ProcessImage+0x214>)
+ 8002d80:	4c75      	ldr	r4, [pc, #468]	; (8002f58 <ProcessImage+0x218>)
+ 8002d82:	9301      	str	r3, [sp, #4]
+ 8002d84:	e002      	b.n	8002d8c <ProcessImage+0x4c>
+ 8002d86:	20fa      	movs	r0, #250	; 0xfa
+ 8002d88:	f007 ff2a 	bl	800abe0 <chThdSleep>
+ 8002d8c:	4628      	mov	r0, r5
+ 8002d8e:	f008 fb57 	bl	800b440 <chSemWait>
+ 8002d92:	f001 ff7d 	bl	8004c90 <dcmi_get_last_image_ptr>
+ 8002d96:	7833      	ldrb	r3, [r6, #0]
+ 8002d98:	2b00      	cmp	r3, #0
+ 8002d9a:	d0f4      	beq.n	8002d86 <ProcessImage+0x46>
+ 8002d9c:	2300      	movs	r3, #0
+ 8002d9e:	f500 6ea0 	add.w	lr, r0, #1280	; 0x500
+ 8002da2:	469c      	mov	ip, r3
+ 8002da4:	4619      	mov	r1, r3
+ 8002da6:	f890 b000 	ldrb.w	fp, [r0]
+ 8002daa:	7842      	ldrb	r2, [r0, #1]
+ 8002dac:	ea4f 0acb 	mov.w	sl, fp, lsl #3
+ 8002db0:	f00a 0a38 	and.w	sl, sl, #56	; 0x38
+ 8002db4:	ea4a 1a52 	orr.w	sl, sl, r2, lsr #5
+ 8002db8:	3004      	adds	r0, #4
+ 8002dba:	f002 021f 	and.w	r2, r2, #31
+ 8002dbe:	eb0c 0cdb 	add.w	ip, ip, fp, lsr #3
+ 8002dc2:	4453      	add	r3, sl
+ 8002dc4:	440a      	add	r2, r1
+ 8002dc6:	4586      	cmp	lr, r0
+ 8002dc8:	fa1f fc8c 	uxth.w	ip, ip
+ 8002dcc:	b29b      	uxth	r3, r3
+ 8002dce:	b291      	uxth	r1, r2
+ 8002dd0:	d1e9      	bne.n	8002da6 <ProcessImage+0x66>
+ 8002dd2:	460a      	mov	r2, r1
+ 8002dd4:	fba4 1c0c 	umull	r1, ip, r4, ip
+ 8002dd8:	f3cc 2c0f 	ubfx	ip, ip, #8, #16
+ 8002ddc:	ee07 ca90 	vmov	s15, ip
+ 8002de0:	eef6 6a00 	vmov.f32	s13, #96	; 0x3f000000  0.5
+ 8002de4:	fba4 1202 	umull	r1, r2, r4, r2
+ 8002de8:	eef8 7ae7 	vcvt.f32.s32	s15, s15
+ 8002dec:	ee68 8aa6 	vmul.f32	s17, s17, s13
+ 8002df0:	f3c2 220f 	ubfx	r2, r2, #8, #16
+ 8002df4:	eee7 8aa6 	vfma.f32	s17, s15, s13
+ 8002df8:	fba4 1303 	umull	r1, r3, r4, r3
+ 8002dfc:	f3c3 234f 	ubfx	r3, r3, #9, #16
+ 8002e00:	ee07 2a90 	vmov	s15, r2
+ 8002e04:	ee28 8a26 	vmul.f32	s16, s16, s13
+ 8002e08:	eef8 7ae7 	vcvt.f32.s32	s15, s15
+ 8002e0c:	eebc 7ae8 	vcvt.u32.f32	s14, s17
+ 8002e10:	eea7 8aa6 	vfma.f32	s16, s15, s13
+ 8002e14:	ee07 3a90 	vmov	s15, r3
+ 8002e18:	ee2b ba26 	vmul.f32	s22, s22, s13
+ 8002e1c:	eef8 7ae7 	vcvt.f32.s32	s15, s15
+ 8002e20:	ee17 3a10 	vmov	r3, s14
+ 8002e24:	eea7 baa6 	vfma.f32	s22, s15, s13
+ 8002e28:	b29a      	uxth	r2, r3
+ 8002e2a:	eefc 7ac8 	vcvt.u32.f32	s15, s16
+ 8002e2e:	ee07 2a10 	vmov	s14, r2
+ 8002e32:	ee17 3a90 	vmov	r3, s15
+ 8002e36:	b29b      	uxth	r3, r3
+ 8002e38:	eef8 8ac7 	vcvt.f32.s32	s17, s14
+ 8002e3c:	ee06 3a90 	vmov	s13, r3
+ 8002e40:	eefc 7acb 	vcvt.u32.f32	s15, s22
+ 8002e44:	ee28 7a89 	vmul.f32	s14, s17, s18
+ 8002e48:	eeb8 8ae6 	vcvt.f32.s32	s16, s13
+ 8002e4c:	ee17 1a90 	vmov	r1, s15
+ 8002e50:	eeb4 8ac7 	vcmpe.f32	s16, s14
+ 8002e54:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 8002e58:	fa1f fa81 	uxth.w	sl, r1
+ 8002e5c:	dd2f      	ble.n	8002ebe <ProcessImage+0x17e>
+ 8002e5e:	459a      	cmp	sl, r3
+ 8002e60:	d22d      	bcs.n	8002ebe <ProcessImage+0x17e>
+ 8002e62:	2b07      	cmp	r3, #7
+ 8002e64:	d92b      	bls.n	8002ebe <ProcessImage+0x17e>
+ 8002e66:	ee07 aa90 	vmov	s15, sl
+ 8002e6a:	eeb8 bae7 	vcvt.f32.s32	s22, s15
+ 8002e6e:	eef7 7a08 	vmov.f32	s15, #120	; 0x3fc00000  1.5
+ 8002e72:	ee6b 7a27 	vmul.f32	s15, s22, s15
+ 8002e76:	ee28 7aaa 	vmul.f32	s14, s17, s21
+ 8002e7a:	eef4 7aca 	vcmpe.f32	s15, s20
+ 8002e7e:	eebc 7ac7 	vcvt.u32.f32	s14, s14
+ 8002e82:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 8002e86:	ee17 2a10 	vmov	r2, s14
+ 8002e8a:	bf48      	it	mi
+ 8002e8c:	eefc 7ae7 	vcvtmi.u32.f32	s15, s15
+ 8002e90:	f889 2000 	strb.w	r2, [r9]
  8002e94:	bf48      	it	mi
- 8002e96:	eefc 7ae7 	vcvtmi.u32.f32	s15, s15
- 8002e9a:	f888 3000 	strb.w	r3, [r8]
- 8002e9e:	bf44      	itt	mi
- 8002ea0:	ee17 2a90 	vmovmi	r2, s15
- 8002ea4:	703a      	strbmi	r2, [r7, #0]
+ 8002e96:	ee17 2a90 	vmovmi	r2, s15
+ 8002e9a:	4930      	ldr	r1, [pc, #192]	; (8002f5c <ProcessImage+0x21c>)
+ 8002e9c:	bf48      	it	mi
+ 8002e9e:	f888 2000 	strbmi.w	r2, [r8]
+ 8002ea2:	eeb0 0a69 	vmov.f32	s0, s19
  8002ea6:	f04f 0200 	mov.w	r2, #0
- 8002eaa:	bf58      	it	pl
- 8002eac:	f887 a000 	strbpl.w	sl, [r7]
- 8002eb0:	7032      	strb	r2, [r6, #0]
- 8002eb2:	f7ff fe85 	bl	8002bc0 <turn>
- 8002eb6:	2301      	movs	r3, #1
- 8002eb8:	7033      	strb	r3, [r6, #0]
- 8002eba:	e766      	b.n	8002d8a <ProcessImage+0x4a>
- 8002ebc:	eef7 7a08 	vmov.f32	s15, #120	; 0x3fc00000  1.5
- 8002ec0:	ee68 7a27 	vmul.f32	s15, s16, s15
- 8002ec4:	eef4 8ae7 	vcmpe.f32	s17, s15
- 8002ec8:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 8002ecc:	dd02      	ble.n	8002ed4 <ProcessImage+0x194>
- 8002ece:	ebb2 0f4a 	cmp.w	r2, sl, lsl #1
- 8002ed2:	dc15      	bgt.n	8002f00 <ProcessImage+0x1c0>
- 8002ed4:	ee07 aa90 	vmov	s15, sl
- 8002ed8:	459a      	cmp	sl, r3
- 8002eda:	eef8 bae7 	vcvt.f32.s32	s23, s15
- 8002ede:	f67f af54 	bls.w	8002d8a <ProcessImage+0x4a>
- 8002ee2:	eeb4 7aeb 	vcmpe.f32	s14, s23
- 8002ee6:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
- 8002eea:	f57f af4e 	bpl.w	8002d8a <ProcessImage+0x4a>
- 8002eee:	2200      	movs	r2, #0
- 8002ef0:	4611      	mov	r1, r2
- 8002ef2:	200d      	movs	r0, #13
- 8002ef4:	f001 fd4c 	bl	8004990 <playMelody>
- 8002ef8:	4a16      	ldr	r2, [pc, #88]	; (8002f54 <ProcessImage+0x214>)
- 8002efa:	2301      	movs	r3, #1
- 8002efc:	7013      	strb	r3, [r2, #0]
- 8002efe:	e744      	b.n	8002d8a <ProcessImage+0x4a>
+ 8002eaa:	700b      	strb	r3, [r1, #0]
+ 8002eac:	bf58      	it	pl
+ 8002eae:	f888 a000 	strbpl.w	sl, [r8]
+ 8002eb2:	703a      	strb	r2, [r7, #0]
+ 8002eb4:	f7ff fe84 	bl	8002bc0 <turn>
+ 8002eb8:	2301      	movs	r3, #1
+ 8002eba:	703b      	strb	r3, [r7, #0]
+ 8002ebc:	e763      	b.n	8002d86 <ProcessImage+0x46>
+ 8002ebe:	eef7 7a08 	vmov.f32	s15, #120	; 0x3fc00000  1.5
+ 8002ec2:	ee68 7a27 	vmul.f32	s15, s16, s15
+ 8002ec6:	eef4 8ae7 	vcmpe.f32	s17, s15
+ 8002eca:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 8002ece:	dd02      	ble.n	8002ed6 <ProcessImage+0x196>
+ 8002ed0:	ebb2 0f4a 	cmp.w	r2, sl, lsl #1
+ 8002ed4:	dc1d      	bgt.n	8002f12 <ProcessImage+0x1d2>
+ 8002ed6:	459a      	cmp	sl, r3
+ 8002ed8:	d804      	bhi.n	8002ee4 <ProcessImage+0x1a4>
+ 8002eda:	ee07 aa90 	vmov	s15, sl
+ 8002ede:	eeb8 bae7 	vcvt.f32.s32	s22, s15
+ 8002ee2:	e750      	b.n	8002d86 <ProcessImage+0x46>
+ 8002ee4:	ee07 aa10 	vmov	s14, sl
+ 8002ee8:	eef7 7a08 	vmov.f32	s15, #120	; 0x3fc00000  1.5
+ 8002eec:	ee68 7aa7 	vmul.f32	s15, s17, s15
+ 8002ef0:	eeb8 bac7 	vcvt.f32.s32	s22, s14
+ 8002ef4:	eeb4 bae7 	vcmpe.f32	s22, s15
+ 8002ef8:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+ 8002efc:	f77f af43 	ble.w	8002d86 <ProcessImage+0x46>
  8002f00:	2200      	movs	r2, #0
  8002f02:	4611      	mov	r1, r2
- 8002f04:	2006      	movs	r0, #6
+ 8002f04:	200d      	movs	r0, #13
  8002f06:	f001 fd43 	bl	8004990 <playMelody>
- 8002f0a:	4a13      	ldr	r2, [pc, #76]	; (8002f58 <ProcessImage+0x218>)
- 8002f0c:	ee07 aa90 	vmov	s15, sl
- 8002f10:	2301      	movs	r3, #1
- 8002f12:	7013      	strb	r3, [r2, #0]
- 8002f14:	eef8 bae7 	vcvt.f32.s32	s23, s15
- 8002f18:	e737      	b.n	8002d8a <ProcessImage+0x4a>
- 8002f1a:	bf00      	nop
- 8002f1c:	2000aaf0 	.word	0x2000aaf0
- 8002f20:	20000b00 	.word	0x20000b00
- 8002f24:	00000000 	.word	0x00000000
- 8002f28:	08018bb0 	.word	0x08018bb0
- 8002f2c:	20000b41 	.word	0x20000b41
- 8002f30:	2000212a 	.word	0x2000212a
- 8002f34:	20000b40 	.word	0x20000b40
- 8002f38:	3fcccccd 	.word	0x3fcccccd
- 8002f3c:	3f4ccccd 	.word	0x3f4ccccd
- 8002f40:	3f99999a 	.word	0x3f99999a
- 8002f44:	427c0000 	.word	0x427c0000
- 8002f48:	3fc8f5c3 	.word	0x3fc8f5c3
- 8002f4c:	20000b34 	.word	0x20000b34
- 8002f50:	cccccccd 	.word	0xcccccccd
- 8002f54:	20002b18 	.word	0x20002b18
- 8002f58:	20002129 	.word	0x20002129
- 8002f5c:	2000212b 	.word	0x2000212b
- 8002f60:	20002128 	.word	0x20002128
-	...
+ 8002f0a:	4a15      	ldr	r2, [pc, #84]	; (8002f60 <ProcessImage+0x220>)
+ 8002f0c:	2301      	movs	r3, #1
+ 8002f0e:	7013      	strb	r3, [r2, #0]
+ 8002f10:	e739      	b.n	8002d86 <ProcessImage+0x46>
+ 8002f12:	2200      	movs	r2, #0
+ 8002f14:	4611      	mov	r1, r2
+ 8002f16:	2006      	movs	r0, #6
+ 8002f18:	f001 fd3a 	bl	8004990 <playMelody>
+ 8002f1c:	4a11      	ldr	r2, [pc, #68]	; (8002f64 <ProcessImage+0x224>)
+ 8002f1e:	ee07 aa90 	vmov	s15, sl
+ 8002f22:	2301      	movs	r3, #1
+ 8002f24:	7013      	strb	r3, [r2, #0]
+ 8002f26:	eeb8 bae7 	vcvt.f32.s32	s22, s15
+ 8002f2a:	e72c      	b.n	8002d86 <ProcessImage+0x46>
+ 8002f2c:	2000aaf0 	.word	0x2000aaf0
+ 8002f30:	20000b00 	.word	0x20000b00
+ 8002f34:	00000000 	.word	0x00000000
+ 8002f38:	08018bb0 	.word	0x08018bb0
+ 8002f3c:	20000b41 	.word	0x20000b41
+ 8002f40:	20000b40 	.word	0x20000b40
+ 8002f44:	3fa66666 	.word	0x3fa66666
+ 8002f48:	3f4ccccd 	.word	0x3f4ccccd
+ 8002f4c:	427c0000 	.word	0x427c0000
+ 8002f50:	3fc8f5c3 	.word	0x3fc8f5c3
+ 8002f54:	20000b34 	.word	0x20000b34
+ 8002f58:	cccccccd 	.word	0xcccccccd
+ 8002f5c:	20002128 	.word	0x20002128
+ 8002f60:	20002b18 	.word	0x20002b18
+ 8002f64:	20002129 	.word	0x20002129
+ 8002f68:	2000212b 	.word	0x2000212b
+ 8002f6c:	2000212a 	.word	0x2000212a
 
 08002f70 <CaptureImage>:
  8002f70:	b580      	push	{r7, lr}
@@ -4037,7 +4040,7 @@ Disassembly of section .text:
  8002f7e:	b086      	sub	sp, #24
  8002f80:	2302      	movs	r3, #2
  8002f82:	2520      	movs	r5, #32
- 8002f84:	22c8      	movs	r2, #200	; 0xc8
+ 8002f84:	2264      	movs	r2, #100	; 0x64
  8002f86:	2100      	movs	r1, #0
  8002f88:	9300      	str	r3, [sp, #0]
  8002f8a:	9605      	str	r6, [sp, #20]
@@ -4408,16 +4411,16 @@ Disassembly of section .text:
 08003360 <Proximity>:
  8003360:	b530      	push	{r4, r5, lr}
  8003362:	ed2d 8b04 	vpush	{d8-d9}
- 8003366:	4a2a      	ldr	r2, [pc, #168]	; (8003410 <Proximity+0xb0>)
- 8003368:	4b2a      	ldr	r3, [pc, #168]	; (8003414 <Proximity+0xb4>)
+ 8003366:	4a28      	ldr	r2, [pc, #160]	; (8003408 <Proximity+0xa8>)
+ 8003368:	4b28      	ldr	r3, [pc, #160]	; (800340c <Proximity+0xac>)
  800336a:	6992      	ldr	r2, [r2, #24]
- 800336c:	492a      	ldr	r1, [pc, #168]	; (8003418 <Proximity+0xb8>)
+ 800336c:	4928      	ldr	r1, [pc, #160]	; (8003410 <Proximity+0xb0>)
  800336e:	681b      	ldr	r3, [r3, #0]
- 8003370:	4c2a      	ldr	r4, [pc, #168]	; (800341c <Proximity+0xbc>)
- 8003372:	4d2b      	ldr	r5, [pc, #172]	; (8003420 <Proximity+0xc0>)
- 8003374:	ed9f 8a2b 	vldr	s16, [pc, #172]	; 8003424 <Proximity+0xc4>
- 8003378:	eddf 8a2b 	vldr	s17, [pc, #172]	; 8003428 <Proximity+0xc8>
- 800337c:	ed9f 9a2b 	vldr	s18, [pc, #172]	; 800342c <Proximity+0xcc>
+ 8003370:	4c28      	ldr	r4, [pc, #160]	; (8003414 <Proximity+0xb4>)
+ 8003372:	4d29      	ldr	r5, [pc, #164]	; (8003418 <Proximity+0xb8>)
+ 8003374:	ed9f 8a29 	vldr	s16, [pc, #164]	; 800341c <Proximity+0xbc>
+ 8003378:	eddf 8a29 	vldr	s17, [pc, #164]	; 8003420 <Proximity+0xc0>
+ 800337c:	ed9f 9a29 	vldr	s18, [pc, #164]	; 8003424 <Proximity+0xc4>
  8003380:	6191      	str	r1, [r2, #24]
  8003382:	b083      	sub	sp, #12
  8003384:	9301      	str	r3, [sp, #4]
@@ -4431,56 +4434,54 @@ Disassembly of section .text:
  800339a:	2007      	movs	r0, #7
  800339c:	f002 fec8 	bl	8006130 <get_prox>
  80033a0:	f5b0 7f2f 	cmp.w	r0, #700	; 0x2bc
- 80033a4:	dd1a      	ble.n	80033dc <Proximity+0x7c>
+ 80033a4:	dd12      	ble.n	80033cc <Proximity+0x6c>
  80033a6:	2301      	movs	r3, #1
  80033a8:	2002      	movs	r0, #2
  80033aa:	7023      	strb	r3, [r4, #0]
  80033ac:	f002 fec0 	bl	8006130 <get_prox>
  80033b0:	2864      	cmp	r0, #100	; 0x64
- 80033b2:	dd17      	ble.n	80033e4 <Proximity+0x84>
+ 80033b2:	dd0f      	ble.n	80033d4 <Proximity+0x74>
  80033b4:	2005      	movs	r0, #5
  80033b6:	f002 febb 	bl	8006130 <get_prox>
  80033ba:	2864      	cmp	r0, #100	; 0x64
- 80033bc:	dd19      	ble.n	80033f2 <Proximity+0x92>
+ 80033bc:	dd11      	ble.n	80033e2 <Proximity+0x82>
  80033be:	2003      	movs	r0, #3
  80033c0:	f002 feb6 	bl	8006130 <get_prox>
  80033c4:	2864      	cmp	r0, #100	; 0x64
- 80033c6:	dc04      	bgt.n	80033d2 <Proximity+0x72>
- 80033c8:	2004      	movs	r0, #4
- 80033ca:	f002 feb1 	bl	8006130 <get_prox>
- 80033ce:	2864      	cmp	r0, #100	; 0x64
- 80033d0:	dd16      	ble.n	8003400 <Proximity+0xa0>
- 80033d2:	2001      	movs	r0, #1
- 80033d4:	f002 f884 	bl	80054e0 <set_body_led>
- 80033d8:	2301      	movs	r3, #1
- 80033da:	702b      	strb	r3, [r5, #0]
- 80033dc:	20fa      	movs	r0, #250	; 0xfa
- 80033de:	f007 fbff 	bl	800abe0 <chThdSleep>
- 80033e2:	e7d0      	b.n	8003386 <Proximity+0x26>
- 80033e4:	eeb0 0a48 	vmov.f32	s0, s16
- 80033e8:	f7ff fbea 	bl	8002bc0 <turn>
- 80033ec:	2300      	movs	r3, #0
- 80033ee:	7023      	strb	r3, [r4, #0]
- 80033f0:	e7f4      	b.n	80033dc <Proximity+0x7c>
- 80033f2:	eeb0 0a68 	vmov.f32	s0, s17
- 80033f6:	f7ff fbe3 	bl	8002bc0 <turn>
- 80033fa:	2300      	movs	r3, #0
- 80033fc:	7023      	strb	r3, [r4, #0]
- 80033fe:	e7ed      	b.n	80033dc <Proximity+0x7c>
- 8003400:	eeb0 0a49 	vmov.f32	s0, s18
- 8003404:	f7ff fbdc 	bl	8002bc0 <turn>
- 8003408:	2300      	movs	r3, #0
- 800340a:	7023      	strb	r3, [r4, #0]
- 800340c:	e7e6      	b.n	80033dc <Proximity+0x7c>
- 800340e:	bf00      	nop
- 8003410:	2000aaf0 	.word	0x2000aaf0
- 8003414:	20000b00 	.word	0x20000b00
- 8003418:	08018be0 	.word	0x08018be0
- 800341c:	20005b1f 	.word	0x20005b1f
- 8003420:	20005b20 	.word	0x20005b20
- 8003424:	bfc8f5c3 	.word	0xbfc8f5c3
- 8003428:	3fc8f5c3 	.word	0x3fc8f5c3
- 800342c:	4048f5c3 	.word	0x4048f5c3
+ 80033c6:	dd13      	ble.n	80033f0 <Proximity+0x90>
+ 80033c8:	2301      	movs	r3, #1
+ 80033ca:	702b      	strb	r3, [r5, #0]
+ 80033cc:	20fa      	movs	r0, #250	; 0xfa
+ 80033ce:	f007 fc07 	bl	800abe0 <chThdSleep>
+ 80033d2:	e7d8      	b.n	8003386 <Proximity+0x26>
+ 80033d4:	eeb0 0a48 	vmov.f32	s0, s16
+ 80033d8:	f7ff fbf2 	bl	8002bc0 <turn>
+ 80033dc:	2300      	movs	r3, #0
+ 80033de:	7023      	strb	r3, [r4, #0]
+ 80033e0:	e7f4      	b.n	80033cc <Proximity+0x6c>
+ 80033e2:	eeb0 0a68 	vmov.f32	s0, s17
+ 80033e6:	f7ff fbeb 	bl	8002bc0 <turn>
+ 80033ea:	2300      	movs	r3, #0
+ 80033ec:	7023      	strb	r3, [r4, #0]
+ 80033ee:	e7ed      	b.n	80033cc <Proximity+0x6c>
+ 80033f0:	2004      	movs	r0, #4
+ 80033f2:	f002 fe9d 	bl	8006130 <get_prox>
+ 80033f6:	2864      	cmp	r0, #100	; 0x64
+ 80033f8:	dce6      	bgt.n	80033c8 <Proximity+0x68>
+ 80033fa:	eeb0 0a49 	vmov.f32	s0, s18
+ 80033fe:	f7ff fbdf 	bl	8002bc0 <turn>
+ 8003402:	2300      	movs	r3, #0
+ 8003404:	7023      	strb	r3, [r4, #0]
+ 8003406:	e7e1      	b.n	80033cc <Proximity+0x6c>
+ 8003408:	2000aaf0 	.word	0x2000aaf0
+ 800340c:	20000b00 	.word	0x20000b00
+ 8003410:	08018be0 	.word	0x08018be0
+ 8003414:	20005b1f 	.word	0x20005b1f
+ 8003418:	20005b20 	.word	0x20005b20
+ 800341c:	bfc8f5c3 	.word	0xbfc8f5c3
+ 8003420:	3fc8f5c3 	.word	0x3fc8f5c3
+ 8003424:	4048f5c3 	.word	0x4048f5c3
+	...
 
 08003430 <proxi_start>:
  8003430:	b510      	push	{r4, lr}

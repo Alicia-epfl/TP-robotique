@@ -29,10 +29,10 @@ extern "C" {
 #define IMAGE_BUFFER_SIZE		640
 #define FACT_R_G					2//facteur de couleur entre le rouge et le vert
 #define FACT_R_B					1.5//facteur de couleur entre le rouge et le bleu			FACTEURS DE COULEURS
-#define FACT_G_R					1.6//facteur de couleur entre le vert et le rouge			POUR DETERMINER LA COULEUR
+#define FACT_G_R					1.5//facteur de couleur entre le vert et le rouge			POUR DETERMINER LA COULEUR
 #define FACT_G_B					1//facteur de couleur entre le vert et le bleu			QUE VOIT LA CAMERA EN FACE
 #define FACT_B_G					1//facteur de couleur entre le bleu et le vert			D'UNE CARTE
-#define FACT_B_R					1.6//facteur de couleur entre le bleu et le rouge
+#define FACT_B_R					1.3//facteur de couleur entre le bleu et le rouge
 #define TRES_BLUE				7//seuil nécessaire pour que ça soit du bleu (car très proche du vert)
 //PI
 #define GOAL_DISTANCE 			1//[mm] Distance d'un objet à laquelle la vitesse va approcher zéro
@@ -69,8 +69,8 @@ extern "C" {
 #define GREEN					63
 #define RED						31
 #define NO_COL					0//pas de cette composante de couleur
-#define 	GREEN_TRES				63
-#define LIGHT_BLUE_FACT			1.2
+#define 	GREEN_TRES				63//valeur maximale du vert
+#define LIGHT_BLUE_FACT			1.5//facteur pour éclaircir le bleu
 //PROXIMITY
 #define IR_THRESHOLD				700// Distance à laquelle les capteurs IR détectent un obstacle
 #define IR_TRES_SIDE				100//capteurs sur les côté pour voir un peu plus loin qu'ils vont être bloqués

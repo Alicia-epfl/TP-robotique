@@ -4,7 +4,7 @@
  *
  * @brief
  * Fichier qui gère la capture des images et leur traitement.
- * Il indique également les couleurs perçues
+ * Il indique également les couleurs perçues.
  */
 
 #ifndef PROCESS_IMAGE_H

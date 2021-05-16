@@ -56,21 +56,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  17 .comment      0000015e  00000000  00000000  000318c9  2**0
                   CONTENTS, READONLY
- 18 .debug_info   0012e2f3  00000000  00000000  00031a27  2**0
+ 18 .debug_info   0012e2d5  00000000  00000000  00031a27  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .debug_abbrev 00013f66  00000000  00000000  0015fd1a  2**0
+ 19 .debug_abbrev 00013f66  00000000  00000000  0015fcfc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 20 .debug_loc    00024fa6  00000000  00000000  00173c80  2**0
+ 20 .debug_loc    00024ffa  00000000  00000000  00173c62  2**0
                   CONTENTS, READONLY, DEBUGGING
- 21 .debug_aranges 00002540  00000000  00000000  00198c28  2**3
+ 21 .debug_aranges 00002540  00000000  00000000  00198c60  2**3
                   CONTENTS, READONLY, DEBUGGING
- 22 .debug_ranges 00004c78  00000000  00000000  0019b168  2**0
+ 22 .debug_ranges 00004c78  00000000  00000000  0019b1a0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 23 .debug_line   00036362  00000000  00000000  0019fde0  2**0
+ 23 .debug_line   00036353  00000000  00000000  0019fe18  2**0
                   CONTENTS, READONLY, DEBUGGING
- 24 .debug_str    0000ce4f  00000000  00000000  001d6142  2**0
+ 24 .debug_str    0000ce4f  00000000  00000000  001d616b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 25 .debug_frame  0000aea4  00000000  00000000  001e2f94  2**2
+ 25 .debug_frame  0000aea4  00000000  00000000  001e2fbc  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -153,7 +153,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 08018b90 l     O .text	0000000c __func__.7153
 00000000 l    df *ABS*	00000000 process_image.c
 08002ce0 l     F .text	00000058 Record
-08002d40 l     F .text	00000224 ProcessImage
+08002d40 l     F .text	00000230 ProcessImage
 08002f70 l     F .text	000000a4 CaptureImage
 20002128 l     O .bss	00000001 blue_rgb
 20002129 l     O .bss	00000001 game_over
@@ -176,7 +176,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 20005b1c l     O .bss	00000002 nb_samples.14237
 20005b1e l     O .bss	00000001 successive_freq_counter
 00000000 l    df *ABS*	00000000 proximity_detection.c
-08003360 l     F .text	000000d0 Proximity
+08003360 l     F .text	000000c8 Proximity
 20005b1f l     O .bss	00000001 avoid
 20005b20 l     O .bss	00000001 game_over
 20005b28 l     O .bss	00000278 waProximity

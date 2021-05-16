@@ -68,7 +68,6 @@ static THD_FUNCTION(Proximity, arg) {
 				//OBSTACLE PARTOUT --> ENCERCLE
 						if((get_prox(IR4)>IR_TRES_SIDE) || (get_prox(IR5)>IR_TRES_SIDE)){
 							//Le jeu est perdu --> game over
-							set_body_led(ON);
 							game_over = true;
 						}
 						//OBSTACLE DEVANT + A DROITE + A GAUCHE
