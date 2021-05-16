@@ -80,8 +80,8 @@ void sound_remote(float* data){
 }
 
 /*
-*	Callback called when the demodulation of the four microphones is done.
-*	We get 160 samples per mic every 10ms (16kHz)
+*	Callback appelé lorsque la démodulation des quatre microphones est terminée.
+*	On a 160 échantillons par micro chaque 10ms (16kHz)
 *
 *	params :
 *	int16_t *data			Buffer contenant 4 fois 160 échantillons. Les échantillons sont triés par micro
@@ -99,9 +99,8 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 
 	static uint16_t nb_samples = 0;
 
-	//loop to fill the buffers
+	//lboucle pour remplir le buffer
 	for(uint16_t i = 0 ; i < num_samples ; i+=4){
-		//construct an array of complex numbers. Put 0 to the imaginary part
 
 		micLeft_cmplx_input[nb_samples] = (float)data[i + MIC_LEFT];
 
@@ -120,7 +119,7 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 	if(nb_samples >= (2 * FFT_SIZE)){
 		/*	FFT proccessing
 		*
-		*	This FFT function stores the results in the input buffer given.
+		*	Cette fonction FFT stocke les resultats dans le buffer d'entrée.
 		*	This is an "In Place" function.
 		*/
 
@@ -129,16 +128,15 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 
 		/*	Magnitude processing
 		*
-		*	Computes the magnitude of the complex numbers and
-		*	stores them in a buffer of FFT_SIZE because it only contains
-		*	real numbers.
+		*	Calcule la magnitude des nombres complexes et
+		*	les stocke dans un buffer de FFT_SIZE parce qu'il contient seulement
+		*	des nombres réels.
 		*
 		*/
 
 		arm_cmplx_mag_f32(micLeft_cmplx_input, micLeft_output, FFT_SIZE);
 
 		nb_samples = 0;
-//		chprintf((BaseSequentialStream *)&SDU1, "compteur=%3d\r",successive_freq_counter);
 		sound_remote(micLeft_output);
 
 	}
