@@ -4050,7 +4050,7 @@ Disassembly of section .text:
  8002f9e:	b086      	sub	sp, #24
  8002fa0:	2302      	movs	r3, #2
  8002fa2:	2520      	movs	r5, #32
- 8002fa4:	2264      	movs	r2, #100	; 0x64
+ 8002fa4:	2296      	movs	r2, #150	; 0x96
  8002fa6:	2100      	movs	r1, #0
  8002fa8:	9300      	str	r3, [sp, #0]
  8002faa:	9605      	str	r6, [sp, #20]
@@ -4421,16 +4421,16 @@ Disassembly of section .text:
 08003380 <Proximity>:
  8003380:	b570      	push	{r4, r5, r6, lr}
  8003382:	ed2d 8b04 	vpush	{d8-d9}
- 8003386:	4a2c      	ldr	r2, [pc, #176]	; (8003438 <Proximity+0xb8>)
- 8003388:	4b2c      	ldr	r3, [pc, #176]	; (800343c <Proximity+0xbc>)
+ 8003386:	4a2d      	ldr	r2, [pc, #180]	; (800343c <Proximity+0xbc>)
+ 8003388:	4b2d      	ldr	r3, [pc, #180]	; (8003440 <Proximity+0xc0>)
  800338a:	6992      	ldr	r2, [r2, #24]
- 800338c:	492c      	ldr	r1, [pc, #176]	; (8003440 <Proximity+0xc0>)
+ 800338c:	492d      	ldr	r1, [pc, #180]	; (8003444 <Proximity+0xc4>)
  800338e:	681b      	ldr	r3, [r3, #0]
- 8003390:	4c2c      	ldr	r4, [pc, #176]	; (8003444 <Proximity+0xc4>)
- 8003392:	4e2d      	ldr	r6, [pc, #180]	; (8003448 <Proximity+0xc8>)
- 8003394:	ed9f 8a2d 	vldr	s16, [pc, #180]	; 800344c <Proximity+0xcc>
- 8003398:	eddf 8a2d 	vldr	s17, [pc, #180]	; 8003450 <Proximity+0xd0>
- 800339c:	ed9f 9a2d 	vldr	s18, [pc, #180]	; 8003454 <Proximity+0xd4>
+ 8003390:	4c2d      	ldr	r4, [pc, #180]	; (8003448 <Proximity+0xc8>)
+ 8003392:	4e2e      	ldr	r6, [pc, #184]	; (800344c <Proximity+0xcc>)
+ 8003394:	ed9f 8a2e 	vldr	s16, [pc, #184]	; 8003450 <Proximity+0xd0>
+ 8003398:	eddf 8a2e 	vldr	s17, [pc, #184]	; 8003454 <Proximity+0xd4>
+ 800339c:	ed9f 9a2e 	vldr	s18, [pc, #184]	; 8003458 <Proximity+0xd8>
  80033a0:	6191      	str	r1, [r2, #24]
  80033a2:	b082      	sub	sp, #8
  80033a4:	9301      	str	r3, [sp, #4]
@@ -4444,61 +4444,61 @@ Disassembly of section .text:
  80033ba:	2007      	movs	r0, #7
  80033bc:	f002 fed0 	bl	8006160 <get_prox>
  80033c0:	f5b0 7f2f 	cmp.w	r0, #700	; 0x2bc
- 80033c4:	dd1e      	ble.n	8003404 <Proximity+0x84>
+ 80033c4:	dd20      	ble.n	8003408 <Proximity+0x88>
  80033c6:	2301      	movs	r3, #1
  80033c8:	2002      	movs	r0, #2
  80033ca:	7023      	strb	r3, [r4, #0]
  80033cc:	f002 fec8 	bl	8006160 <get_prox>
  80033d0:	2864      	cmp	r0, #100	; 0x64
- 80033d2:	dd1b      	ble.n	800340c <Proximity+0x8c>
+ 80033d2:	dd1d      	ble.n	8003410 <Proximity+0x90>
  80033d4:	2005      	movs	r0, #5
  80033d6:	f002 fec3 	bl	8006160 <get_prox>
  80033da:	2864      	cmp	r0, #100	; 0x64
- 80033dc:	dd1d      	ble.n	800341a <Proximity+0x9a>
+ 80033dc:	dd1f      	ble.n	800341e <Proximity+0x9e>
  80033de:	2003      	movs	r0, #3
  80033e0:	f002 febe 	bl	8006160 <get_prox>
- 80033e4:	2864      	cmp	r0, #100	; 0x64
- 80033e6:	dc04      	bgt.n	80033f2 <Proximity+0x72>
- 80033e8:	2004      	movs	r0, #4
- 80033ea:	f002 feb9 	bl	8006160 <get_prox>
- 80033ee:	2864      	cmp	r0, #100	; 0x64
- 80033f0:	dd1a      	ble.n	8003428 <Proximity+0xa8>
- 80033f2:	2300      	movs	r3, #0
- 80033f4:	2501      	movs	r5, #1
- 80033f6:	461a      	mov	r2, r3
- 80033f8:	4619      	mov	r1, r3
- 80033fa:	2004      	movs	r0, #4
- 80033fc:	7023      	strb	r3, [r4, #0]
- 80033fe:	7035      	strb	r5, [r6, #0]
- 8003400:	f001 fade 	bl	80049c0 <playMelody>
- 8003404:	20fa      	movs	r0, #250	; 0xfa
- 8003406:	f007 fc03 	bl	800ac10 <chThdSleep>
- 800340a:	e7cc      	b.n	80033a6 <Proximity+0x26>
- 800340c:	eeb0 0a48 	vmov.f32	s0, s16
- 8003410:	f7ff fbe6 	bl	8002be0 <turn>
- 8003414:	2300      	movs	r3, #0
- 8003416:	7023      	strb	r3, [r4, #0]
- 8003418:	e7f4      	b.n	8003404 <Proximity+0x84>
- 800341a:	eeb0 0a68 	vmov.f32	s0, s17
- 800341e:	f7ff fbdf 	bl	8002be0 <turn>
- 8003422:	2300      	movs	r3, #0
- 8003424:	7023      	strb	r3, [r4, #0]
- 8003426:	e7ed      	b.n	8003404 <Proximity+0x84>
- 8003428:	eeb0 0a49 	vmov.f32	s0, s18
- 800342c:	f7ff fbd8 	bl	8002be0 <turn>
- 8003430:	2300      	movs	r3, #0
- 8003432:	7023      	strb	r3, [r4, #0]
- 8003434:	e7e6      	b.n	8003404 <Proximity+0x84>
- 8003436:	bf00      	nop
- 8003438:	2000aaf0 	.word	0x2000aaf0
- 800343c:	20000b00 	.word	0x20000b00
- 8003440:	08018c10 	.word	0x08018c10
- 8003444:	20005b1f 	.word	0x20005b1f
- 8003448:	20005b20 	.word	0x20005b20
- 800344c:	bfc8f5c3 	.word	0xbfc8f5c3
- 8003450:	3fc8f5c3 	.word	0x3fc8f5c3
- 8003454:	4048f5c3 	.word	0x4048f5c3
-	...
+ 80033e4:	f5b0 7f2f 	cmp.w	r0, #700	; 0x2bc
+ 80033e8:	dc05      	bgt.n	80033f6 <Proximity+0x76>
+ 80033ea:	2004      	movs	r0, #4
+ 80033ec:	f002 feb8 	bl	8006160 <get_prox>
+ 80033f0:	f5b0 7f2f 	cmp.w	r0, #700	; 0x2bc
+ 80033f4:	dd1a      	ble.n	800342c <Proximity+0xac>
+ 80033f6:	2300      	movs	r3, #0
+ 80033f8:	2501      	movs	r5, #1
+ 80033fa:	461a      	mov	r2, r3
+ 80033fc:	4619      	mov	r1, r3
+ 80033fe:	2004      	movs	r0, #4
+ 8003400:	7023      	strb	r3, [r4, #0]
+ 8003402:	7035      	strb	r5, [r6, #0]
+ 8003404:	f001 fadc 	bl	80049c0 <playMelody>
+ 8003408:	20fa      	movs	r0, #250	; 0xfa
+ 800340a:	f007 fc01 	bl	800ac10 <chThdSleep>
+ 800340e:	e7ca      	b.n	80033a6 <Proximity+0x26>
+ 8003410:	eeb0 0a48 	vmov.f32	s0, s16
+ 8003414:	f7ff fbe4 	bl	8002be0 <turn>
+ 8003418:	2300      	movs	r3, #0
+ 800341a:	7023      	strb	r3, [r4, #0]
+ 800341c:	e7f4      	b.n	8003408 <Proximity+0x88>
+ 800341e:	eeb0 0a68 	vmov.f32	s0, s17
+ 8003422:	f7ff fbdd 	bl	8002be0 <turn>
+ 8003426:	2300      	movs	r3, #0
+ 8003428:	7023      	strb	r3, [r4, #0]
+ 800342a:	e7ed      	b.n	8003408 <Proximity+0x88>
+ 800342c:	eeb0 0a49 	vmov.f32	s0, s18
+ 8003430:	f7ff fbd6 	bl	8002be0 <turn>
+ 8003434:	2300      	movs	r3, #0
+ 8003436:	7023      	strb	r3, [r4, #0]
+ 8003438:	e7e6      	b.n	8003408 <Proximity+0x88>
+ 800343a:	bf00      	nop
+ 800343c:	2000aaf0 	.word	0x2000aaf0
+ 8003440:	20000b00 	.word	0x20000b00
+ 8003444:	08018c10 	.word	0x08018c10
+ 8003448:	20005b1f 	.word	0x20005b1f
+ 800344c:	20005b20 	.word	0x20005b20
+ 8003450:	bfc8f5c3 	.word	0xbfc8f5c3
+ 8003454:	3fc8f5c3 	.word	0x3fc8f5c3
+ 8003458:	4048f5c3 	.word	0x4048f5c3
+ 800345c:	00000000 	.word	0x00000000
 
 08003460 <proxi_start>:
  8003460:	b510      	push	{r4, lr}

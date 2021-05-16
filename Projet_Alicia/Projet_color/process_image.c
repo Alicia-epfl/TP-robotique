@@ -87,8 +87,8 @@ static THD_FUNCTION(CaptureImage, arg) {
     chRegSetThreadName(__FUNCTION__);
     (void)arg;
 
-    //Prends les pixels de 0 à IMAGE_BUFFER_SIZE de la ligne ligne 100 + 101 (minimum 2 lignes)
-	po8030_advanced_config(FORMAT_RGB565, 0, 100, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
+    //Prends les pixels de 0 à IMAGE_BUFFER_SIZE de la ligne ligne 150 + 151 (minimum 2 lignes)
+	po8030_advanced_config(FORMAT_RGB565, 0, 150, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
 	dcmi_enable_double_buffering();
 	dcmi_set_capture_mode(CAPTURE_ONE_SHOT);
 	dcmi_prepare();

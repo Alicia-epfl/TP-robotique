@@ -176,7 +176,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 20005b1c l     O .bss	00000002 nb_samples.14237
 20005b1e l     O .bss	00000001 successive_freq_counter
 00000000 l    df *ABS*	00000000 proximity_detection.c
-08003380 l     F .text	000000d8 Proximity
+08003380 l     F .text	000000dc Proximity
 20005b1f l     O .bss	00000001 avoid
 20005b20 l     O .bss	00000001 game_over
 20005b28 l     O .bss	00000278 waProximity
