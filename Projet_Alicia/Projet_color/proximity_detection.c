@@ -14,6 +14,7 @@
 #include "hal.h"
 #include <usbcfg.h>
 #include <chprintf.h>
+#include <leds.h>
 
 #include "main.h"
 #include "proximity_detection.h"
@@ -27,13 +28,17 @@
 
 
 
-//static pour indiquer si on est en train d'éviter un obstacle --> si oui on met le "run" en pause dans le pi
+//static pour indiquer si on est en train d'éviter un obstacle
+//--> si oui on met le "run" en pause dans le pi
 static uint8_t avoid = false;
 static uint8_t game_over = false;
 /*
  * THREADS
  */
-/*Thread pour proximity*/
+/*@brief
+ * Thread pour proximity
+ * Ce thread s'occupe de la gestion d'évitemet
+ * d'obstacles*/
 static THD_WORKING_AREA(waProximity, 256);
 static THD_FUNCTION(Proximity, arg) {
 
@@ -63,13 +68,13 @@ static THD_FUNCTION(Proximity, arg) {
 				//OBSTACLE PARTOUT --> ENCERCLE
 						if((get_prox(IR4)>IR_TRES_SIDE) || (get_prox(IR5)>IR_TRES_SIDE)){
 							//Le jeu est perdu --> game over
+							set_body_led(ON);
 							game_over = true;
 						}
 						//OBSTACLE DEVANT + A DROITE + A GAUCHE
 						else{
 							//effectue un demi-tour
 							turn(PI);
-							//libère run
 							avoid = false;
 						}
 
@@ -77,14 +82,12 @@ static THD_FUNCTION(Proximity, arg) {
 					}else{
 						//tourne à gauche
 						turn(PI/2);
-						//libère run
 						avoid = false;
 					}
 				//OBSTACLE DEVANT
 				}else{
 					//tourne à droite
 					turn(-PI/2);
-					//libère run
 					avoid = false;
 
 				}//if obstacle devant
@@ -98,11 +101,17 @@ static THD_FUNCTION(Proximity, arg) {
 }//thread
 /*Fin du thread Proximity*/
 
+//@brief
+//Activer proximity --> appel du thread
 void proxi_start(void){
-	 //Activer proximity --> appel du thread
 	 chThdCreateStatic(waProximity, sizeof(waProximity), NORMALPRIO, Proximity, NULL);
 }
+
+//@brief
+//fonction pour retourner les valeurs
 uint8_t get_avoid(void){
 	return avoid;
 }
-
+uint8_t get_game_over_proxi(void){
+	return game_over;
+}

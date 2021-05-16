@@ -100,7 +100,7 @@ uint8_t game_over = 0, win = 0;
 /*Fin de gestion des moteurs*/
 
  /*Game over ou Win*/
-	  game_over = get_game_over();
+	  game_over = get_game_over() || get_game_over_proxi();
 	  win = get_win();
 
 	  //dans le cas où la partie est terminée

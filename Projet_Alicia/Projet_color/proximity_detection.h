@@ -11,9 +11,13 @@
 #ifndef PROXIMITY_DETECTION_H_
 #define PROXIMITY_DETECTION_H_
 
+//@brief
+//Activer proximity --> appel du thread
 void proxi_start(void);
+
+//@brief
+//fonction pour retourner les valeurs
 uint8_t get_avoid(void);
-
-
+uint8_t get_game_over_proxi(void);
 
 #endif /* PROXIMITY_DETECTION_H_ */
