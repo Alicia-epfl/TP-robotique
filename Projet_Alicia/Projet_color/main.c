@@ -1,4 +1,12 @@
-//Rappel: "" --> fichiers dans notre projets; <> --> fichiers dans le dossier (librairies par exemple)
+/**
+ * Fichier: main.c
+ * auteurs: Nicolas Nouel et Alicia Mauroux
+ *
+ * @brief
+ * Ce fichier est le coeur de notre programme. C'est ici que se fait toutes les initialisations.
+ */
+
+//Convention rappel: "" --> fichiers dans notre projets; <> --> fichiers dans le dossier (librairies par exemple)
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,37 +16,35 @@
 #include "hal.h"
 #include "memory_protection.h"
 #include <usbcfg.h>
-#include <main.h>
 #include <motors.h>
 #include <camera/po8030.h>
 #include <chprintf.h>
+
+#include "main.h"
+
+#include <leds.h>
+#include <audio/play_melody.h>
+
 /*includes pour noise detection*/
 #include <audio/microphone.h>
 #include <noise_detection.h>
-#include <fft.h>
-#include <arm_math.h>
-/*===============*/
-#include <pi_regulator.h>
-#include <process_image.h>
-#include <leds.h>
+
+#include "pi_regulator.h"
+#include "process_image.h"
+
 /*Includes for proximity sensors*/
 #include <sensors/proximity.h>
 #include <msgbus/messagebus.h>
 #include "proximity_detection.h"
-/*============================*/
-#include <audio/play_melody.h>
-/*============================*/
 #include "sensors/VL53L0X/VL53L0X.h"
-/*Besoin d'eux pour la fsm*/
-#include "proximity_detection.h"
+
 
 #define SEND_FROM_MIC
 
 /*Définition des statiques pour la FSM*/
 static uint8_t stop =false;		//définit si le robot doit avancer ou non
-static uint8_t record_allowed = true;	//définiit si on peut enclencher la caméra ou non
+static uint8_t record_allowed = true;	//définit si on peut faire du traitement d'image ou non
 static uint8_t avoid_allowed = true;	//définit si on peut faire une manoeuvre d'évitement
-static uint8_t sound_allowed = true;//définit si on peut utiliser le son
 static uint8_t run =false; //variable qui va déterminer si notre e-puck lance le jeu ou est en "pause"
 //cette variable s'active grâce au son!
 
@@ -63,7 +69,6 @@ volatile uint8_t left=0, avoid = 0;
 uint8_t game_over = 0, win = 0;
 
   while (1){
-
 /*Gestion des moteurs*/
 	  avoid = get_avoid();
 	  left = get_left();
@@ -80,66 +85,63 @@ uint8_t game_over = 0, win = 0;
 		  //si il est en évitement --> pas de check des couleurs
 		  if(avoid){
 			  record_allowed = false;
-//			  chThdSleepMilliseconds(50);
 		  }else{
 			  record_allowed = true;
 		  }//avoid
 
 	//si run = 0
 	  }else{
-		  run = 0;
 		  stop = true;
 		  avoid_allowed = false;
 		  record_allowed = false;
 	  }//run
-
 /*Fin de gestion des moteurs*/
 
-	  /*s'occuper du game over*/
+ /*Game over ou Win*/
 	  game_over = get_game_over();
 	  win = get_win();
 
+	  //dans le cas où la partie est terminée
+	  //tout mettre en pause jusqu'à ce que le joueur puisse recommencer
 	  if(win || game_over){
 		  run =0;
 		  stop=true;
 		  avoid_allowed = false;
 		  record_allowed = false;
-		  sound_allowed = false;//à mettre dans le son aussi!!!!
 
-		  //wait 1 ou 2 secondes et ensuite relancer le tout?
 	  }else{
 		  stop = !run;
 		  avoid_allowed = true;
 		  record_allowed = true;
-		  sound_allowed = true;
 	  }
 	  chThdSleepMilliseconds(250);
-
   }//while(1)
 }//thread
 /*Fin du thread de fsm*/
 
-/*Thread pour le clignotement de BODY LED*/
-static THD_WORKING_AREA(waBlinker, 256);//128 mais 256 juste pour le printf
+/*Thread pour la gestion des leds*/
+static THD_WORKING_AREA(waBlinker, 256);
 static THD_FUNCTION(Blinker, arg) {
 
 	 chRegSetThreadName(__FUNCTION__);
 	  (void)arg;
-uint8_t toggle = 0, left=0, avoid = 0;
-uint8_t red_rgb =0, green_rgb=0, blue_rgb=0;
-uint8_t game_over = 0, win = 0;
+	 //variables qui vont déterminer l'état des LEDs
+	uint8_t toggle = 0, left=0, avoid = 0;
+	uint8_t red_rgb =0, green_rgb=0, blue_rgb=0;
+	uint8_t game_over = 0, win = 0;
 
-  while (1) {
-    /* Toggling LEDs while the main thread is busy   .*/
+  while (1){
 	  left=get_left();
 	  avoid = get_avoid();
 
+	  game_over = get_game_over();
+	  win = get_win();
+
+/*variables permettant d'afficher sur les LEDs
+ * la couleur bleu que le robot a repéré*/
 	  red_rgb=get_red();
 	  green_rgb=get_green();
 	  blue_rgb=get_blue();
-
-	  game_over = get_game_over();
-	  win = get_win();
 
 	  if(!left){
 		  set_rgb_led(LED6, red_rgb, green_rgb, blue_rgb);
@@ -165,7 +167,7 @@ uint8_t game_over = 0, win = 0;
 			set_rgb_led(LED4, RED, NO_COL, NO_COL);
 			set_rgb_led(LED8, RED, NO_COL, NO_COL);
 
-	  }else{
+	  }else if(run){
 		if(toggle){
 			set_rgb_led(LED6, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
 			set_rgb_led(LED2, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
@@ -178,13 +180,18 @@ uint8_t game_over = 0, win = 0;
 				set_rgb_led(LED2, RED_MAUVE, GREEN_MAUVE, BLUE_MAUVE);
 				set_rgb_led(LED6, RED_MAUVE, GREEN_MAUVE, BLUE_MAUVE);
 				toggle =!toggle;
-		}
-	  }
+		}//toggle
+	  }else{
+			set_rgb_led(LED6, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
+			set_rgb_led(LED2, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
+			set_rgb_led(LED4, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
+			set_rgb_led(LED8, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
+	  }//gestion de leds
 
-    /* Delay of 250 milliseconds.*/
+    /* Délai de 250 millisecondes.*/
     chThdSleepMilliseconds(250);
-  }
-}
+  }//while(1)
+}//thread
 /*Fin du thread de BODY LED*/
 
 
@@ -254,9 +261,6 @@ uint8_t get_record_allowed_fsm(void){
 }
 uint8_t get_avoid_allowed_fsm(void){
 	return avoid_allowed;
-}
-uint8_t get_sound_allowed_fsm(void){
-	return sound_allowed;
 }
 
 /*fonction de la gestion de run

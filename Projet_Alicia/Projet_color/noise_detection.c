@@ -10,6 +10,14 @@
 #include <fft.h>
 #include <arm_math.h>
 
+#include <leds.h>
+
+#include <pi_regulator.h>
+#include "process_image.h"
+
+//pour avoir accès à la statique "avoid" qui "contrôle" l'état de run
+#include "proximity_detection.h"
+
 
 /*======================== Repris du TP5, en enlevant les analyses sur les micros inutilisés =====================*/
 

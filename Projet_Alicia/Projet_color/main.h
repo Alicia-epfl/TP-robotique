@@ -1,3 +1,12 @@
+/**
+ * Fichier: main.c
+ * auteurs: Nicolas Nouel et Alicia Mauroux
+ *
+ * @brief
+ * Ce fichier est le coeur de notre programme. C'est ici que se fait toutes les initialisations.
+ * C'est également ici que se trouve la majorité des defines
+ */
+
 #ifndef MAIN_H
 #define MAIN_H
 
