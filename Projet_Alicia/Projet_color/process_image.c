@@ -107,12 +107,14 @@ static THD_FUNCTION(CaptureImage, arg) {
 
 
     while(1){
+
 			//démarre une capture
 			dcmi_capture_start();
 			//attends que la capture soit faite
 			wait_image_ready();
 			//signale que l'image a été capturée
 			chBSemSignal(&image_ready_sem);
+
     }
 }
 

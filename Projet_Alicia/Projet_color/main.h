@@ -32,7 +32,7 @@ extern "C" {
 #define FACT_G_R					1.3//facteur de couleur entre le vert et le rouge			POUR DETERMINER LA COULEUR
 #define FACT_G_B					1//facteur de couleur entre le vert et le bleu			QUE VOIT LA CAMERA EN FACE
 #define FACT_B_G					1//facteur de couleur entre le bleu et le vert			D'UNE CARTE
-#define FACT_B_R					1.2//facteur de couleur entre le bleu et le rouge
+#define FACT_B_R					1.4//facteur de couleur entre le bleu et le rouge
 #define TRES_BLUE				0//seuil nécessaire pour que ça soit du bleu (car très proche du vert)
 //PI
 #define GOAL_DISTANCE 			1//[mm] Distance d'un objet à laquelle la vitesse va approcher zéro
