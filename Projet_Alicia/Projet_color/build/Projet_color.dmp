@@ -174,7 +174,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 00000000 l    df *ABS*	00000000 noise_detection.c
 20002d24 l     O .bss	00002000 micLeft_cmplx_input
 20004d24 l     O .bss	00001000 micLeft_output
-20005d24 l     O .bss	00000002 nb_samples.14241
+20005d24 l     O .bss	00000002 nb_samples.14237
 20005d26 l     O .bss	00000001 successive_freq_counter
 00000000 l    df *ABS*	00000000 proximity_detection.c
 08003320 l     F .text	000000c0 Proximity

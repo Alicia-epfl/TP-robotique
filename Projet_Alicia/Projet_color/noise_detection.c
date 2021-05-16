@@ -7,7 +7,6 @@
 #include <motors.h>
 #include <audio/microphone.h>
 #include <noise_detection.h>
-#include <communications.h>
 #include <fft.h>
 #include <arm_math.h>
 #include <leds.h>

@@ -3804,7 +3804,7 @@ Disassembly of section .text:
  8002cc0:	f007 f86e 	bl	8009da0 <VL53L0X_get_dist_mm>
  8002cc4:	4605      	mov	r5, r0
  8002cc6:	f7ff fbdb 	bl	8002480 <get_record_allowed_fsm>
- 8002cca:	2d95      	cmp	r5, #149	; 0x95
+ 8002cca:	2d63      	cmp	r5, #99	; 0x63
  8002ccc:	4602      	mov	r2, r0
  8002cce:	bf8c      	ite	hi
  8002cd0:	4633      	movhi	r3, r6
