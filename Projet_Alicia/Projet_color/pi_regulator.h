@@ -1,5 +1,5 @@
 /**
- * Fichier: pi_regulator.c
+ * Fichier: pi_regulator.h
  * auteurs: TP4, modifié par Alicia Mauroux
  *
  * @brief

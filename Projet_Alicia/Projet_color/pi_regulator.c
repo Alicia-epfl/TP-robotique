@@ -214,7 +214,7 @@ void turn(float alpha){
 //====================================
 /*:::::::::THREAD:::::::::::*/
 
-static THD_WORKING_AREA(waPiRegulator,1024);
+static THD_WORKING_AREA(waPiRegulator,512);
 static THD_FUNCTION(PiRegulator, arg) {
 
     chRegSetThreadName(__FUNCTION__);

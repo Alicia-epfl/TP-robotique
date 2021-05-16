@@ -1,28 +1,30 @@
+/**
+ * Fichier: process_image.c
+ * auteurs: TP4, modifié par Alicia Mauroux
+ *
+ * @brief
+ * Fichier qui gère la capture des images et leur traitement.
+ * Il indique également les couleurs perçues
+ */
+
 #include "ch.h"
 #include "hal.h"
 #include <chprintf.h>
 #include <usbcfg.h>
 
 #include "main.h"
-#include <camera/po8030.h>
-#include <leds.h>
-#include <motors.h>
-#include "pi_regulator.h"
+#include "process_image.h"
 
-#include <process_image.h>
-#include <audio/play_melody.h>
+#include <camera/po8030.h>
+#include <motors.h>
+
+//pour activer/désactiver le traitement d'image
 #include "sensors/VL53L0X/VL53L0X.h"
 #include <sensors/proximity.h>
-
-//MEMO
-//			r4 r3 r2 r1  r0 g5 g4 g3         g2 g1 g0 b4  b3 b2 b1 b0
-		//			image_r[i/2] = ((uint8_t)img_buff_ptr[i]&0xF8)>>3;//rouge
-		//			image_g[i/2] = ((uint8_t)img_buff_ptr[i]&0x07)<<3 | ((uint8_t)img_buff_ptr[i+1]&0xE0)>>5 ;//vert
-		//			image_b[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F);//blue
-
-/*NE PAS OUBLIER:
- * De prendre les valeurs left et right pour indiquer au robot qui rencontre un obstacle qu'il va devoir donner
- * la priotité aux couleurs et donc skip la détection d'obstacle*/
+//pour tourner
+#include "pi_regulator.h"
+//pour jouer la mélodie
+#include <audio/play_melody.h>
 
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
