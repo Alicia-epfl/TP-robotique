@@ -27,8 +27,8 @@ extern "C" {
 #define MID_SPEED				200//moyenne
 //CAMERA
 #define IMAGE_BUFFER_SIZE		640
-#define FACT_R_G					1.3//facteur de couleur entre le rouge et le vert
-#define FACT_R_B					1.3//facteur de couleur entre le rouge et le bleu			FACTEURS DE COULEURS
+#define FACT_R_G					1.2//facteur de couleur entre le rouge et le vert
+#define FACT_R_B					1.2//facteur de couleur entre le rouge et le bleu			FACTEURS DE COULEURS
 #define FACT_G_R					1.3//facteur de couleur entre le vert et le rouge			POUR DETERMINER LA COULEUR
 #define FACT_G_B					1//facteur de couleur entre le vert et le bleu			QUE VOIT LA CAMERA EN FACE
 #define FACT_B_G					1//facteur de couleur entre le bleu et le vert			D'UNE CARTE
@@ -61,7 +61,7 @@ extern "C" {
 #define	GREEN_CYAN				57
 #define	BLUE_CYAN				26
 #define	RED_MAUVE				31
-#define	GREEN_MAUVE				30
+#define	GREEN_MAUVE				20
 #define	BLUE_MAUVE				31
 #define	RED_ORANGE				31
 #define	GREEN_ORANGE				41
