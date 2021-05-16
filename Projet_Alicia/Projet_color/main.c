@@ -41,8 +41,6 @@
 #include "sensors/VL53L0X/VL53L0X.h"
 
 
-#define SEND_FROM_MIC
-
 /*Définition des statiques pour la FSM*/
 static uint8_t stop =false;		//définit si le robot doit avancer ou non
 static uint8_t record_allowed = true;	//définit si on peut faire du traitement d'image ou non
