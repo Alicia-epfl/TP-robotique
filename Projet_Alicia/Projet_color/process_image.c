@@ -48,8 +48,6 @@ static THD_WORKING_AREA(waRecord, 128);
 static THD_FUNCTION(Record, arg){
 	uint16_t measure=0, record_allowed=0;
 
-
-
 	while(1){
 /*L'idée ensuite c'est de faire une fonction qui récuoère les mesures dans pi et qui return 1 ou 0 directement pour ici!*/
 		measure = VL53L0X_get_dist_mm();//unité en [mm]

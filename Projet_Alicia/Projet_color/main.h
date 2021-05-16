@@ -19,7 +19,7 @@ extern "C" {
 #include "parameter/parameter.h"
 
 
-//constants for the differents parts of the project
+//constantes pour les différents segments du projet
 #define PI					3.14f// f pour float
 #define NO_SPEED					0// minimale
 #define MAX_SPEED				900//maximale (par rapport à ce que l'on souhaite pour le labyrinthe)
@@ -94,12 +94,18 @@ extern parameter_namespace_t parameter_root;
 void SendUint8ToComputer(uint8_t* data, uint16_t size);
 void SendFloatToComputer(BaseSequentialStream* out, float* data, uint16_t size);
 
+// @brief
 /*fonction des variables renvoyées par la fsm*/
 uint8_t get_stop_fsm(void);
 uint8_t get_record_allowed_fsm(void);
 uint8_t get_avoid_allowed_fsm(void);
 uint8_t get_sound_allowed_fsm(void);
-/*gestion de run --> variable qui détermine si le robot est en jeu ou en pause*/
+
+// @brief
+/* fonction de la gestion de run
+ *
+ * si run est activé, le jeu est lancé
+ * si run est à zéro, le robot est en "standbye"*/
 void toggle_run(void);
 
 

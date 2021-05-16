@@ -109,7 +109,7 @@ uint8_t game_over = 0, win = 0;
 		  avoid_allowed = false;
 		  record_allowed = false;
 
-	  }else{
+	  }else if(run){
 		  stop = !run;
 		  avoid_allowed = true;
 		  record_allowed = true;
@@ -194,13 +194,14 @@ static THD_FUNCTION(Blinker, arg) {
 }//thread
 /*Fin du thread de BODY LED*/
 
-
 /*
  * ::::::::::::FUNCTIONS::::::::::::::::::::
  */
+// @brief
 // Initialise les fonctions requisent par __libc_init_array
 void _init(void) {}
 
+// @brief
 /*Permet la communication USB et Bluetooth*/
 static void serial_start(void)
 {
@@ -213,7 +214,7 @@ static void serial_start(void)
 
 	sdStart(&SD3, &ser_cfg); // UART3.
 }
-
+// @brief
 /*Permet les "printf" via le terminal
  * Version pour uint8_t:*/
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 
@@ -222,6 +223,7 @@ void SendUint8ToComputer(uint8_t* data, uint16_t size)
 	chSequentialStreamWrite((BaseSequentialStream *)&SD3, (uint8_t*)&size, sizeof(uint16_t));
 	chSequentialStreamWrite((BaseSequentialStream *)&SD3, (uint8_t*)data, size);
 }
+// @brief
 /*Version pour les floats:*/
 void SendFloatToComputer(BaseSequentialStream* out, float* data, uint16_t size)
 {
@@ -251,8 +253,9 @@ void readyAnimation(void) {
 	chThdSleepMilliseconds(500);
 	set_body_led(OFF);
 }
-
-/*fonctions qui renvoient les valeurs dictées par la fsm*/
+// @brief
+/*fonctions qui renvoient aux fichiers.c les valeurs dictées par la fsm
+ * Permet le contrôle des différents segments*/
 uint8_t get_stop_fsm(void){
 	return stop;
 }
@@ -262,7 +265,7 @@ uint8_t get_record_allowed_fsm(void){
 uint8_t get_avoid_allowed_fsm(void){
 	return avoid_allowed;
 }
-
+// @brief
 /*fonction de la gestion de run
  * si run est activé, le jeu est lancé
  * si run est à zéro, le robot est en "standbye"*/

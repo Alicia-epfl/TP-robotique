@@ -2772,10 +2772,10 @@ Disassembly of section .text:
  8002128:	6992      	ldr	r2, [r2, #24]
  800212a:	681b      	ldr	r3, [r3, #0]
  800212c:	492d      	ldr	r1, [pc, #180]	; (80021e4 <fsm+0xc4>)
- 800212e:	f8df 80c0 	ldr.w	r8, [pc, #192]	; 80021f0 <fsm+0xd0>
- 8002132:	4f2d      	ldr	r7, [pc, #180]	; (80021e8 <fsm+0xc8>)
+ 800212e:	4e2e      	ldr	r6, [pc, #184]	; (80021e8 <fsm+0xc8>)
+ 8002130:	f8df 80bc 	ldr.w	r8, [pc, #188]	; 80021f0 <fsm+0xd0>
  8002134:	f8df 90bc 	ldr.w	r9, [pc, #188]	; 80021f4 <fsm+0xd4>
- 8002138:	4e2c      	ldr	r6, [pc, #176]	; (80021ec <fsm+0xcc>)
+ 8002138:	4f2c      	ldr	r7, [pc, #176]	; (80021ec <fsm+0xcc>)
  800213a:	6191      	str	r1, [r2, #24]
  800213c:	b082      	sub	sp, #8
  800213e:	2501      	movs	r5, #1
@@ -2784,62 +2784,61 @@ Disassembly of section .text:
  8002144:	f88d 3002 	strb.w	r3, [sp, #2]
  8002148:	461c      	mov	r4, r3
  800214a:	f88d 3003 	strb.w	r3, [sp, #3]
- 800214e:	e022      	b.n	8002196 <fsm+0x76>
+ 800214e:	e021      	b.n	8002194 <fsm+0x74>
  8002150:	f89d 3002 	ldrb.w	r3, [sp, #2]
  8002154:	f003 02ff 	and.w	r2, r3, #255	; 0xff
  8002158:	2b00      	cmp	r3, #0
- 800215a:	d13a      	bne.n	80021d2 <fsm+0xb2>
- 800215c:	703a      	strb	r2, [r7, #0]
- 800215e:	f89d 3003 	ldrb.w	r3, [sp, #3]
- 8002162:	2b00      	cmp	r3, #0
- 8002164:	bf0c      	ite	eq
- 8002166:	462b      	moveq	r3, r5
- 8002168:	4623      	movne	r3, r4
- 800216a:	7033      	strb	r3, [r6, #0]
- 800216c:	f000 ffe8 	bl	8003140 <get_game_over>
- 8002170:	4682      	mov	sl, r0
- 8002172:	f000 fffd 	bl	8003170 <get_win>
- 8002176:	bb28      	cbnz	r0, 80021c4 <fsm+0xa4>
- 8002178:	f1ba 0f00 	cmp.w	sl, #0
- 800217c:	d122      	bne.n	80021c4 <fsm+0xa4>
- 800217e:	f898 3000 	ldrb.w	r3, [r8]
- 8002182:	703d      	strb	r5, [r7, #0]
- 8002184:	fab3 f383 	clz	r3, r3
- 8002188:	095b      	lsrs	r3, r3, #5
- 800218a:	7035      	strb	r5, [r6, #0]
- 800218c:	f889 3000 	strb.w	r3, [r9]
- 8002190:	20fa      	movs	r0, #250	; 0xfa
- 8002192:	f008 fcfd 	bl	800ab90 <chThdSleep>
- 8002196:	f001 f95b 	bl	8003450 <get_avoid>
- 800219a:	f88d 0003 	strb.w	r0, [sp, #3]
- 800219e:	f000 ff6f 	bl	8003080 <get_left>
- 80021a2:	f898 3000 	ldrb.w	r3, [r8]
- 80021a6:	f88d 0002 	strb.w	r0, [sp, #2]
- 80021aa:	2b00      	cmp	r3, #0
- 80021ac:	d1d0      	bne.n	8002150 <fsm+0x30>
- 80021ae:	f889 5000 	strb.w	r5, [r9]
+ 800215a:	d139      	bne.n	80021d0 <fsm+0xb0>
+ 800215c:	f888 2000 	strb.w	r2, [r8]
+ 8002160:	f89d 3003 	ldrb.w	r3, [sp, #3]
+ 8002164:	2b00      	cmp	r3, #0
+ 8002166:	bf0c      	ite	eq
+ 8002168:	462b      	moveq	r3, r5
+ 800216a:	4623      	movne	r3, r4
+ 800216c:	703b      	strb	r3, [r7, #0]
+ 800216e:	f000 ffe7 	bl	8003140 <get_game_over>
+ 8002172:	4682      	mov	sl, r0
+ 8002174:	f000 fffc 	bl	8003170 <get_win>
+ 8002178:	bb18      	cbnz	r0, 80021c2 <fsm+0xa2>
+ 800217a:	f1ba 0f00 	cmp.w	sl, #0
+ 800217e:	d120      	bne.n	80021c2 <fsm+0xa2>
+ 8002180:	7833      	ldrb	r3, [r6, #0]
+ 8002182:	b123      	cbz	r3, 800218e <fsm+0x6e>
+ 8002184:	f889 a000 	strb.w	sl, [r9]
+ 8002188:	f888 5000 	strb.w	r5, [r8]
+ 800218c:	703d      	strb	r5, [r7, #0]
+ 800218e:	20fa      	movs	r0, #250	; 0xfa
+ 8002190:	f008 fcfe 	bl	800ab90 <chThdSleep>
+ 8002194:	f001 f95c 	bl	8003450 <get_avoid>
+ 8002198:	f88d 0003 	strb.w	r0, [sp, #3]
+ 800219c:	f000 ff70 	bl	8003080 <get_left>
+ 80021a0:	7833      	ldrb	r3, [r6, #0]
+ 80021a2:	f88d 0002 	strb.w	r0, [sp, #2]
+ 80021a6:	2b00      	cmp	r3, #0
+ 80021a8:	d1d2      	bne.n	8002150 <fsm+0x30>
+ 80021aa:	f889 5000 	strb.w	r5, [r9]
+ 80021ae:	f888 3000 	strb.w	r3, [r8]
  80021b2:	703b      	strb	r3, [r7, #0]
- 80021b4:	7033      	strb	r3, [r6, #0]
- 80021b6:	f000 ffc3 	bl	8003140 <get_game_over>
- 80021ba:	4682      	mov	sl, r0
- 80021bc:	f000 ffd8 	bl	8003170 <get_win>
- 80021c0:	2800      	cmp	r0, #0
- 80021c2:	d0d9      	beq.n	8002178 <fsm+0x58>
- 80021c4:	f888 4000 	strb.w	r4, [r8]
- 80021c8:	f889 5000 	strb.w	r5, [r9]
+ 80021b4:	f000 ffc4 	bl	8003140 <get_game_over>
+ 80021b8:	4682      	mov	sl, r0
+ 80021ba:	f000 ffd9 	bl	8003170 <get_win>
+ 80021be:	2800      	cmp	r0, #0
+ 80021c0:	d0db      	beq.n	800217a <fsm+0x5a>
+ 80021c2:	7034      	strb	r4, [r6, #0]
+ 80021c4:	f889 5000 	strb.w	r5, [r9]
+ 80021c8:	f888 4000 	strb.w	r4, [r8]
  80021cc:	703c      	strb	r4, [r7, #0]
- 80021ce:	7034      	strb	r4, [r6, #0]
- 80021d0:	e7de      	b.n	8002190 <fsm+0x70>
- 80021d2:	f889 4000 	strb.w	r4, [r9]
- 80021d6:	703d      	strb	r5, [r7, #0]
- 80021d8:	e7c1      	b.n	800215e <fsm+0x3e>
+ 80021ce:	e7de      	b.n	800218e <fsm+0x6e>
+ 80021d0:	f889 4000 	strb.w	r4, [r9]
+ 80021d4:	f888 5000 	strb.w	r5, [r8]
+ 80021d8:	e7c2      	b.n	8002160 <fsm+0x40>
  80021da:	bf00      	nop
  80021dc:	2000afe8 	.word	0x2000afe8
  80021e0:	20000b00 	.word	0x20000b00
  80021e4:	08018af0 	.word	0x08018af0
- 80021e8:	20000b04 	.word	0x20000b04
+ 80021e8:	200018a8 	.word	0x200018a8
  80021ec:	20000b24 	.word	0x20000b24
- 80021f0:	200018a8 	.word	0x200018a8
+ 80021f0:	20000b04 	.word	0x20000b04
  80021f4:	200018a9 	.word	0x200018a9
 	...
 
