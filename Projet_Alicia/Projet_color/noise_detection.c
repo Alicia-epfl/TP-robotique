@@ -9,13 +9,6 @@
 #include <noise_detection.h>
 #include <fft.h>
 #include <arm_math.h>
-#include <leds.h>
-
-#include <pi_regulator.h>
-#include "process_image.h"
-
-//pour avoir accès à la statique "avoid" qui "contrôle" l'état de run
-#include "proximity_detection.h"
 
 
 /*======================== Repris du TP5, en enlevant les analyses sur les micros inutilisés =====================*/
@@ -58,7 +51,6 @@ void sound_remote(float* data){
 
 	if(successive_freq_counter > MAX_MIC_INPUT_COUNTER) //si la fréquence choisie est détectée à répétition, effectue une commande
 	{
-		set_led(LED3, TOGGLE);
 		toggle_run();//fonction qui change la variable run dans le main
 		successive_freq_counter=0;
 	}

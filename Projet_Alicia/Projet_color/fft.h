@@ -1,3 +1,6 @@
+/**
+ * Fichier: fft.h :  venant du TP5, quelques fonctions enlevées par Alicia Mauroux
+ */
 #ifndef FFT_H
 #define FFT_H
 
