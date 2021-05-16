@@ -51,9 +51,10 @@ static THD_FUNCTION(Record, arg){
 	uint16_t measure=0, record_allowed=0;
 
 	while(1){
-/*L'idée ensuite c'est de faire une fonction qui récuoère les mesures dans pi et qui return 1 ou 0 directement pour ici!*/
+		//mesure de la distance à une paroie via ToF
 		measure = VL53L0X_get_dist_mm();//unité en [mm]
 
+		//vérification de si on fait le traitement d'image ou non
 		record_allowed = get_record_allowed_fsm();
 
 		if (measure<TOF_RECORD){
@@ -69,6 +70,8 @@ static THD_FUNCTION(Record, arg){
 		if((get_prox(IR1)>RECORD_THRES) || (get_prox(IR8)>RECORD_THRES)){
 					record = false;
 		}
+		//fin de la vérification
+
 		//sleep de 250 milisecondes
 		chThdSleepMilliseconds(250);
 	}
@@ -81,8 +84,8 @@ static THD_FUNCTION(CaptureImage, arg) {
     chRegSetThreadName(__FUNCTION__);
     (void)arg;
 
-	//Takes pixels 0 to IMAGE_BUFFER_SIZE of the line 10 + 11 (minimum 2 lines because reasons)
-	po8030_advanced_config(FORMAT_RGB565, 0, 100, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
+    //Prends les pixels de 0 à IMAGE_BUFFER_SIZE de la ligne ligne 200 + 201 (minimum 2 lignes)
+	po8030_advanced_config(FORMAT_RGB565, 0, 200, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
 	dcmi_enable_double_buffering();
 	dcmi_set_capture_mode(CAPTURE_ONE_SHOT);
 	dcmi_prepare();

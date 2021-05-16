@@ -4033,7 +4033,7 @@ Disassembly of section .text:
  8002f6e:	b086      	sub	sp, #24
  8002f70:	2302      	movs	r3, #2
  8002f72:	2520      	movs	r5, #32
- 8002f74:	2264      	movs	r2, #100	; 0x64
+ 8002f74:	22c8      	movs	r2, #200	; 0xc8
  8002f76:	2100      	movs	r1, #0
  8002f78:	9300      	str	r3, [sp, #0]
  8002f7a:	9605      	str	r6, [sp, #20]

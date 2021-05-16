@@ -1,3 +1,12 @@
+/**
+ * Fichier: process_image.h
+ * auteurs: TP4, modifié par Alicia Mauroux
+ *
+ * @brief
+ * Fichier qui gère la capture des images et leur traitement.
+ * Il indique également les couleurs perçues
+ */
+
 #ifndef PROCESS_IMAGE_H
 #define PROCESS_IMAGE_H
 
@@ -13,9 +22,5 @@ uint8_t get_blue(void);
 //fonctions de fin de parties
 uint8_t get_game_over(void);
 uint8_t get_win(void);
-
-
-
-
 
 #endif /* PROCESS_IMAGE_H */
