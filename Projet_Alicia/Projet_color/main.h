@@ -86,7 +86,6 @@ extern "C" {
 #define IR7						6//capteur IR7: avant diagonale gauche
 #define IR8						7//capteur IR8: avant gauche
 
-
 /** Robot bus. */
 extern messagebus_t bus;
 
