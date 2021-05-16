@@ -136,7 +136,7 @@ static THD_FUNCTION(Blinker, arg) {
 	  left=get_left();
 	  avoid = get_avoid();
 
-	  game_over = get_game_over();
+	  game_over = get_game_over() || get_game_over_proxi();
 	  win = get_win();
 
 /*variables permettant d'afficher sur les LEDs

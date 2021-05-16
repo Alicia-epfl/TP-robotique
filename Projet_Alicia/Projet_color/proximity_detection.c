@@ -25,6 +25,8 @@
 
 //besoin de lui pour la fonction de tourner
 #include "pi_regulator.h"
+//pour jouer la mélodie de game_over
+#include <audio/play_melody.h>
 
 
 
@@ -69,6 +71,8 @@ static THD_FUNCTION(Proximity, arg) {
 						if((get_prox(IR4)>IR_TRES_SIDE) || (get_prox(IR5)>IR_TRES_SIDE)){
 							//Le jeu est perdu --> game over
 							game_over = true;
+							avoid = false;
+							playMelody(UNDERWORLD, ML_SIMPLE_PLAY, NULL);
 						}
 						//OBSTACLE DEVANT + A DROITE + A GAUCHE
 						else{
