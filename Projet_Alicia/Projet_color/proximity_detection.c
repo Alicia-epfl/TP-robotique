@@ -68,7 +68,7 @@ static THD_FUNCTION(Proximity, arg) {
 					if(get_prox(IR6)>IR_TRES_SIDE){
 
 				//OBSTACLE PARTOUT --> ENCERCLE
-						if((get_prox(IR4)>IR_THRESHOLD) || (get_prox(IR5)>IR_THRESHOLD)){
+						if((get_prox(IR4)>IR_THRESHOLD_BACK) || (get_prox(IR5)>IR_THRESHOLD_BACK)){
 							//Le jeu est perdu --> game over
 							game_over = true;
 							avoid = false;
@@ -81,6 +81,7 @@ static THD_FUNCTION(Proximity, arg) {
 						else{
 							//effectue un demi-tour
 							turn(PI);
+							chThdSleepMilliseconds(10);
 							avoid = false;
 						}
 

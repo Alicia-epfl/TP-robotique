@@ -21,6 +21,8 @@
 #include <chprintf.h>
 #include <spi_comm.h>
 #include <audio/audio_thread.h>
+#include <communications.h>
+
 
 #include "main.h"
 
@@ -338,14 +340,12 @@ int main(void)
     dac_start();
     //enclenche la connection SPI pour pouvoir utiliser les LEDS RGB
     	spi_comm_start();
-    //Démarre la camera
-    dcmi_start();
-	po8030_start();
-
 	/*Démarre les capteurs IR*/
 	proximity_start();
 	calibrate_ir();
-
+	//Démarre la camera
+	 dcmi_start();
+	po8030_start();
 	//initialise les moteurs
 	motors_init();
 

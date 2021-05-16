@@ -17,6 +17,7 @@
 
 #include <camera/po8030.h>
 #include <motors.h>
+#include <leds.h>
 
 
 //pour activer/désactiver le traitement d'image
@@ -26,6 +27,8 @@
 #include "pi_regulator.h"
 //pour jouer la mélodie
 #include <audio/play_melody.h>
+//pour avoid
+#include "proximity_detection.h"
 
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
@@ -56,6 +59,7 @@ static THD_FUNCTION(Record, arg){
     (void)arg;
 
 	uint16_t measure=0, record_allowed=0;
+	uint8_t avoid = 0;
 
 	while(1){
 		//mesure de la distance à une paroie via ToF
@@ -71,6 +75,10 @@ static THD_FUNCTION(Record, arg){
 		}
 		//vérifier que le record est autorisé par la fsm
 		if(!record_allowed){
+			record = false;
+		}
+		avoid = get_avoid();
+		if(avoid){
 			record = false;
 		}
 		//protection pour éviter que le robot détecte du bleu en même temps qu'il veuille éviter un obstacle
@@ -91,8 +99,8 @@ static THD_FUNCTION(CaptureImage, arg) {
     chRegSetThreadName(__FUNCTION__);
     (void)arg;
 
-    //Prends les pixels de 0 à IMAGE_BUFFER_SIZE de la ligne ligne 150 + 151 (minimum 2 lignes)
-	po8030_advanced_config(FORMAT_RGB565, 0, 150, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
+    //Prends les pixels de 0 à IMAGE_BUFFER_SIZE de la ligne ligne 100 + 101 (minimum 2 lignes)
+	po8030_advanced_config(FORMAT_RGB565, 0, 100, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
 	dcmi_enable_double_buffering();
 	dcmi_set_capture_mode(CAPTURE_ONE_SHOT);
 	dcmi_prepare();
@@ -181,7 +189,8 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 			/*RED
 			 * Game Over*/
-			}else if((mean_red_filtered >FACT_R_B*mean_blue_filtered) && (mean_red_filtered > FACT_R_G*mean_green_filtered)){
+			}
+ 			if((mean_red_filtered > FACT_R_G	*mean_blue_filtered) && (mean_red_filtered > FACT_R_B*mean_green_filtered)){
 				playMelody(MARIO_DEATH, ML_SIMPLE_PLAY, NULL);
 				game_over = true;
 				//attendre 20 secondes avant de relancer une partie
@@ -190,7 +199,8 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 			/*GREEN
 			 * Gagnée*/
-			}else if((mean_green_filtered > FACT_G_B*mean_blue_filtered) && (mean_green_filtered > FACT_G_R*mean_red_filtered)){
+			}
+ 			if((mean_green_filtered > FACT_G_B*mean_blue_filtered) && (mean_green_filtered > FACT_G_R*mean_red_filtered)){
 				playMelody(SEVEN_NATION_ARMY, ML_SIMPLE_PLAY, NULL);
 				win = true;
 				//attendre 20 secondes avant de relancer une partie
