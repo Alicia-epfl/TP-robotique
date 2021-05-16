@@ -19,6 +19,8 @@
 #include <motors.h>
 #include <camera/po8030.h>
 #include <chprintf.h>
+#include <spi_comm.h>
+#include <audio/audio_thread.h>
 
 #include "main.h"
 

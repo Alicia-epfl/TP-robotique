@@ -31,7 +31,7 @@ static BSEMAPHORE_DECL(image_ready_sem, TRUE);
 
 //commande de la caméra et du quart de tour pour le bleu
 static uint8_t record = true;
-static uint8_t left=true;
+static uint8_t left=true;//si left true --> ne tourne pas, si left false --> tourne
 
 //variables pour afficher sur les leds la couleur que le robot a détecté sur la caméra
 static uint8_t red_rgb=false;
@@ -45,7 +45,9 @@ static uint8_t win = false;
 //===================
 //=====THREADS======
 
-/*Thread CHECKER LA CAMERA*/
+//@brief
+//Thread qui gère les conditions pour vérifier si on active/désactive
+//le traitement d'image
 static THD_WORKING_AREA(waRecord, 128);
 static THD_FUNCTION(Record, arg){
 	uint16_t measure=0, record_allowed=0;
@@ -92,50 +94,50 @@ static THD_FUNCTION(CaptureImage, arg) {
 
 
     while(1){
-//    		if(record){
-			//starts a capture
+			//démarre une capture
 			dcmi_capture_start();
-			//waits for the capture to be done
+			//attends que la capture soit faite
 			wait_image_ready();
-			//signals an image has been captured
+			//signale que l'image a été capturée
 			chBSemSignal(&image_ready_sem);
-//		}
     }
 }
 
-
-
-static THD_WORKING_AREA(waProcessImage, 1024);
+//@brief
+//Thread de traitement d'image
+static THD_WORKING_AREA(waProcessImage, 1024); //une taille de 512 nous semblait limite alors on a pris une marge supplémentaire
 static THD_FUNCTION(ProcessImage, arg) {
 
     chRegSetThreadName(__FUNCTION__);
     (void)arg;
 
 	uint8_t *img_buff_ptr;
-	uint16_t mean_red = 0, mean_blue=0, mean_green=0;// mean_red_old=0;
-	uint16_t mean_red_filtered = 0, mean_blue_filtered=0, mean_green_filtered=0;
 	uint8_t red_image = 0, green_image=0, blue_image=0;
+	//moyenne des pixels de l'image
+	uint16_t mean_red = 0, mean_blue=0, mean_green=0;
+	//moyennes filtrèes par un filtre passe-bas
+	uint16_t mean_red_filtered = 0, mean_blue_filtered=0, mean_green_filtered=0;
 
-	/*Méthode "RGB"*/
     while(1){
 
-			//waits until an image has been captured
+			//attend jusqu'à ce qu'un image soit capturée
 			chBSemWait(&image_ready_sem);
-			//gets the pointer to the array filled with the last image in RGB565
 			img_buff_ptr = dcmi_get_last_image_ptr();
+
+			//reset les valeurs moyennes
 			mean_red = 0;
 			mean_blue=0;
 			mean_green=0;
 
 		if(record){
 			//insertion de l'image capturée dans le tableau "image"
-			for(uint16_t i = 0 ; i < (2*IMAGE_BUFFER_SIZE) ; i+=4){// +4 pour essayer de prendre moins de pixels pour éviter un dépassement mais aucun effet
+			// +4 pour essayer de prendre moins de pixels et ainsi éviter un dépassement
+			for(uint16_t i = 0 ; i < (2*IMAGE_BUFFER_SIZE) ; i+=4){
+
 				//séparation des couleurs
 				red_image = ((uint8_t)img_buff_ptr[i]&0xF8)>>3;
 				green_image = (((uint8_t)img_buff_ptr[i]&0x07)<<3) | (((uint8_t)img_buff_ptr[i+1]&0xE0)>>5);
 				blue_image = ((uint8_t)img_buff_ptr[i+1]&0x1F);
-
-	//			chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", red_image, green_image, blue_image);
 
 				//moyennes
 				mean_red += red_image;
@@ -146,26 +148,22 @@ static THD_FUNCTION(ProcessImage, arg) {
 			mean_green /= (IMAGE_BUFFER_SIZE);
 			mean_blue /= (IMAGE_BUFFER_SIZE/2);
 
-
-	//		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, R_old=%3d\r\n", mean_red, mean_red_old);
-
 			/*Filtre passe-bas*/
 			mean_red_filtered = 0.5*mean_red+0.5*mean_red_filtered;
 			mean_green_filtered = 0.5*mean_green+0.5*mean_green_filtered;
 			mean_blue_filtered = 0.5*mean_blue+0.5*mean_blue_filtered;
 
-//			chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n", mean_red_filtered, mean_green_filtered, mean_blue_filtered);//valeurs RGB moyennes
-
 
 			/*BLUE
 			 * Tourner à gauche*/
 			if((mean_blue_filtered > FACT_B_R*mean_red_filtered) && (mean_blue_filtered > FACT_B_G*mean_green_filtered) && (mean_blue_filtered > TRES_BLUE)){
+
 				/*Pour afficher ce qu'il voit comme couleur*/
 				red_rgb=0.8*mean_red_filtered;
 
 				/*Pour éclaircir un peu le bleu des LEDs*/
-				if(1.2*mean_green_filtered<63){
-					green_rgb=1.2*mean_green_filtered;
+				if(LIGHT_BLUE_FACT*mean_green_filtered < GREEN_TRES){
+					green_rgb=LIGHT_BLUE_FACT*mean_green_filtered;
 				}else{
 					green_rgb=mean_green_filtered;
 				}
@@ -180,7 +178,8 @@ static THD_FUNCTION(ProcessImage, arg) {
 			 * Game Over*/
 			}else if((mean_red_filtered >FACT_R_B*mean_blue_filtered) && (mean_red_filtered > FACT_R_G*mean_green_filtered)){
 				playMelody(MARIO_DEATH, ML_SIMPLE_PLAY, NULL);
-								game_over = true;
+				game_over = true;
+
 			/*GREEN
 			 * Gagnée*/
 			}else if((mean_green_filtered > FACT_G_B*mean_blue_filtered) && (mean_green_filtered > FACT_G_R*mean_red_filtered)){
@@ -188,11 +187,14 @@ static THD_FUNCTION(ProcessImage, arg) {
 				win = true;
 			}//color
     		}//record
+		//sleep pendant 250 millisecondes
 		chThdSleepMilliseconds(250);
     }//while
 }//thread
 
 
+//@brief
+//démarre les thread de process_image
 void process_image_start(void){
 	chThdCreateStatic(waProcessImage, sizeof(waProcessImage), NORMALPRIO, ProcessImage, NULL);
 	chThdCreateStatic(waCaptureImage, sizeof(waCaptureImage), NORMALPRIO, CaptureImage, NULL);
@@ -200,24 +202,27 @@ void process_image_start(void){
 	chThdCreateStatic(waRecord, sizeof(waRecord),NORMALPRIO+1, Record, NULL);
 }
 
-//Si left = false --> tourne à droite, tout le monde s'arrête
-uint8_t get_left(void){
+//@brief
+//fonctions qui retournent les valeurs définies pour passer les information en évitant
+//des variables globales
 
+//Si left = false --> tourne à gauche
+//si left = true --> tout fonctionne normalement
+uint8_t get_left(void){
 	return left;
 }
+
 //fonctions pour transmettre les couleurs à afficher sur les leds RGB
 uint8_t get_red(void){
-
 	return red_rgb;
 }
 uint8_t get_green(void){
-
 	return green_rgb;
 }
 uint8_t get_blue(void){
-
 	return blue_rgb;
 }
+
 //fonction qui indique si on utilise la caméra
 uint8_t get_record(void){
 	return record;

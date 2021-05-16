@@ -69,6 +69,8 @@ extern "C" {
 #define GREEN					63
 #define RED						31
 #define NO_COL					0//pas de cette composante de couleur
+#define 	GREEN_TRES				63
+#define LIGHT_BLUE_FACT			1.2
 //PROXIMITY
 #define IR_THRESHOLD				700// Distance à laquelle les capteurs IR détectent un obstacle
 #define IR_TRES_SIDE				100//capteurs sur les côté pour voir un peu plus loin qu'ils vont être bloqués

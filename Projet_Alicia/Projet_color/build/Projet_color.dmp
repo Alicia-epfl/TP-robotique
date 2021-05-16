@@ -56,21 +56,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  17 .comment      0000015e  00000000  00000000  000318c9  2**0
                   CONTENTS, READONLY
- 18 .debug_info   0012e2f4  00000000  00000000  00031a27  2**0
+ 18 .debug_info   0012e2bb  00000000  00000000  00031a27  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .debug_abbrev 00013f8b  00000000  00000000  0015fd1b  2**0
+ 19 .debug_abbrev 00013f73  00000000  00000000  0015fce2  2**0
                   CONTENTS, READONLY, DEBUGGING
- 20 .debug_loc    00024fd3  00000000  00000000  00173ca6  2**0
+ 20 .debug_loc    00024fd3  00000000  00000000  00173c55  2**0
                   CONTENTS, READONLY, DEBUGGING
- 21 .debug_aranges 00002540  00000000  00000000  00198c80  2**3
+ 21 .debug_aranges 00002540  00000000  00000000  00198c28  2**3
                   CONTENTS, READONLY, DEBUGGING
- 22 .debug_ranges 00004c78  00000000  00000000  0019b1c0  2**0
+ 22 .debug_ranges 00004c78  00000000  00000000  0019b168  2**0
                   CONTENTS, READONLY, DEBUGGING
- 23 .debug_line   0003633a  00000000  00000000  0019fe38  2**0
+ 23 .debug_line   00036357  00000000  00000000  0019fde0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 24 .debug_str    0000ce3f  00000000  00000000  001d6172  2**0
+ 24 .debug_str    0000ce3f  00000000  00000000  001d6137  2**0
                   CONTENTS, READONLY, DEBUGGING
- 25 .debug_frame  0000aea4  00000000  00000000  001e2fb4  2**2
+ 25 .debug_frame  0000aea4  00000000  00000000  001e2f78  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -139,9 +139,9 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 20001b28 l     O .bss	00000278 wafsm
 20000b04 l     O .data	00000001 avoid_allowed
 20000b24 l     O .data	00000001 record_allowed
-20000b28 l     O .data	0000000c ser_cfg.13588
-08018af0 l     O .text	00000004 __FUNCTION__.13562
-08018b00 l     O .text	00000008 __FUNCTION__.13572
+20000b28 l     O .data	0000000c ser_cfg.13611
+08018af0 l     O .text	00000004 __FUNCTION__.13585
+08018b00 l     O .text	00000008 __FUNCTION__.13595
 00000000 l    df *ABS*	00000000 pi_regulator.c
 08002900 l     F .text	000001c0 PiRegulator
 20001da0 l     O .bss	00000004 sum_error
@@ -149,7 +149,7 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 20001da8 l     O .bss	00000004 sum_error_diag
 20001dac l     O .bss	00000004 sum_error_rot
 20001db0 l     O .bss	00000378 waPiRegulator
-08018b30 l     O .text	0000000c __FUNCTION__.13444
+08018b30 l     O .text	0000000c __FUNCTION__.13446
 08018b40 l     O .text	0000000c __func__.7153
 00000000 l    df *ABS*	00000000 process_image.c
 08002ce0 l     F .text	00000058 Record
@@ -166,14 +166,14 @@ e000ed04 l       *ABS*	00000000 SCB_ICSR
 20000b34 l     O .data	0000000c image_ready_sem
 20000b40 l     O .data	00000001 left
 20000b41 l     O .data	00000001 record
-08018b50 l     O .text	0000000d __FUNCTION__.12955
-08018b60 l     O .text	0000000d __FUNCTION__.12961
+08018b50 l     O .text	0000000d __FUNCTION__.12957
+08018b60 l     O .text	0000000d __FUNCTION__.12963
 08018b70 l     O .text	0000000c __func__.7153
 00000000 l    df *ABS*	00000000 fft.c
 00000000 l    df *ABS*	00000000 noise_detection.c
 20002b1c l     O .bss	00002000 micLeft_cmplx_input
 20004b1c l     O .bss	00001000 micLeft_output
-20005b1c l     O .bss	00000002 nb_samples.14235
+20005b1c l     O .bss	00000002 nb_samples.14237
 20005b1e l     O .bss	00000001 successive_freq_counter
 00000000 l    df *ABS*	00000000 proximity_detection.c
 08003350 l     F .text	000000c0 Proximity
