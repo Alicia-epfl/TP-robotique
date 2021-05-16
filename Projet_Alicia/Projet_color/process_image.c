@@ -51,6 +51,10 @@ static uint8_t win = false;
 //le traitement d'image
 static THD_WORKING_AREA(waRecord, 128);
 static THD_FUNCTION(Record, arg){
+
+    chRegSetThreadName(__FUNCTION__);
+    (void)arg;
+
 	uint16_t measure=0, record_allowed=0;
 
 	while(1){
