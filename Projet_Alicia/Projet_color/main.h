@@ -27,7 +27,7 @@ extern "C" {
 #define MID_SPEED				200//moyenne
 //CAMERA
 #define IMAGE_BUFFER_SIZE		640
-#define FACT_R_G					2.25//facteur de couleur entre le rouge et le vert
+#define FACT_R_G					2//facteur de couleur entre le rouge et le vert
 #define FACT_R_B					1.5//facteur de couleur entre le rouge et le bleu			FACTEURS DE COULEURS
 #define FACT_G_R					1.6//facteur de couleur entre le vert et le rouge			POUR DETERMINER LA COULEUR
 #define FACT_G_B					1//facteur de couleur entre le vert et le bleu			QUE VOIT LA CAMERA EN FACE

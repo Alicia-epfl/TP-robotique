@@ -18,9 +18,6 @@ void process_image_start(void);
 //fonctions qui retournent les valeurs définies pour passer les information en évitant
 //des variables globales
 
-//fonction pour indiquer si la caméra est active
-uint8_t get_record(void);
-
 /*Fonction pour vérifier si le robot est en train de tourner à gauche*/
 //Si left = false --> tourne à gauche
 //si left = true --> tout fonctionne normalement

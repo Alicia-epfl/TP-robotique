@@ -223,11 +223,6 @@ uint8_t get_blue(void){
 	return blue_rgb;
 }
 
-//fonction qui indique si on utilise la caméra
-uint8_t get_record(void){
-	return record;
-}
-
 //fonctions qui indiquent la fin de la partie
 uint8_t get_game_over(void){
 	return game_over;

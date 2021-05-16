@@ -1,8 +1,11 @@
-/*
- * proximity_detection.h
+
+/**
+ * Fichier: proximity_detection.h
+ * auteurs: Nicolas Nouel et Alicia Mauroux
+ * Created on: Apr 29, 2021
  *
- *  Created on: Apr 29, 2021
- *      Author: Nico
+ * @brief
+ * Ce fichier gère l'évitement d'obstacle
  */
 
 #ifndef PROXIMITY_DETECTION_H_

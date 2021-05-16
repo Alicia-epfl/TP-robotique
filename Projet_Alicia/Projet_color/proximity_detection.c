@@ -1,3 +1,13 @@
+/**
+ * Fichier: proximity_detection.c
+ * auteurs: Nicolas Nouel et Alicia Mauroux
+ * Created on: Apr 29, 2021
+ *
+ * @brief
+ * Ce fichier gère l'évitement d'obstacle
+ */
+
+
 #include <stdio.h>
 #include <string.h>
 #include "ch.h"
@@ -5,18 +15,17 @@
 #include <usbcfg.h>
 #include <chprintf.h>
 
-#include <main.h>
-#include <proximity_detection.h>
+#include "main.h"
+#include "proximity_detection.h"
 
 #include <sensors/proximity.h>
 #include <msgbus/messagebus.h>
-//besoin de lui pour avoir accès au run
-#include "noise_detection.h"
+#include <motors.h>
+
 //besoin de lui pour la fonction de tourner
 #include "pi_regulator.h"
 
-#include <leds.h>
-#include <motors.h>
+
 
 //static pour indiquer si on est en train d'éviter un obstacle --> si oui on met le "run" en pause dans le pi
 static uint8_t avoid = false;
@@ -25,7 +34,7 @@ static uint8_t game_over = false;
  * THREADS
  */
 /*Thread pour proximity*/
-static THD_WORKING_AREA(waProximity, 1024);
+static THD_WORKING_AREA(waProximity, 256);
 static THD_FUNCTION(Proximity, arg) {
 
 	 chRegSetThreadName(__FUNCTION__);
