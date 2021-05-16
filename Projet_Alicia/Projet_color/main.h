@@ -44,8 +44,8 @@ extern "C" {
 //PI rotation
 #define ERROR_THRE_ROT			40// nb de steps pour π/16 radians
 //PI alignment
-#define ERROR_THRE_AL			50//seuil de différence entre les capteurs IR de côt
-#define ROT_COEF					0.5
+#define ERROR_THRE_AL			50//seuil de différence entre les capteurs IR de côté
+#define ROT_COEF					0.5//coefficient de combien influence la vitesse d'alignement sur la vitesse courante
 #define KP_AL					2
 #define KI_AL					0.1
 //PI diagonales
@@ -85,7 +85,7 @@ extern "C" {
 #define IR8						7//capteur IR8: avant gauche
 
 
-/** Robot wide IPC bus. */
+/** Robot bus. */
 extern messagebus_t bus;
 
 extern parameter_namespace_t parameter_root;
