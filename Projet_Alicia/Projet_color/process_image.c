@@ -180,12 +180,18 @@ static THD_FUNCTION(ProcessImage, arg) {
 			}else if((mean_red_filtered >FACT_R_B*mean_blue_filtered) && (mean_red_filtered > FACT_R_G*mean_green_filtered)){
 				playMelody(MARIO_DEATH, ML_SIMPLE_PLAY, NULL);
 				game_over = true;
+				//attendre 20 secondes avant de relancer une partie
+				chThdSleepMilliseconds(20000);
+				game_over = false;
 
 			/*GREEN
 			 * Gagnée*/
 			}else if((mean_green_filtered > FACT_G_B*mean_blue_filtered) && (mean_green_filtered > FACT_G_R*mean_red_filtered)){
 				playMelody(SEVEN_NATION_ARMY, ML_SIMPLE_PLAY, NULL);
 				win = true;
+				//attendre 20 secondes avant de relancer une partie
+				chThdSleepMilliseconds(20000);
+				win = false;
 			}//color
     		}//record
 		//sleep pendant 250 millisecondes

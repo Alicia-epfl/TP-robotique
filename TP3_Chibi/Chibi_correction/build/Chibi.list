@@ -8360,11 +8360,11 @@ Disassembly of section .text:
  8005a4a:	f7fc ff99 	bl	8002980 <gptStartContinuous>
  8005a4e:	2400      	movs	r4, #0
  8005a50:	f7ff fd76 	bl	8005540 <i2c_start>
- 8005a54:	f000 fa5c 	bl	8005f10 <imu_start>
- 8005a58:	4a4e      	ldr	r2, [pc, #312]	; (8005b94 <main+0x174>)
- 8005a5a:	494f      	ldr	r1, [pc, #316]	; (8005b98 <main+0x178>)
- 8005a5c:	484f      	ldr	r0, [pc, #316]	; (8005b9c <main+0x17c>)
- 8005a5e:	f7ff fcaf 	bl	80053c0 <messagebus_init>
+ 8005a54:	4a4f      	ldr	r2, [pc, #316]	; (8005b94 <main+0x174>)
+ 8005a56:	4950      	ldr	r1, [pc, #320]	; (8005b98 <main+0x178>)
+ 8005a58:	4850      	ldr	r0, [pc, #320]	; (8005b9c <main+0x17c>)
+ 8005a5a:	f7ff fcb1 	bl	80053c0 <messagebus_init>
+ 8005a5e:	f000 fa57 	bl	8005f10 <imu_start>
  8005a62:	9400      	str	r4, [sp, #0]
  8005a64:	4b4e      	ldr	r3, [pc, #312]	; (8005ba0 <main+0x180>)
  8005a66:	484f      	ldr	r0, [pc, #316]	; (8005ba4 <main+0x184>)

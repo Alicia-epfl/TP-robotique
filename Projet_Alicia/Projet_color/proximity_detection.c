@@ -73,6 +73,9 @@ static THD_FUNCTION(Proximity, arg) {
 							game_over = true;
 							avoid = false;
 							playMelody(UNDERWORLD, ML_SIMPLE_PLAY, NULL);
+							//attendre 20 secondes avant de relancer une partie
+							chThdSleepMilliseconds(20000);
+							game_over = false;
 						}
 						//OBSTACLE DEVANT + A DROITE + A GAUCHE
 						else{

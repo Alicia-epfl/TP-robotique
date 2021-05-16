@@ -103,6 +103,12 @@ uint8_t get_record_allowed_fsm(void);
 uint8_t get_avoid_allowed_fsm(void);
 uint8_t get_sound_allowed_fsm(void);
 
+/*@brief
+ * Fonction d'animation pour le restart
+ * Placée ici pour garder l'organisation "thread" avant les "fonctions"
+ * dans le main*/
+void reReadyAnimation(void);
+
 // @brief
 /* fonction de la gestion de run
  *

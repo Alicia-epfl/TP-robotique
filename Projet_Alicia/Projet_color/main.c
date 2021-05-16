@@ -110,6 +110,10 @@ uint8_t game_over = 0, win = 0;
 		  stop=true;
 		  avoid_allowed = false;
 		  record_allowed = false;
+		  //attendre 20 secondes avant de "restart"
+		 //1 seconde avant d'actionner les leds de "restart"
+		  chThdSleepMilliseconds(17000);
+		  reReadyAnimation();
 
 	  }else if(run){
 		  stop = !run;
@@ -262,6 +266,40 @@ void readyAnimation(void) {
 	chThdSleepMilliseconds(500);
 	set_body_led(OFF);
 }
+
+// @brief
+/*Sequence d'animation du redémarrage d'une partie
+ * Animation qui prend au moins 3 secondes*/
+void reReadyAnimation(void){
+//comptabilise un total de 3 secondes
+	set_body_led(ON);
+	chThdSleepMilliseconds(600);
+	set_led(LED1, ON);
+	chThdSleepMilliseconds(600);
+	set_led(LED3, ON);
+	chThdSleepMilliseconds(600);
+	set_led(LED5, ON);
+	chThdSleepMilliseconds(600);
+	set_led(LED7, ON);
+	chThdSleepMilliseconds(400);
+	set_led(LED1, OFF);
+	set_led(LED3, OFF);
+	set_led(LED5, OFF);
+	set_led(LED7, OFF);
+	chThdSleepMilliseconds(100);
+	set_led(LED1, ON);
+	set_led(LED3, ON);
+	set_led(LED5, ON);
+	set_led(LED7, ON);
+	//ready!
+	chThdSleepMilliseconds(100);
+	set_led(LED1, OFF);
+	set_led(LED3, OFF);
+	set_led(LED5, OFF);
+	set_led(LED7, OFF);
+	set_body_led(OFF);
+}
+
 // @brief
 /*fonctions qui renvoient aux fichiers.c les valeurs dictées par la fsm
  * Permet le contrôle des différents segments*/
