@@ -27,9 +27,9 @@ extern "C" {
 #define MID_SPEED				200//moyenne
 //CAMERA
 #define IMAGE_BUFFER_SIZE		640
-#define FACT_R_G					2//facteur de couleur entre le rouge et le vert
+#define FACT_R_G					1.5//facteur de couleur entre le rouge et le vert
 #define FACT_R_B					1.5//facteur de couleur entre le rouge et le bleu			FACTEURS DE COULEURS
-#define FACT_G_R					1.5//facteur de couleur entre le vert et le rouge			POUR DETERMINER LA COULEUR
+#define FACT_G_R					1.3//facteur de couleur entre le vert et le rouge			POUR DETERMINER LA COULEUR
 #define FACT_G_B					1//facteur de couleur entre le vert et le bleu			QUE VOIT LA CAMERA EN FACE
 #define FACT_B_G					1//facteur de couleur entre le bleu et le vert			D'UNE CARTE
 #define FACT_B_R					1.3//facteur de couleur entre le bleu et le rouge
@@ -74,7 +74,7 @@ extern "C" {
 //PROXIMITY
 #define IR_THRESHOLD				700// Distance à laquelle les capteurs IR détectent un obstacle
 #define IR_TRES_SIDE				100//capteurs sur les côté pour voir un peu plus loin qu'ils vont être bloqués
-#define RECORD_THRES				300 //threshold des capteurs IR pour demander à la caméra d'arrêter de checker du bleu car trop proche
+#define RECORD_THRES				400 //threshold des capteurs IR pour demander à la caméra d'arrêter de checker les couleurs car trop proche
 #define TOF_RECORD				100//[mm]distance du Time-of-Flight pour activer la détection des couleurs
 //CAPTEURS IR --> numérotation
 #define IR1						0//capteur IR1: avant droite
