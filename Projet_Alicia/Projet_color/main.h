@@ -35,10 +35,10 @@ extern "C" {
 #define FACT_B_R					1.6//facteur de couleur entre le bleu et le rouge
 #define TRES_BLUE				7//seuil nécessaire pour que ça soit du bleu (car très proche du vert)
 //PI
-#define GOAL_DISTANCE 			5//[mm] Distance d'un objet à laquelle la vitesse va approcher zéro
+#define GOAL_DISTANCE 			1//[mm] Distance d'un objet à laquelle la vitesse va approcher zéro
 #define MAX_DISTANCE 			150//[mm]
 #define ERROR_THRESHOLD			5	//[mm]
-#define KP						3
+#define KP						4
 #define KI 						0.1	//ne doit pas être à zéro
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
 //PI rotation

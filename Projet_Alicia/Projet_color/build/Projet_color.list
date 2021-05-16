@@ -3256,7 +3256,7 @@ Disassembly of section .text:
 
 08002630 <pi_regulator>:
  8002630:	b500      	push	{lr}
- 8002632:	3805      	subs	r0, #5
+ 8002632:	3801      	subs	r0, #1
  8002634:	ee07 0a90 	vmov	s15, r0
  8002638:	eeb8 7ae7 	vcvt.f32.s32	s14, s15
  800263c:	4b2c      	ldr	r3, [pc, #176]	; (80026f0 <pi_regulator+0xc0>)
@@ -3278,7 +3278,7 @@ Disassembly of section .text:
  8002670:	dd1d      	ble.n	80026ae <pi_regulator+0x7e>
  8002672:	eddf 7a22 	vldr	s15, [pc, #136]	; 80026fc <pi_regulator+0xcc>
  8002676:	edc2 6a00 	vstr	s13, [r2]
- 800267a:	eef0 6a08 	vmov.f32	s13, #8	; 0x40400000  3.0
+ 800267a:	eef1 6a00 	vmov.f32	s13, #16	; 0x40800000  4.0
  800267e:	eee7 7a26 	vfma.f32	s15, s14, s13
  8002682:	ed9f 7a1f 	vldr	s14, [pc, #124]	; 8002700 <pi_regulator+0xd0>
  8002686:	eef4 7ac7 	vcmpe.f32	s15, s14
@@ -3426,7 +3426,7 @@ Disassembly of section .text:
  8002850:	4a24      	ldr	r2, [pc, #144]	; (80028e4 <pi_diagonal+0xd4>)
  8002852:	eddf 7a25 	vldr	s15, [pc, #148]	; 80028e8 <pi_diagonal+0xd8>
  8002856:	edc2 6a00 	vstr	s13, [r2]
- 800285a:	eef0 6a08 	vmov.f32	s13, #8	; 0x40400000  3.0
+ 800285a:	eef1 6a00 	vmov.f32	s13, #16	; 0x40800000  4.0
  800285e:	eee7 7a26 	vfma.f32	s15, s14, s13
  8002862:	ed9f 7a22 	vldr	s14, [pc, #136]	; 80028ec <pi_diagonal+0xdc>
  8002866:	eef4 7ac7 	vcmpe.f32	s15, s14
@@ -3665,7 +3665,7 @@ Disassembly of section .text:
  8002b1e:	dd17      	ble.n	8002b50 <pi_rotator+0x90>
  8002b20:	eddf 7a1d 	vldr	s15, [pc, #116]	; 8002b98 <pi_rotator+0xd8>
  8002b24:	edc3 6a00 	vstr	s13, [r3]
- 8002b28:	eef0 6a08 	vmov.f32	s13, #8	; 0x40400000  3.0
+ 8002b28:	eef1 6a00 	vmov.f32	s13, #16	; 0x40800000  4.0
  8002b2c:	eee7 7a26 	vfma.f32	s15, s14, s13
  8002b30:	ed9f 7a1a 	vldr	s14, [pc, #104]	; 8002b9c <pi_rotator+0xdc>
  8002b34:	eef4 7ac7 	vcmpe.f32	s15, s14
