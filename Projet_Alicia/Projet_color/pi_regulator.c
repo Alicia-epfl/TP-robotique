@@ -219,8 +219,11 @@ static THD_FUNCTION(PiRegulator, arg) {
 					//mesure de la distance à un obstacle pour réguler la vitesse grâce au PI
 				measure	= VL53L0X_get_dist_mm();
 //				chprintf((BaseSequentialStream *)&SDU1, "measure=%3d\r", measure);
-				speed = pi_regulator(measure);
-
+				if(measure < MAX_DISTANCE){
+					speed = pi_regulator(measure);
+				}else{
+					speed = MAX_SPEED;
+				}
 				//dans le cas où le robot détecte un mur des 2 côtés --> il s'aligne
 				if((get_prox(IR3)>IR_TRES_SIDE) && (get_prox(IR6)>IR_TRES_SIDE)){
 

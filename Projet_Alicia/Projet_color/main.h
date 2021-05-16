@@ -20,7 +20,7 @@ extern "C" {
 
 
 //constantes pour les différents segments du projet
-#define PI					3.14f// f pour float
+#define PI						3.14f// f pour float
 #define NO_SPEED					0// minimale
 #define MAX_SPEED				900//maximale (par rapport à ce que l'on souhaite pour le labyrinthe)
 #define HIGH_SPEED				400 //haute
@@ -28,15 +28,15 @@ extern "C" {
 //CAMERA
 #define IMAGE_BUFFER_SIZE		640
 #define FACT_R_G					2.25//facteur de couleur entre le rouge et le vert
-#define FACT_R_B					1.5//facteur de couleur entre le rouge et le bleu
-#define FACT_G_R					1.6//facteur de couleur entre le vert et le rouge
-#define FACT_G_B					1//facteur de couleur entre le vert et le bleu
-#define FACT_B_G					1//facteur de couleur entre le bleu et le vert
+#define FACT_R_B					1.5//facteur de couleur entre le rouge et le bleu			FACTEURS DE COULEURS
+#define FACT_G_R					1.6//facteur de couleur entre le vert et le rouge			POUR DETERMINER LA COULEUR
+#define FACT_G_B					1//facteur de couleur entre le vert et le bleu			QUE VOIT LA CAMERA EN FACE
+#define FACT_B_G					1//facteur de couleur entre le bleu et le vert			D'UNE CARTE
 #define FACT_B_R					1.6//facteur de couleur entre le bleu et le rouge
 #define TRES_BLUE				7//seuil nécessaire pour que ça soit du bleu (car très proche du vert)
 //PI
 #define GOAL_DISTANCE 			5//[mm] Distance d'un objet à laquelle la vitesse va approcher zéro
-#define MAX_DISTANCE 			25//ATTENTION JE L UTILISE PAS ACTUELLEMENT!!!!!!!
+#define MAX_DISTANCE 			150//[mm]
 #define ERROR_THRESHOLD			5	//[mm]
 #define KP						3
 #define KI 						0.1	//ne doit pas être à zéro

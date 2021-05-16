@@ -143,30 +143,35 @@ static THD_FUNCTION(Blinker, arg) {
 	  green_rgb=get_green();
 	  blue_rgb=get_blue();
 
+	  //tourne à gauche --> le bleu que voit le robot
 	  if(!left){
 		  set_rgb_led(LED6, red_rgb, green_rgb, blue_rgb);
 		  set_rgb_led(LED2, red_rgb, green_rgb, blue_rgb);
 		  set_rgb_led(LED4, red_rgb, green_rgb, blue_rgb);
 		  set_rgb_led(LED8, red_rgb, green_rgb, blue_rgb);
 
+		  //évite un obstacle --> jaune
 	  }else if(avoid){
 			set_rgb_led(LED6, RED_ORANGE, GREEN_ORANGE, BLUE_ORANGE);
 			set_rgb_led(LED2, RED_ORANGE, GREEN_ORANGE, BLUE_ORANGE);
 			set_rgb_led(LED4, RED_ORANGE, GREEN_ORANGE, BLUE_ORANGE);
 			set_rgb_led(LED8, RED_ORANGE, GREEN_ORANGE, BLUE_ORANGE);
 
+			//gagné --> vert
 	  }else if(win){
 			set_rgb_led(LED6, NO_COL, GREEN, NO_COL);
 			set_rgb_led(LED2, NO_COL, GREEN, NO_COL);
 			set_rgb_led(LED4, NO_COL, GREEN, NO_COL);
 			set_rgb_led(LED8, NO_COL, GREEN, NO_COL);
 
+			//perdu --> rouge
 	  }else if(game_over){
 			set_rgb_led(LED6, RED, NO_COL, NO_COL);
 			set_rgb_led(LED2, RED, NO_COL, NO_COL);
 			set_rgb_led(LED4, RED, NO_COL, NO_COL);
 			set_rgb_led(LED8, RED, NO_COL, NO_COL);
 
+			//en cours de partie --> clignote cyan et mauve
 	  }else if(run){
 		if(toggle){
 			set_rgb_led(LED6, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
@@ -174,6 +179,8 @@ static THD_FUNCTION(Blinker, arg) {
 			set_rgb_led(LED4, RED_MAUVE, GREEN_MAUVE, BLUE_MAUVE);
 			set_rgb_led(LED8, RED_MAUVE, GREEN_MAUVE, BLUE_MAUVE);
 			toggle =!toggle;
+
+			//en attente --> cyan
 		}else{
 				set_rgb_led(LED4, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
 				set_rgb_led(LED8, RED_CYAN, GREEN_CYAN, BLUE_CYAN);
@@ -232,7 +239,7 @@ void SendFloatToComputer(BaseSequentialStream* out, float* data, uint16_t size)
 	chSequentialStreamWrite(out, (uint8_t*)data, sizeof(float) * size);
 }
 // @brief
-/*Sequence d'animation de body led au démarrage du programme */
+/*Sequence d'animation de body led au démarrage du programme*/
 void readyAnimation(void) {
 
 	set_body_led(ON);
@@ -297,7 +304,6 @@ int main(void)
     dcmi_start();
 	po8030_start();
 
-
 	/*Démarre les capteurs IR*/
 	proximity_start();
 	calibrate_ir();
@@ -305,13 +311,14 @@ int main(void)
 	//initialise les moteurs
 	motors_init();
 
-	readyAnimation();
-
 	//Démarre VL53L0X
 	VL53L0X_start();
 
 	//Démarre les micro
 	mic_start(&processAudioData);
+
+	//Animation qui indique les initialisations sont ok!
+	readyAnimation();
 
 	//Démarre les threads pour le régulateur pi et le image processing
 	pi_regulator_start();
@@ -320,7 +327,7 @@ int main(void)
 	 //Activer proximity --> appel du thread
 	 proxi_start();
 
-	//Clignotement BODY LED --> appel du thread
+	//LEDs --> appel du thread
 	 chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
 
 	 //Lancement du thread fsm
